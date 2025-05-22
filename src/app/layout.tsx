@@ -1,7 +1,7 @@
 import type {Metadata} from 'next';
 import { Geist, Geist_Mono } from 'next/font/google'; // Correct import for next/font/google
 import './globals.css';
-import { i18nConfig } from '@/config/i18n.config';
+// Removed i18nConfig import as generateStaticParams is removed from here
 
 const geistSans = Geist({ // Use Geist directly
   variable: '--font-geist-sans',
@@ -18,10 +18,10 @@ export const metadata: Metadata = {
   description: 'Premium wood solutions for your projects.',
 };
 
-// Function to generate static params for locales
-export async function generateStaticParams() {
-  return i18nConfig.locales.map(locale => ({ lang: locale }));
-}
+// Removed generateStaticParams from root layout as it's handled in [lang]/layout.tsx
+// export async function generateStaticParams() {
+//   return i18nConfig.locales.map(locale => ({ lang: locale }));
+// }
 
 
 export default function RootLayout({

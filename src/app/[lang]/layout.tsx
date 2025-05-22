@@ -16,14 +16,11 @@ export default function LocaleLayout({
   children,
   params: { lang },
 }: LocaleLayoutProps) {
+  // Removed <html> and <body> tags from here
   return (
-    <html lang={lang} suppressHydrationWarning>
-      <body>
-        <MainLayout lang={lang}>
-          {children}
-        </MainLayout>
-      </body>
-    </html>
+    <MainLayout lang={lang}>
+      {children}
+    </MainLayout>
   );
 }
 
