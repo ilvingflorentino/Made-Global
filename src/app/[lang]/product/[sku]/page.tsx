@@ -1,24 +1,29 @@
-import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
-import { Input } from '@/components/ui/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ShoppingCart, ZoomIn, RotateCcw, Loader2 } from 'lucide-react'
-import { getDictionary } from '@/lib/dictionaries'
-import type { Locale } from '@/config/i18n.config'
+
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ShoppingCart, ZoomIn, RotateCcw, Loader2 } from 'lucide-react';
+import { getDictionary, type Dictionary } from '@/lib/dictionaries';
+import type { Locale } from '@/config/i18n.config';
 
 interface ProductPageProps {
   params: { lang: Locale, sku: string }
 }
 
-// Placeholder: This would come from an API or database
-const getProductDetails = async (sku: string, lang: Locale) => {
+// Synchronous function to get product details
+const getProductDetailsSync = (sku: string, lang: Locale) => {
+  // Here you can add logic to return different details based on lang if needed
   return {
     id: sku,
-    name: `Roble Americano Premium (SKU: ${sku})`,
+    name: `Roble Americano Premium (SKU: ${sku})`, // This could be localized via dictionary later
     description: "Madera de roble americano de la más alta calidad, ideal para ebanistería fina, pisos y revestimientos. Conocida por su durabilidad y hermoso veteado.",
     price: 2850.00, // Base price per unit (e.g. per pie tablar)
     images: [
@@ -44,21 +49,25 @@ const getProductDetails = async (sku: string, lang: Locale) => {
         {label: "Dureza Janka:", value: "1360 lbf"},
         {label: "Usos Comunes:", value: "Muebles, pisos, gabinetes, barriles"},
     ]
+  };
+};
+
+type Product = ReturnType<typeof getProductDetailsSync>;
+
+const ImageCarousel = ({ images }: { images: Product['images'] }) => {
+  // Display the first image as per original logic and comment.
+  // A real carousel would need more state and controls.
+  if (!images || images.length === 0) {
+    return (
+      <div className="aspect-video bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
+        No Image
+      </div>
+    );
   }
-}
-
-const ImageCarousel = ({ images }: { images: {id:string, src:string, alt:string, dataAiHint:string}[] }) => {
-  // Basic carousel, for advanced features use a library or more complex state
-  const [currentIndex, setCurrentIndex] = React.useState(0); // Client-side state
-
-  if (!images || images.length === 0) return <div className="aspect-video bg-muted rounded-lg flex items-center justify-center text-muted-foreground">No Image</div>;
   
-  // This needs to be client component to use useState
-  // For now, just display the first image. A real carousel needs client-side JS.
   return (
     <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-lg">
       <Image src={images[0].src} alt={images[0].alt} layout="fill" objectFit="cover" data-ai-hint={images[0].dataAiHint} />
-      {/* Add navigation buttons if implementing a full carousel */}
     </div>
   );
 };
@@ -74,9 +83,48 @@ const ThreeViewer = () => (
 );
 
 
-export default async function ProductPage({ params: { lang, sku } }: ProductPageProps) {
-  const product = await getProductDetails(sku, lang);
-  const dictionary = await getDictionary(lang);
+export default function ProductPage({ params: { lang, sku } }: ProductPageProps) {
+  const [product, setProduct] = useState<Product | null>(null);
+  const [dictionary, setDictionary] = useState<Dictionary | null>(null);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  useEffect(() => {
+    let isActive = true;
+    async function loadData() {
+      setIsLoadingData(true);
+      try {
+        const productData = getProductDetailsSync(sku, lang);
+        const dictData = await getDictionary(lang);
+        if (isActive) {
+          setProduct(productData);
+          setDictionary(dictData);
+        }
+      } catch (error) {
+        console.error("Failed to load product page data:", error);
+        if (isActive) {
+          // Optionally set an error state here
+        }
+      } finally {
+        if (isActive) {
+          setIsLoadingData(false);
+        }
+      }
+    }
+    loadData();
+    return () => {
+      isActive = false; // Cleanup to prevent setting state on unmounted component
+    };
+  }, [lang, sku]);
+
+  if (isLoadingData || !product || !dictionary) {
+    return (
+      <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        <p className="mt-4 text-muted-foreground">Cargando detalles del producto...</p>
+      </div>
+    );
+  }
+
   const t = dictionary.productPage;
   const tCommon = dictionary.common;
 
@@ -119,8 +167,8 @@ export default async function ProductPage({ params: { lang, sku } }: ProductPage
                   <RadioGroup defaultValue={product.options.medidas[0].id} className="mt-2">
                     {product.options.medidas.map(opt => (
                       <div key={opt.id} className="flex items-center space-x-2">
-                        <RadioGroupItem value={opt.id} id={opt.id} />
-                        <Label htmlFor={opt.id} className="font-normal">{opt.label}</Label>
+                        <RadioGroupItem value={opt.id} id={`medida-${opt.id}`} />
+                        <Label htmlFor={`medida-${opt.id}`} className="font-normal">{opt.label}</Label>
                       </div>
                     ))}
                   </RadioGroup>
@@ -130,8 +178,8 @@ export default async function ProductPage({ params: { lang, sku } }: ProductPage
                   <RadioGroup defaultValue={product.options.acabado[0].id} className="mt-2">
                     {product.options.acabado.map(opt => (
                       <div key={opt.id} className="flex items-center space-x-2">
-                        <RadioGroupItem value={opt.id} id={opt.id} />
-                        <Label htmlFor={opt.id} className="font-normal">{opt.label} (+RD${opt.priceModifier.toFixed(2)})</Label>
+                        <RadioGroupItem value={opt.id} id={`acabado-${opt.id}`} />
+                        <Label htmlFor={`acabado-${opt.id}`} className="font-normal">{opt.label} (+RD${opt.priceModifier.toFixed(2)})</Label>
                       </div>
                     ))}
                   </RadioGroup>
@@ -148,7 +196,7 @@ export default async function ProductPage({ params: { lang, sku } }: ProductPage
                       <Label htmlFor="quantity" className="text-md font-medium">Cantidad</Label>
                       <Input type="number" id="quantity" defaultValue="1" min="1" className="mt-1"/>
                     </div>
-                    <Button variant="outline" disabled>
+                    <Button variant="outline" disabled> {/* TODO: Implement calculator logic */}
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Calcular
                     </Button>
                  </div>
@@ -156,8 +204,6 @@ export default async function ProductPage({ params: { lang, sku } }: ProductPage
               </div>
               
               {/* Action Buttons */}
-              {/* 'Buy Now' button would be fixed on mobile (handled by MainLayout or specific logic) */}
-              {/* This is the desktop version */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="flex-1">
                   <ShoppingCart className="mr-2 h-5 w-5" /> {t.addToCart}
@@ -189,6 +235,3 @@ export default async function ProductPage({ params: { lang, sku } }: ProductPage
     </div>
   );
 }
-
-// Need client component for stateful ImageCarousel
-const React = require('react'); // Hack to allow useState in this file for now
