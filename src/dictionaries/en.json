@@ -1,0 +1,99 @@
+
+{
+  "common": {
+    "appName": "MADE Global Timber",
+    "logoText": "MADE",
+    "toggleNavigation": "Toggle navigation",
+    "home": "Home",
+    "catalog": "Catalog",
+    "product": "Product",
+    "checkout": "Checkout",
+    "history": "Order History",
+    "budget": "Quote",
+    "virtualTour": "Virtual Tour",
+    "blog": "Blog",
+    "ourStory": "Our Story",
+    "contact": "Contact",
+    "more": "More",
+    "exploreCatalog": "Explore Catalog",
+    "liveVirtualTour": "Live Virtual Tour",
+    "certifications": "Our Certifications",
+    "featuredProducts": "Featured Products",
+    "viewMore": "View More",
+    "allRightsReserved": "All rights reserved",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "monFri": "Monday to Friday",
+    "saturday": "Saturday",
+    "closed": "Closed",
+    "hours": "Business Hours",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "socialMedia": "Social Media",
+    "chatWithExpert": "Chat with Wood Expert",
+    "askMeAnything": "Ask me anything about wood...",
+    "send": "Send",
+    "loading": "Loading...",
+    "selectLanguage": "Select Language"
+  },
+  "homePage": {
+    "heroTitle": "Woods that travel from the heart of the jungle to the soul of your project.",
+    "heroSubtitle": "Premium wood distributors in DR since 2009."
+  },
+  "productPage": {
+    "imageGallery": "Image Gallery",
+    "threeDViewer": "3D Viewer",
+    "options": "Select Options",
+    "priceCalculator": "Price Calculator",
+    "buyNow": "Buy Now",
+    "addToCart": "Add to Quote"
+  },
+  "catalogPage": {
+    "filters": "Filters",
+    "category": "Category",
+    "priceRange": "Price Range",
+    "dimensions": "Dimensions"
+  },
+  "checkoutPage": {
+    "customerDetails": "Customer Details",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "emailAddress": "Email Address",
+    "deliveryAddress": "Delivery Address",
+    "province": "Province",
+    "paymentMethod": "Payment Method",
+    "creditCardAzul": "Credit Card (AZUL)",
+    "creditCardCardNet": "Credit Card (CardNet)",
+    "qrBanreservas": "QR Banreservas",
+    "cashOnDelivery": "Cash on Delivery",
+    "orderSummary": "Order Summary",
+    "items": "Items",
+    "subtotal": "Subtotal",
+    "tax": "Tax (ITBIS 18%)",
+    "total": "Total",
+    "placeOrder": "Place Order",
+    "orderConfirmation": "Order Confirmation",
+    "orderSuccess": "Your order has been placed successfully!",
+    "orderNumber": "Order Number:",
+    "viewMyOrder": "View My Order"
+  },
+  "virtualTourPage": {
+    "warehouse": "Warehouse",
+    "cuttingArea": "Cutting Area",
+    "showroom": "Showroom",
+    "office": "Office",
+    "selectCamera": "Select Camera"
+  },
+  "budgetPage": {
+    "requestQuote": "Request a Quote",
+    "selectProduct": "Select Product (Optional)",
+    "describeNeeds": "Describe your needs or project",
+    "attachFile": "Attach Plan/Photo (Optional)",
+    "getEstimate": "Get Estimate"
+  },
+  "historyPage": {
+    "title": "Customer Area",
+    "comingSoon": "Order history and account management coming soon."
+  }
+}
