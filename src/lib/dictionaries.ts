@@ -1,4 +1,4 @@
-import 'server-only'
+
 import type { Locale } from '@/config/i18n.config'
 
 const dictionaries = {
