@@ -1,7 +1,8 @@
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Video, Warehouse, Cutter, Store, Briefcase } from 'lucide-react'
+import { Video, Warehouse, Scissors, Store, Briefcase } from 'lucide-react' // Changed Cutter to Scissors
 import { getDictionary } from '@/lib/dictionaries'
 import type { Locale } from '@/config/i18n.config'
 
@@ -16,7 +17,7 @@ export default async function VirtualTourPage({ params: { lang } }: VirtualTourP
 
   const tourAreas = [
     { id: 'warehouse', name: t.warehouse, icon: Warehouse, embedUrl: 'https://placehold.co/1200x700/3D7748/FFFFFF?text=Almacen+Virtual' },
-    { id: 'cutting', name: t.cuttingArea, icon: Cutter, embedUrl: 'https://placehold.co/1200x700/745437/FFFFFF?text=Area+de+Corte+Virtual' },
+    { id: 'cutting', name: t.cuttingArea, icon: Scissors, embedUrl: 'https://placehold.co/1200x700/745437/FFFFFF?text=Area+de+Corte+Virtual' }, // Changed Cutter to Scissors
     { id: 'showroom', name: t.showroom, icon: Store, embedUrl: 'https://placehold.co/1200x700/1b4721/FFFFFF?text=Exhibicion+Virtual' },
     { id: 'office', name: t.office, icon: Briefcase, embedUrl: 'https://placehold.co/1200x700/F0F4F1/333333?text=Oficina+Virtual' },
   ]
