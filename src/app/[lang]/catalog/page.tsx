@@ -76,19 +76,35 @@ export default function CatalogPage(props: CatalogPageProps) {
     { name: "Nogal Negro Americano", dataAiHint: "black walnut" },
     { name: "Cerezo Brasileño (Jatoba)", dataAiHint: "jatoba wood" },
     { name: "Arce Duro Canadiense", dataAiHint: "hard maple" },
-    { name: "Caoba Africana (Khaya)", dataAiHint: "khaya wood" },
+    { name: "Caoba Andina", dataAiHint: "andina mahogany", imageUrl: "/caoba-andina.svg"}, // From previous request, image is in public/
     { name: "Teca de Birmania", dataAiHint: "teak wood" },
     { name: "Fresno Blanco Americano", dataAiHint: "white ash" },
     { name: "Cedro Rojo Occidental", dataAiHint: "red cedar" },
   ];
 
-  const products = productDetails.map((detail, i) => ({
-    id: `sku-00${i + 1}`,
-    name: detail.name,
-    price: `Desde RD$${(Math.random() * 2000 + 1000).toFixed(0)}`,
-    imageUrl: `https://placehold.co/600x400.png`, // Standard placeholder
-    dataAiHint: detail.dataAiHint,
-  }));
+  const products = productDetails.map((detail, i) => {
+    let finalImageUrl;
+    // Check if it's the special cased "Caoba Andina" with a pre-defined imageUrl
+    if (detail.name === "Caoba Andina" && detail.imageUrl) {
+      finalImageUrl = detail.imageUrl;
+    } else {
+      // For all others, derive from name and put in /images/
+      const slug = detail.name
+        .toLowerCase()
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/\(|\)/g, '');   // Remove parentheses
+      finalImageUrl = `/images/${slug}.svg`;
+    }
+
+    return {
+      id: `sku-00${i + 1}`,
+      name: detail.name,
+      price: `Desde RD$${(Math.random() * 2000 + 1000).toFixed(0)}`,
+      imageUrl: finalImageUrl,
+      dataAiHint: detail.dataAiHint,
+    };
+  });
+
 
   if (isLoading || !dictionary) {
     return (
