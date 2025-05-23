@@ -1,3 +1,4 @@
+
 "use client" // This page needs client-side interactivity for the form
 
 import { useForm } from 'react-hook-form'
@@ -10,10 +11,10 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { UploadCloud, Loader2 } from 'lucide-react'
-import { getDictionary } from '@/lib/dictionaries' // This won't work directly in client component
 import type { Locale } from '@/config/i18n.config'
-import { useEffect, useState } from 'react' // For fetching dictionary
+import { use, useEffect, useState } from 'react' // Import 'use'
 import type { Dictionary } from '@/lib/dictionaries'
+import { getDictionary } from '@/lib/dictionaries'
 import { useToast } from "@/hooks/use-toast"
 
 // Define Zod schema for form validation
@@ -37,10 +38,13 @@ const products = [
 ]
 
 interface BudgetPageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }> // params is a Promise
 }
 
-export default function BudgetPage({ params: { lang } }: BudgetPageProps) {
+export default function BudgetPage(props: BudgetPageProps) {
+  const resolvedParams = use(props.params); // Unwrap the promise
+  const { lang } = resolvedParams; // Destructure lang
+
   const [dictionary, setDictionary] = useState<Dictionary | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -73,7 +77,7 @@ export default function BudgetPage({ params: { lang } }: BudgetPageProps) {
     toast({
       title: "Cotización Enviada",
       description: "Hemos recibido tu solicitud. Nos pondremos en contacto contigo pronto.",
-      variant: "default", // 'default' for success-like, or create a 'success' variant
+      variant: "default",
     });
     form.reset();
   }
@@ -82,7 +86,7 @@ export default function BudgetPage({ params: { lang } }: BudgetPageProps) {
     return <div className="container mx-auto px-4 py-8 text-center">Cargando...</div>;
   }
   const t = dictionary.budgetPage;
-  const tCheckout = dictionary.checkoutPage; // For common fields like name, email, phone
+  const tCheckout = dictionary.checkoutPage; 
   const tCommon = dictionary.common;
 
   return (
