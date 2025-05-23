@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +15,7 @@ import { getDictionary, type Dictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
 
 interface ProductPageProps {
-  params: { lang: Locale, sku: string }
+  params: Promise<{ lang: Locale, sku: string }>
 }
 
 // Synchronous function to get product details
@@ -83,7 +83,10 @@ const ThreeViewer = () => (
 );
 
 
-export default function ProductPage({ params: { lang, sku } }: ProductPageProps) {
+export default function ProductPage(props: ProductPageProps) {
+  const resolvedParams = use(props.params);
+  const { lang, sku } = resolvedParams;
+
   const [product, setProduct] = useState<Product | null>(null);
   const [dictionary, setDictionary] = useState<Dictionary | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -235,3 +238,4 @@ export default function ProductPage({ params: { lang, sku } }: ProductPageProps)
     </div>
   );
 }
+
