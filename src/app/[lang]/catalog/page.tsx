@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Filter } from 'lucide-react';
@@ -20,7 +20,7 @@ import type { Locale } from '@/config/i18n.config';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface CatalogPageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>
 }
 
 // Reusable ProductCard, could be moved to a shared component
@@ -44,7 +44,10 @@ const ProductCard = ({ id, name, price, imageUrl, lang, dictionary, dataAiHint }
 );
 
 
-export default function CatalogPage({ params: { lang } }: CatalogPageProps) {
+export default function CatalogPage(props: CatalogPageProps) {
+  const resolvedParams = use(props.params);
+  const { lang } = resolvedParams;
+
   const [dictionary, setDictionary] = useState<Dictionary | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
@@ -207,5 +210,3 @@ export default function CatalogPage({ params: { lang } }: CatalogPageProps) {
     </div>
   );
 }
-
-    
