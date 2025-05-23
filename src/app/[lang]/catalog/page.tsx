@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -17,11 +18,11 @@ interface CatalogPageProps {
 }
 
 // Reusable ProductCard, could be moved to a shared component
-const ProductCard = ({ id, name, price, imageUrl, lang, dictionary }: { id: string, name: string, price: string, imageUrl: string, lang: Locale, dictionary: any }) => (
+const ProductCard = ({ id, name, price, imageUrl, lang, dictionary, dataAiHint }: { id: string, name: string, price: string, imageUrl: string, lang: Locale, dictionary: any, dataAiHint: string }) => (
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
     <Link href={`/${lang}/product/${id}`} className="block">
       <div className="relative aspect-[4/3] overflow-hidden">
-        <Image src={imageUrl} alt={name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" data-ai-hint="wood sample"/>
+        <Image src={imageUrl} alt={name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
            <Button variant="secondary" className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
               {dictionary.viewMore} <ArrowRight className="ml-2 h-4 w-4" />
@@ -44,11 +45,25 @@ export default async function CatalogPage({ params: { lang } }: CatalogPageProps
 
   // Placeholder data
   const categories = ["Maderas Duras", "Maderas Blandas", "Contrachapados", "Exóticas"];
-  const products = Array(9).fill(null).map((_, i) => ({
+  
+  const productDetails = [
+    { name: "Roble Rojo Americano", dataAiHint: "red oak" },
+    { name: "Pino Amarillo del Sur", dataAiHint: "yellow pine" },
+    { name: "Nogal Negro Americano", dataAiHint: "black walnut" },
+    { name: "Cerezo Brasileño (Jatoba)", dataAiHint: "jatoba wood" },
+    { name: "Arce Duro Canadiense", dataAiHint: "hard maple" },
+    { name: "Caoba Africana (Khaya)", dataAiHint: "khaya wood" },
+    { name: "Teca de Birmania", dataAiHint: "teak wood" },
+    { name: "Fresno Blanco Americano", dataAiHint: "white ash" },
+    { name: "Cedro Rojo Occidental", dataAiHint: "red cedar" },
+  ];
+
+  const products = productDetails.map((detail, i) => ({
     id: `sku-00${i + 1}`,
-    name: `Producto de Madera ${i + 1}`,
+    name: detail.name,
     price: `Desde RD$${(Math.random() * 2000 + 1000).toFixed(0)}`,
-    imageUrl: `https://placehold.co/600x400/${Math.floor(Math.random()*16777215).toString(16)}/FFFFFF?text=Madera+${i+1}`,
+    imageUrl: `https://placehold.co/600x400.png`, // Standard placeholder
+    dataAiHint: detail.dataAiHint,
   }));
 
   return (
@@ -123,6 +138,7 @@ export default async function CatalogPage({ params: { lang } }: CatalogPageProps
                 imageUrl={product.imageUrl}
                 lang={lang}
                 dictionary={tCommon}
+                dataAiHint={product.dataAiHint}
               />
             ))}
           </div>
