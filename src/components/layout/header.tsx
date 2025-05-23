@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image' // Import next/image
 import { Facebook, Instagram, Linkedin, Languages, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -54,8 +55,15 @@ export function Header({ lang, dictionary }: HeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
         <Link href={`/${lang}`} className="mr-6 flex items-center space-x-2">
-          {/* Placeholder for animated SVG logo */}
-          <span className="text-2xl font-bold text-primary">{dictionary.logoText}</span>
+          {/* Replace text logo with Image component */}
+          <Image
+            src="https://placehold.co/180x50.png?text=Your+Logo+Here" // Placeholder: Replace with /your-logo.png
+            alt={dictionary.appName + " Logo"}
+            width={150} // Adjust width as needed
+            height={42} // Adjust height as needed
+            priority
+            data-ai-hint="company logo"
+          />
         </Link>
         
         {/* Desktop Navigation */}
