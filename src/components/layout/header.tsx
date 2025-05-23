@@ -57,10 +57,10 @@ export function Header({ lang, dictionary }: HeaderProps) {
         <Link href={`/${lang}`} className="mr-6 flex items-center space-x-2">
           {/* Replace text logo with Image component */}
           <Image
-            src="https://placehold.co/180x50.png?text=Your+Logo+Here" // Placeholder: Replace with /your-logo.png
+            src="/logo-made.svg" // Placeholder: Replace with /your-logo.png
             alt={dictionary.appName + " Logo"}
-            width={150} // Adjust width as needed
-            height={42} // Adjust height as needed
+            width={192.2} // Adjust width as needed
+            height={102.8} // Adjust height as needed
             priority
             data-ai-hint="company logo"
           />

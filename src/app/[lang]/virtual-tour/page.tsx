@@ -16,10 +16,10 @@ export default async function VirtualTourPage({ params: { lang } }: VirtualTourP
   const tCommon = dictionary.common;
 
   const tourAreas = [
-    { id: 'warehouse', name: t.warehouse, icon: Warehouse, embedUrl: 'https://placehold.co/1200x700/3D7748/FFFFFF?text=Almacen+Virtual' },
-    { id: 'cutting', name: t.cuttingArea, icon: Scissors, embedUrl: 'https://placehold.co/1200x700/745437/FFFFFF?text=Area+de+Corte+Virtual' }, // Changed Cutter to Scissors
-    { id: 'showroom', name: t.showroom, icon: Store, embedUrl: 'https://placehold.co/1200x700/1b4721/FFFFFF?text=Exhibicion+Virtual' },
-    { id: 'office', name: t.office, icon: Briefcase, embedUrl: 'https://placehold.co/1200x700/F0F4F1/333333?text=Oficina+Virtual' },
+    { id: 'warehouse', name: t.warehouse, icon: Warehouse, embedUrl: 'https://placehold.co/1200x700/3D7748/FFFFFF?text=Almacen+Virtual', dataAiHint: "warehouse interior" },
+    { id: 'cutting', name: t.cuttingArea, icon: Scissors, embedUrl: 'https://placehold.co/1200x700/745437/FFFFFF?text=Area+de+Corte+Virtual', dataAiHint: "wood cutting" }, // Changed Cutter to Scissors
+    { id: 'showroom', name: t.showroom, icon: Store, embedUrl: 'https://placehold.co/1200x700/1b4721/FFFFFF?text=Exhibicion+Virtual', dataAiHint: "wood showroom" },
+    { id: 'office', name: t.office, icon: Briefcase, embedUrl: 'https://placehold.co/1200x700/F0F4F1/333333?text=Oficina+Virtual', dataAiHint: "office interior" },
   ]
 
   return (
@@ -41,8 +41,8 @@ export default async function VirtualTourPage({ params: { lang } }: VirtualTourP
               ))}
             </TabsList>
             {tourAreas.map(area => (
-              <TabsContent key={area.id} value={area.id} className="mt-0 rounded-b-lg overflow-hidden">
-                <div className="aspect-video bg-black relative">
+              <TabsContent key={area.id} value={area.id} className="mt-0 rounded-b-lg overflow-auto">
+                <div className="aspect-video bg-black relative" data-ai-hint={area.dataAiHint}>
                   {/* Placeholder for <VideoEmbed> or <IframeViewer> */}
                   <iframe
                     src={area.embedUrl}
@@ -77,3 +77,4 @@ export default async function VirtualTourPage({ params: { lang } }: VirtualTourP
     </div>
   );
 }
+
