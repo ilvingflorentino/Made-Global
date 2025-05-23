@@ -12,9 +12,7 @@ export function ChatbotLauncher({ dictionary }: { dictionary: Dictionary['common
   return (
     <>
       <Button
-        variant="primary"
-        size="lg"
-        className="fixed bottom-20 right-6 md:bottom-6 md:right-6 rounded-full shadow-lg p-4 h-16 w-16 animate-fade-in"
+        className="fixed bottom-20 right-6 md:bottom-6 md:right-6 rounded-full shadow-lg p-4 h-16 w-16 animate-fade-in bg-accent text-accent-foreground hover:bg-accent/90"
         onClick={() => setIsChatOpen(true)}
         aria-label={dictionary.chatWithExpert}
       >

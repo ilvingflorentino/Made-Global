@@ -126,9 +126,7 @@ export default function CatalogPage(props: CatalogPageProps) {
       <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
         <SheetTrigger asChild>
           <Button
-            variant="primary"
-            size="lg"
-            className="fixed bottom-24 left-6 md:bottom-6 md:left-6 rounded-full shadow-lg p-4 h-16 w-16 z-30"
+            className="fixed bottom-24 left-6 md:bottom-6 md:left-6 rounded-full shadow-lg p-4 h-16 w-16 z-30 bg-accent text-accent-foreground hover:bg-accent/90"
             aria-label={t.filters}
           >
             <Filter className="h-7 w-7" />
