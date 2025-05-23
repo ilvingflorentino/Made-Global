@@ -53,14 +53,13 @@ export function Header({ lang, dictionary }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
+      <div className="container px-4 flex h-16 max-w-screen-2xl items-center justify-between">
         <Link href={`/${lang}`} className="mr-6 flex items-center space-x-2">
-          {/* Replace text logo with Image component */}
           <Image
-            src="/logo-made.svg" // Placeholder: Replace with /your-logo.png
+            src="/logo-made.svg" 
             alt={dictionary.appName + " Logo"}
-            width={192.2} // Adjust width as needed
-            height={102.8} // Adjust height as needed
+            width={75} 
+            height={40} 
             priority
             data-ai-hint="company logo"
           />
