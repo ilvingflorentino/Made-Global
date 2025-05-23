@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import nextConfig from '../next.config' // Use the correct relative path
+import { i18nConfig } from '@/config/i18n.config' // Use the dedicated i18n config
 
 const PUBLIC_FILE = /\.(.*)$/
 
@@ -16,24 +16,20 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  const i18n = nextConfig.i18n;
+  // Use i18nConfig from '@/config/i18n.config'
+  const { locales, defaultLocale } = i18nConfig;
 
-  if (!i18n) {
-    console.warn("i18n configuration is missing in next.config.ts");
-    return NextResponse.next();
-  }
-
-  const pathnameIsMissingLocale = i18n.locales.every(
+  const pathnameIsMissingLocale = locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   )
 
   if (pathnameIsMissingLocale) {
-    const locale = i18n.defaultLocale // Or implement accept-language header detection
+    const localeToRedirect = defaultLocale 
 
     // Redirect to the default locale
     // e.g. if pathname is /products, redirect to /es/products
     return NextResponse.redirect(
-      new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, request.url)
+      new URL(`/${localeToRedirect}${pathname.startsWith('/') ? '' : '/'}${pathname}`, request.url)
     )
   }
 
