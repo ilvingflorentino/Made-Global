@@ -1,3 +1,4 @@
+
 "use client"
 import { useState } from 'react'
 import { MessageSquare } from 'lucide-react'
@@ -12,7 +13,7 @@ export function ChatbotLauncher({ dictionary }: { dictionary: Dictionary['common
   return (
     <>
       <Button
-        className="fixed bottom-20 right-6 md:bottom-6 md:right-6 rounded-full shadow-lg p-4 h-16 w-16 animate-fade-in bg-accent text-accent-foreground hover:bg-accent/90"
+        className="fixed bottom-20 right-6 md:bottom-6 md:right-6 rounded-full shadow-lg p-4 h-16 w-16 animate-fade-in bg-[hsl(var(--primary)/0.4)] text-primary-foreground hover:bg-[hsl(var(--primary)/0.5)]"
         onClick={() => setIsChatOpen(true)}
         aria-label={dictionary.chatWithExpert}
       >
