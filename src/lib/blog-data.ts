@@ -33,9 +33,9 @@ interface Dictionary {
 
 
 export const placeholderArticlesData: BlogArticle[] = [
-  { id: 1, titleKey: "blogArticle1Title", excerptKey: "blogArticle1Excerpt", fullContentKey: "blogArticle1Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "woodworking tools", date: "2024-07-15" },
-  { id: 2, titleKey: "blogArticle2Title", excerptKey: "blogArticle2Excerpt", fullContentKey: "blogArticle2Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "forest sustainable", date: "2024-07-10" },
-  { id: 3, titleKey: "blogArticle3Title", excerptKey: "blogArticle3Excerpt", fullContentKey: "blogArticle3Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "wood varnish", date: "2024-07-05" },
+  { id: 1, titleKey: "blogArticle1Title", excerptKey: "blogArticle1Excerpt", fullContentKey: "blogArticle1Full", imageUrl: "/images/blog-article-1.jpg", dataAiHint: "woodworking tools", date: "2024-07-15" },
+  { id: 2, titleKey: "blogArticle2Title", excerptKey: "blogArticle2Excerpt", fullContentKey: "blogArticle2Full", imageUrl: "/images/blog-article-2.jpg", dataAiHint: "forest sustainable", date: "2024-07-10" },
+  { id: 3, titleKey: "blogArticle3Title", excerptKey: "blogArticle3Excerpt", fullContentKey: "blogArticle3Full", imageUrl: "/images/blog-article-3.jpg", dataAiHint: "wood varnish", date: "2024-07-05" },
 ];
 
 export function getArticleById(id: number): BlogArticle | undefined {
