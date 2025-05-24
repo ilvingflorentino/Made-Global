@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { BookOpen, Users, MapPin, BarChartBig } from 'lucide-react'
 import Image from 'next/image'
@@ -10,7 +11,7 @@ interface OurStoryPageProps {
 
 const values = [
   { title: "Calidad", description: "Comprometidos con ofrecer solo maderas de la más alta calidad.", icon: BarChartBig },
-  { title: "Innovación", description: "Buscando constantemente nuevas formas de mejorar nuestros productos y servicios.", icon: BarChartBig }, // Use same icon or find better
+  { title: "Innovación", description: "Buscando constantemente nuevas formas de mejorar nuestros productos y servicios.", icon: BarChartBig }, 
   { title: "Sostenibilidad", description: "Priorizando prácticas responsables con el medio ambiente.", icon: BarChartBig },
   { title: "Compromiso", description: "Dedicados a la satisfacción de nuestros clientes y al desarrollo de la comunidad.", icon: Users },
 ];
@@ -36,14 +37,14 @@ export default async function OurStoryPage({ params: { lang } }: OurStoryPagePro
           </p>
         </div>
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl">
-          <Image src="https://placehold.co/600x400/673f1c/FFFFFF?text=Origen+MADE" alt="Origen de MADE" layout="fill" objectFit="cover" data-ai-hint="old workshop"/>
+          <Image src="https://placehold.co/600x400.png" alt="Origen de MADE" layout="fill" objectFit="cover" data-ai-hint="old workshop"/>
         </div>
       </section>
 
       {/* Section: Crecimiento */}
        <section className="grid md:grid-cols-2 gap-8 items-center">
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl md:order-last">
-          <Image src="https://placehold.co/600x400/3D7748/FFFFFF?text=Crecimiento+MADE" alt="Crecimiento de MADE" layout="fill" objectFit="cover" data-ai-hint="modern warehouse"/>
+          <Image src="https://placehold.co/600x400.png" alt="Crecimiento de MADE" layout="fill" objectFit="cover" data-ai-hint="modern warehouse"/>
         </div>
         <div>
           <h2 className="text-3xl font-semibold mb-4">Crecimiento y Expansión</h2>

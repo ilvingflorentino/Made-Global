@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Newspaper } from 'lucide-react'
 import Image from 'next/image'
@@ -11,9 +12,9 @@ interface BlogPageProps {
 }
 
 const placeholderArticles = [
-  { id: 1, title: "Cómo Elegir la Madera Perfecta para tu Proyecto de Ebanistería", excerpt: "Descubre los secretos para seleccionar la madera ideal que dará vida a tus muebles y creaciones.", imageUrl: "https://placehold.co/600x400/745437/FFFFFF?text=Ebanisteria", dataAiHint: "woodworking tools", date: "2024-07-15" },
-  { id: 2, title: "Maderas Sostenibles: El Futuro de la Construcción Ecológica", excerpt: "Conoce las opciones de maderas certificadas y cómo contribuyen a un planeta más verde.", imageUrl: "https://placehold.co/600x400/3D7748/FFFFFF?text=Sostenibilidad", dataAiHint: "forest sustainable", date: "2024-07-10" },
-  { id: 3, title: "Innovación en Acabados: Protege y Embellece tu Madera", excerpt: "Explora las últimas tendencias en acabados que realzan la belleza natural de la madera y prolongan su vida útil.", imageUrl: "https://placehold.co/600x400/936d48/FFFFFF?text=Acabados", dataAiHint: "wood varnish", date: "2024-07-05" },
+  { id: 1, title: "Cómo Elegir la Madera Perfecta para tu Proyecto de Ebanistería", excerpt: "Descubre los secretos para seleccionar la madera ideal que dará vida a tus muebles y creaciones.", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "woodworking tools", date: "2024-07-15" },
+  { id: 2, title: "Maderas Sostenibles: El Futuro de la Construcción Ecológica", excerpt: "Conoce las opciones de maderas certificadas y cómo contribuyen a un planeta más verde.", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "forest sustainable", date: "2024-07-10" },
+  { id: 3, title: "Innovación en Acabados: Protege y Embellece tu Madera", excerpt: "Explora las últimas tendencias en acabados que realzan la belleza natural de la madera y prolongan su vida útil.", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "wood varnish", date: "2024-07-05" },
 ];
 
 
