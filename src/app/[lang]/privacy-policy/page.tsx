@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ShieldCheck } from 'lucide-react'
 import { getDictionary } from '@/lib/dictionaries'
@@ -30,7 +31,7 @@ export default async function PrivacyPolicyPage({ params: { lang } }: PrivacyPol
         <CardContent className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-none dark:prose-invert">
           {isSpanish ? (
             <>
-              <p>En {tCommon.appName}, accesible desde [tu-dominio.com.do], una de nuestras principales prioridades es la privacidad de nuestros visitantes. Este documento de Política de Privacidad contiene tipos de información que se recopila y registra por {tCommon.appName} y cómo la usamos.</p>
+              <p>En {tCommon.appName}, accesible desde madeespinal.com, una de nuestras principales prioridades es la privacidad de nuestros visitantes. Este documento de Política de Privacidad contiene tipos de información que se recopila y registra por {tCommon.appName} y cómo la usamos.</p>
 
               <h2>Consentimiento</h2>
               <p>Al utilizar nuestro sitio web, usted acepta nuestra Política de Privacidad y acepta sus términos.</p>
@@ -62,7 +63,7 @@ export default async function PrivacyPolicyPage({ params: { lang } }: PrivacyPol
             </>
           ) : (
             <>
-              <p>At {tCommon.appName}, accessible from [your-domain.com.do], one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by {tCommon.appName} and how we use it.</p>
+              <p>At {tCommon.appName}, accessible from madeespinal.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by {tCommon.appName} and how we use it.</p>
 
               <h2>Consent</h2>
               <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>

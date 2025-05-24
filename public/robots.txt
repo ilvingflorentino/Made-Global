@@ -1,0 +1,8 @@
+
+User-agent: *
+Allow: /
+
+Disallow: /_next/
+Disallow: /api/
+
+Sitemap: https://madeespinal.com/sitemap.xml

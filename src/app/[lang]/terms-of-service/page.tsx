@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { FileText } from 'lucide-react'
 import { getDictionary } from '@/lib/dictionaries'
@@ -31,7 +32,7 @@ export default async function TermsOfServicePage({ params: { lang } }: TermsOfSe
           {isSpanish ? (
             <>
               <h2>1. Términos</h2>
-              <p>Al acceder al sitio web en [tu-dominio.com.do], usted acepta estar sujeto a estos términos de servicio, todas las leyes y regulaciones aplicables, y acepta que es responsable del cumplimiento de las leyes locales aplicables. Si no está de acuerdo con alguno de estos términos, tiene prohibido usar o acceder a este sitio. Los materiales contenidos en este sitio web están protegidos por las leyes de derechos de autor y marcas registradas aplicables.</p>
+              <p>Al acceder al sitio web en madeespinal.com, usted acepta estar sujeto a estos términos de servicio, todas las leyes y regulaciones aplicables, y acepta que es responsable del cumplimiento de las leyes locales aplicables. Si no está de acuerdo con alguno de estos términos, tiene prohibido usar o acceder a este sitio. Los materiales contenidos en este sitio web están protegidos por las leyes de derechos de autor y marcas registradas aplicables.</p>
 
               <h2>2. Licencia de Uso</h2>
               <ol type="a">
@@ -59,7 +60,7 @@ export default async function TermsOfServicePage({ params: { lang } }: TermsOfSe
           ) : (
             <>
               <h2>1. Terms</h2>
-              <p>By accessing the website at [your-domain.com.do], you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.</p>
+              <p>By accessing the website at madeespinal.com, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.</p>
 
               <h2>2. Use License</h2>
               <ol type="a">
