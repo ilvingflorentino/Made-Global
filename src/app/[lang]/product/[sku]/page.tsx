@@ -21,15 +21,42 @@ interface ProductPageProps {
   params: Promise<{ lang: Locale, sku: string }>
 }
 
-// Synchronous function to get product details
-const getProductDetailsSync = (sku: string, lang: Locale) => {
-  // This would ideally fetch from an API or a shared data source
-  // For now, using mock data for "Alamo" as an example:
-  return {
-    id: sku,
-    name: `Alamo (SKU: ${sku})`, // Example: Alamo
+interface ProductImageData {
+  id: string;
+  src: string;
+  alt: string;
+  dataAiHint: string;
+}
+
+interface ProductOption {
+  id: string;
+  label: string;
+  priceModifier: number;
+}
+
+interface ProductSpecification {
+  label: string;
+  value: string;
+}
+interface ProductDetailData {
+  name: string;
+  description: string;
+  price: number; // Base price
+  images: ProductImageData[];
+  options: {
+    medidas: ProductOption[];
+    acabado: ProductOption[];
+  };
+  specifications: ProductSpecification[];
+}
+
+// Define product details for all catalog items
+// SKUs should match the slugs generated in catalog/page.tsx
+const allProductDetails: Record<string, ProductDetailData> = {
+  'alamo': {
+    name: "Alamo",
     description: "Madera de Alamo de buena calidad, versátil para carpintería general, molduras y proyectos de interior. Conocida por su ligereza y facilidad para trabajar.",
-    price: 1250.00, // Base price per unit (e.g. per pie tablar for Alamo)
+    price: 1250.00,
     images: [
       { id: '1', src: `/images/alamo-principal.svg`, alt: 'Alamo Vista Principal', dataAiHint: "poplar wood" },
       { id: '2', src: `/images/alamo-detalle-veta.svg`, alt: 'Detalle veta Alamo', dataAiHint: "poplar wood grain" },
@@ -37,28 +64,130 @@ const getProductDetailsSync = (sku: string, lang: Locale) => {
     ],
     options: {
       medidas: [
-        { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 },
-        { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 },
-        { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 },
+        { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 },
       ],
       acabado: [
-        { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 },
-        { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 },
-        { id: 'a3', label: 'Tinte Claro', priceModifier: 450 },
+        { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 },
       ],
     },
     specifications: [
-        {label: "Especie:", value: "Populus (Alamo)"},
-        {label: "Densidad Aprox.:", value: "450 kg/m³"},
-        {label: "Dureza Janka Aprox.:", value: "540 lbf"},
-        {label: "Usos Comunes:", value: "Muebles ligeros, molduras, madera contrachapada, cajas"},
+        {label: "Especie:", value: "Populus (Alamo)"}, {label: "Densidad Aprox.:", value: "450 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "540 lbf"}, {label: "Usos Comunes:", value: "Muebles ligeros, molduras, madera contrachapada, cajas"},
     ]
-  };
+  },
+  'caoba': {
+    name: "Caoba",
+    description: "Clásica madera de Caoba, conocida por su belleza, durabilidad y rico color marrón rojizo. Ideal para muebles finos y ebanistería de alta calidad.",
+    price: 2800.00,
+    images: [
+      { id: '1', src: `/images/caoba-principal.svg`, alt: 'Caoba Vista Principal', dataAiHint: "mahogany wood" },
+      { id: '2', src: `/images/caoba-detalle-veta.svg`, alt: 'Detalle veta Caoba', dataAiHint: "mahogany wood grain" },
+      { id: '3', src: `/images/caoba-aplicacion.svg`, alt: 'Aplicación de Caoba', dataAiHint: "mahogany furniture" },
+    ],
+    options: { /* Placeholder - copy from Alamo or define new */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    specifications: [ {label: "Especie:", value: "Swietenia macrophylla"}, {label: "Densidad Aprox.:", value: "640 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "900 lbf"}, {label: "Usos Comunes:", value: "Muebles, gabinetes, instrumentos"}, ]
+  },
+  'cedro-blanco': {
+    name: "Cedro Blanco",
+    description: "Madera ligera y aromática, conocida por su resistencia natural a la putrefacción y los insectos. Excelente para revestimientos y armarios.",
+    price: 1500.00,
+    images: [
+      { id: '1', src: `/images/cedro-blanco-principal.svg`, alt: 'Cedro Blanco Vista Principal', dataAiHint: "white cedar wood" },
+      { id: '2', src: `/images/cedro-blanco-detalle-veta.svg`, alt: 'Detalle veta Cedro Blanco', dataAiHint: "white cedar grain" },
+      { id: '3', src: `/images/cedro-blanco-aplicacion.svg`, alt: 'Aplicación de Cedro Blanco', dataAiHint: "cedar closet" },
+    ],
+    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    specifications: [ {label: "Especie:", value: "Thuja occidentalis"}, {label: "Densidad Aprox.:", value: "370 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "320 lbf"}, {label: "Usos Comunes:", value: "Revestimientos, tejas, postes"}, ]
+  },
+   'congona': {
+    name: "Congona",
+    description: "Madera Congona, apreciada por su durabilidad y resistencia, ideal para construcciones robustas y elementos exteriores.",
+    price: 1850.00,
+    images: [
+      { id: '1', src: `/images/congona-principal.svg`, alt: 'Congona Vista Principal', dataAiHint: "congona wood" },
+      { id: '2', src: `/images/congona-detalle-veta.svg`, alt: 'Detalle veta Congona', dataAiHint: "congona wood grain" },
+      { id: '3', src: `/images/congona-aplicacion.svg`, alt: 'Aplicación de Congona', dataAiHint: "congona structure" },
+    ],
+    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    specifications: [ {label: "Especie:", value: "Congona (genérico)"}, {label: "Densidad Aprox.:", value: "700 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1200 lbf"}, {label: "Usos Comunes:", value: "Construcción, pisos, durmientes"}, ]
+  },
+  'encino': {
+    name: "Encino",
+    description: "Madera de Encino (Roble), fuerte, dura y resistente al desgaste. Muy popular para pisos, muebles y barriles.",
+    price: 2200.00,
+    images: [
+      { id: '1', src: `/images/encino-principal.svg`, alt: 'Encino Vista Principal', dataAiHint: "oak wood" },
+      { id: '2', src: `/images/encino-detalle-veta.svg`, alt: 'Detalle veta Encino', dataAiHint: "oak wood grain" },
+      { id: '3', src: `/images/encino-aplicacion.svg`, alt: 'Aplicación de Encino', dataAiHint: "oak furniture" },
+    ],
+    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    specifications: [ {label: "Especie:", value: "Quercus (Roble/Encino)"}, {label: "Densidad Aprox.:", value: "720 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1290 lbf"}, {label: "Usos Comunes:", value: "Pisos, muebles, gabinetes, barriles"}, ]
+  },
+  'fresno': {
+    name: "Fresno",
+    description: "Madera de Fresno, conocida por su tenacidad y elasticidad. Color claro y veta prominente, ideal para mangos de herramientas y muebles.",
+    price: 1950.00,
+    images: [
+      { id: '1', src: `/images/fresno-principal.svg`, alt: 'Fresno Vista Principal', dataAiHint: "ash wood" },
+      { id: '2', src: `/images/fresno-detalle-veta.svg`, alt: 'Detalle veta Fresno', dataAiHint: "ash wood grain" },
+      { id: '3', src: `/images/fresno-aplicacion.svg`, alt: 'Aplicación de Fresno', dataAiHint: "ash furniture" },
+    ],
+    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    specifications: [ {label: "Especie:", value: "Fraxinus"}, {label: "Densidad Aprox.:", value: "670 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1320 lbf"}, {label: "Usos Comunes:", value: "Muebles, bates de béisbol, mangos"}, ]
+  },
+  'nogal-americano': {
+    name: "Nogal Americano",
+    description: "Preciada madera de Nogal Americano, de color marrón oscuro rico y veta atractiva. Perfecta para muebles de lujo y detalles finos.",
+    price: 3500.00,
+    images: [
+      { id: '1', src: `/images/nogal-americano-principal.svg`, alt: 'Nogal Americano Vista Principal', dataAiHint: "american walnut wood" },
+      { id: '2', src: `/images/nogal-americano-detalle-veta.svg`, alt: 'Detalle veta Nogal Americano', dataAiHint: "walnut wood grain" },
+      { id: '3', src: `/images/nogal-americano-aplicacion.svg`, alt: 'Aplicación de Nogal Americano', dataAiHint: "walnut furniture" },
+    ],
+    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    specifications: [ {label: "Especie:", value: "Juglans nigra"}, {label: "Densidad Aprox.:", value: "610 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1010 lbf"}, {label: "Usos Comunes:", value: "Muebles de alta gama, gabinetes, chapas"}, ]
+  },
+  'macocell': {
+    name: "Macocell",
+    description: "Tablero Macocell, una opción versátil y económica para diversos proyectos de carpintería y construcción ligera.",
+    price: 900.00,
+    images: [
+      { id: '1', src: `/images/macocell-principal.svg`, alt: 'Macocell Vista Principal', dataAiHint: "macocel board" },
+      { id: '2', src: `/images/macocell-textura.svg`, alt: 'Textura Macocell', dataAiHint: "macocel texture" },
+      { id: '3', src: `/images/macocell-aplicacion.svg`, alt: 'Aplicación de Macocell', dataAiHint: "macocel project" },
+    ],
+    options: { /* Placeholder */ medidas: [ { id: 'm1', label: 'Lámina Estándar', priceModifier: 1.0 }, ], acabado: [ { id: 'a1', label: 'Crudo', priceModifier: 0 }, ], },
+    specifications: [ {label: "Tipo:", value: "Tablero Aglomerado Ligero"}, {label: "Usos Comunes:", value: "Mueblería económica, divisiones, embalaje"}, ]
+  },
+  'mdf': {
+    name: "MDF",
+    description: "Tablero de MDF (Fibra de Densidad Media), uniforme y fácil de trabajar. Ideal para la fabricación de muebles, molduras y paneles.",
+    price: 1100.00,
+    images: [
+      { id: '1', src: `/images/mdf-principal.svg`, alt: 'MDF Vista Principal', dataAiHint: "mdf board" },
+      { id: '2', src: `/images/mdf-textura.svg`, alt: 'Textura MDF', dataAiHint: "mdf texture" },
+      { id: '3', src: `/images/mdf-aplicacion.svg`, alt: 'Aplicación de MDF', dataAiHint: "mdf furniture" },
+    ],
+    options: { /* Placeholder */ medidas: [ { id: 'm1', label: 'Lámina 15mm', priceModifier: 1.0 }, { id: 'm2', label: 'Lámina 18mm', priceModifier: 1.2 },], acabado: [ { id: 'a1', label: 'Crudo', priceModifier: 0 }, { id: 'a2', label: 'Melamina Blanca', priceModifier: 500 }, ], },
+    specifications: [ {label: "Tipo:", value: "Tablero de Fibra de Densidad Media"}, {label: "Usos Comunes:", value: "Muebles, gabinetes, molduras, artesanías"}, ]
+  }
 };
 
-type Product = ReturnType<typeof getProductDetailsSync>;
 
-const ImageCarousel = ({ images }: { images: Product['images'] }) => {
+type Product = (ProductDetailData & { id: string; }) | null;
+
+
+// Synchronous function to get product details
+const getProductDetailsSync = (sku: string, lang: Locale): Product => {
+  const productData = allProductDetails[sku];
+  if (productData) {
+    return { id: sku, ...productData };
+  }
+  // Fallback or notFound() logic if SKU is invalid.
+  // For now, returning null if not found, UI will handle loading/error state.
+  return null; 
+};
+
+const ImageCarousel = ({ images }: { images: ProductImageData[] }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   if (!images || images.length === 0) {
@@ -133,7 +262,7 @@ export default function ProductPage(props: ProductPageProps) {
   const { toast } = useToast();
   const { addToQuote } = useQuote(); 
 
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<Product>(null);
   const [dictionary, setDictionary] = useState<Dictionary | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
@@ -153,22 +282,28 @@ export default function ProductPage(props: ProductPageProps) {
         if (isActive) {
           setProduct(productData);
           setDictionary(dictData);
-          if (productData) {
-            const initialMedidaId = productData.options.medidas[0]?.id;
-            const initialAcabadoId = productData.options.acabado[0]?.id;
-            setSelectedMedidaId(initialMedidaId);
-            setSelectedAcabadoId(initialAcabadoId);
+          if (productData && productData.options.medidas.length > 0) {
+            setSelectedMedidaId(productData.options.medidas[0].id);
+          }
+          if (productData && productData.options.acabado.length > 0) {
+            setSelectedAcabadoId(productData.options.acabado[0].id);
           }
         }
       } catch (error) {
         console.error("Failed to load product page data:", error);
+        if(isActive) setProduct(null); // Ensure product is null on error
       } finally {
         if (isActive) {
           setIsLoadingData(false);
         }
       }
     }
-    loadData();
+    if (sku && lang) { // Ensure sku and lang are available
+        loadData();
+    } else {
+        setIsLoadingData(false); // Stop loading if essential params are missing
+        setProduct(null);
+    }
     return () => {
       isActive = false; 
     };
@@ -185,17 +320,28 @@ export default function ProductPage(props: ProductPageProps) {
         const priceAfterAcabado = priceAfterMedida + acabadoOpt.priceModifier;
         const finalPrice = priceAfterAcabado * quantity;
         setCalculatedPrice(finalPrice);
+      } else if (medidaOpt && !product.options.acabado.length) { // Case where there are no acabado options
+        const priceAfterMedida = product.price * medidaOpt.priceModifier;
+        setCalculatedPrice(priceAfterMedida * quantity);
+      } else if (acabadoOpt && !product.options.medidas.length) { // Case where there are no medida options
+         const priceAfterAcabado = product.price + acabadoOpt.priceModifier;
+         setCalculatedPrice(priceAfterAcabado * quantity);
+      } else if (!product.options.medidas.length && !product.options.acabado.length) { // No options
+        setCalculatedPrice(product.price * quantity);
       }
-    } else if (product && quantity > 0 && calculatedPrice === null) { // Initial calculation if options already set
+
+    } else if (product && quantity > 0 && calculatedPrice === null) { 
        const initialMedidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId) || product.options.medidas[0];
        const initialAcabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId) || product.options.acabado[0];
-       if(initialMedidaOpt && initialAcabadoOpt){
-         const priceAfterMedida = product.price * initialMedidaOpt.priceModifier;
-         const priceAfterAcabado = priceAfterMedida + initialAcabadoOpt.priceModifier;
-         setCalculatedPrice(priceAfterAcabado * quantity);
-       } else {
-        setCalculatedPrice(product.price * quantity);
+       
+       let basePriceWithOptions = product.price;
+       if (initialMedidaOpt) {
+           basePriceWithOptions *= initialMedidaOpt.priceModifier;
        }
+       if (initialAcabadoOpt) {
+           basePriceWithOptions += initialAcabadoOpt.priceModifier;
+       }
+       setCalculatedPrice(basePriceWithOptions * quantity);
     }
   }, [product, selectedMedidaId, selectedAcabadoId, quantity, calculatedPrice]);
 
@@ -205,7 +351,7 @@ export default function ProductPage(props: ProductPageProps) {
     if (!isNaN(num) && num > 0) {
       setQuantity(num);
     } else if (e.target.value === '') {
-      setQuantity(1); // Reset to 1 if input is cleared, or handle as preferred
+      setQuantity(1); 
     }
   };
 
@@ -218,15 +364,18 @@ export default function ProductPage(props: ProductPageProps) {
   };
 
   const handleAddToCart = () => {
-    if (!product || !dictionary || !selectedMedidaId || !selectedAcabadoId || calculatedPrice === null || quantity <=0 ) return;
+    if (!product || !dictionary || calculatedPrice === null || quantity <=0 ) return;
     
     const medidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId);
     const acabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId);
 
-    const pricePerUnit = (product.price * (medidaOpt?.priceModifier || 1)) + (acabadoOpt?.priceModifier || 0);
+    let pricePerUnit = product.price;
+    if (medidaOpt) pricePerUnit *= medidaOpt.priceModifier;
+    if (acabadoOpt) pricePerUnit += acabadoOpt.priceModifier;
+
 
     const itemToAdd: Omit<QuoteItem, 'quantity'> = { 
-      id: `${product.id}-${selectedMedidaId}-${selectedAcabadoId}`, // Unique ID per variant
+      id: `${product.id}${selectedMedidaId ? '-' + selectedMedidaId : ''}${selectedAcabadoId ? '-' + selectedAcabadoId : ''}`,
       productId: product.id,
       name: product.name,
       pricePerUnit: pricePerUnit,
@@ -241,20 +390,34 @@ export default function ProductPage(props: ProductPageProps) {
     const tProductPage = dictionary.productPage;
     toast({
       title: tProductPage.itemAddedToQuoteTitle || "Item Added",
-      description: `${quantity} x ${product.name} (${medidaOpt?.label}, ${acabadoOpt?.label}) ${tProductPage.itemAddedToQuoteMsg || 'has been added to your quote.'}`,
+      description: `${quantity} x ${product.name} ${medidaOpt ? `(${medidaOpt.label})` : ''} ${acabadoOpt ? `(${acabadoOpt.label})` : ''} ${tProductPage.itemAddedToQuoteMsg || 'has been added to your quote.'}`,
     });
   };
 
   const handleBuyNow = () => {
+    // Optional: Add to quote first, then redirect. For now, just redirect.
+    if (!product || !dictionary || calculatedPrice === null || quantity <=0 ) return;
+    handleAddToCart(); // Add to quote before redirecting
     router.push(`/${lang}/checkout`);
   };
 
 
-  if (isLoadingData || !product || !dictionary) {
+  if (isLoadingData) {
     return (
       <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
         <p className="mt-4 text-muted-foreground">Cargando detalles del producto...</p>
+      </div>
+    );
+  }
+
+  if (!product || !dictionary) {
+    // This can happen if SKU is invalid or dictionary fails to load
+     return (
+      <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
+        <CardTitle>Producto no encontrado</CardTitle>
+        <CardDescription>El producto que buscas no está disponible o la página no pudo cargarse.</CardDescription>
+        <Button onClick={() => router.push(`/${lang}/catalog`)} className="mt-4">Volver al Catálogo</Button>
       </div>
     );
   }
@@ -288,40 +451,44 @@ export default function ProductPage(props: ProductPageProps) {
             <CardContent>
               <p className="text-3xl font-semibold text-primary mb-6">RD${product.price.toFixed(2)} <span className="text-sm text-muted-foreground">/ unidad base</span></p>
               
-              <Separator className="my-6" />
+              {(product.options.medidas.length > 0 || product.options.acabado.length > 0) && <Separator className="my-6" />}
 
               <div className="space-y-4 mb-6">
-                <h3 className="text-xl font-semibold">{t.options}</h3>
-                <div>
-                  <Label className="text-md font-medium">Medidas:</Label>
-                  <RadioGroup 
-                    value={selectedMedidaId} 
-                    onValueChange={handleMedidaChange} 
-                    className="mt-2"
-                  >
-                    {product.options.medidas.map(opt => (
-                      <div key={opt.id} className="flex items-center space-x-2">
-                        <RadioGroupItem value={opt.id} id={`medida-${opt.id}`} />
-                        <Label htmlFor={`medida-${opt.id}`} className="font-normal">{opt.label}</Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                </div>
-                <div>
-                  <Label className="text-md font-medium">Acabado:</Label>
-                  <RadioGroup 
-                    value={selectedAcabadoId} 
-                    onValueChange={handleAcabadoChange} 
-                    className="mt-2"
-                  >
-                    {product.options.acabado.map(opt => (
-                      <div key={opt.id} className="flex items-center space-x-2">
-                        <RadioGroupItem value={opt.id} id={`acabado-${opt.id}`} />
-                        <Label htmlFor={`acabado-${opt.id}`} className="font-normal">{opt.label} (+RD${opt.priceModifier.toFixed(2)})</Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                </div>
+                {(product.options.medidas.length > 0 || product.options.acabado.length > 0) && <h3 className="text-xl font-semibold">{t.options}</h3>}
+                {product.options.medidas.length > 0 && (
+                  <div>
+                    <Label className="text-md font-medium">Medidas:</Label>
+                    <RadioGroup 
+                      value={selectedMedidaId} 
+                      onValueChange={handleMedidaChange} 
+                      className="mt-2"
+                    >
+                      {product.options.medidas.map(opt => (
+                        <div key={opt.id} className="flex items-center space-x-2">
+                          <RadioGroupItem value={opt.id} id={`medida-${opt.id}`} />
+                          <Label htmlFor={`medida-${opt.id}`} className="font-normal">{opt.label}</Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+                )}
+                {product.options.acabado.length > 0 && (
+                  <div>
+                    <Label className="text-md font-medium">Acabado:</Label>
+                    <RadioGroup 
+                      value={selectedAcabadoId} 
+                      onValueChange={handleAcabadoChange} 
+                      className="mt-2"
+                    >
+                      {product.options.acabado.map(opt => (
+                        <div key={opt.id} className="flex items-center space-x-2">
+                          <RadioGroupItem value={opt.id} id={`acabado-${opt.id}`} />
+                          <Label htmlFor={`acabado-${opt.id}`} className="font-normal">{opt.label} (+RD${opt.priceModifier.toFixed(2)})</Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+                )}
               </div>
               
               <Separator className="my-6" />
@@ -345,32 +512,33 @@ export default function ProductPage(props: ProductPageProps) {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="flex-1" onClick={handleAddToCart}>
+                <Button size="lg" className="flex-1" onClick={handleAddToCart} disabled={isLoadingData || !selectedMedidaId || (product.options.acabado.length > 0 && !selectedAcabadoId)}>
                   <ShoppingCart className="mr-2 h-5 w-5" /> {t.addToCart}
                 </Button>
-                 <Button size="lg" variant="link" className="flex-1" onClick={handleBuyNow}>
+                 <Button size="lg" variant="link" className="flex-1" onClick={handleBuyNow} disabled={isLoadingData || !selectedMedidaId || (product.options.acabado.length > 0 && !selectedAcabadoId)}>
                    {t.buyNow}
                 </Button>
               </div>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardHeader>
-              <CardTitle>Especificaciones Técnicas</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2">
-              {product.specifications.map(spec => (
-                <div key={spec.label} className="flex justify-between">
-                  <span className="font-medium text-muted-foreground">{spec.label}</span>
-                  <span>{spec.value}</span>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+          {product.specifications.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Especificaciones Técnicas</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm space-y-2">
+                {product.specifications.map(spec => (
+                  <div key={spec.label} className="flex justify-between">
+                    <span className="font-medium text-muted-foreground">{spec.label}</span>
+                    <span>{spec.value}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
   );
 }
-

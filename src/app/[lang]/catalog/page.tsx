@@ -26,7 +26,7 @@ interface CatalogPageProps {
 // Reusable ProductCard, could be moved to a shared component
 const ProductCard = ({ id, name, price, imageUrl, lang, dictionary, dataAiHint }: { id: string, name: string, price: string, imageUrl: string, lang: Locale, dictionary: any, dataAiHint: string }) => (
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
-    <Link href={`/${lang}/product/${id}`} className="block">
+    <Link href={`/${lang}/product/${id}`} className="block" aria-label={`${dictionary.viewMore} ${name}`}>
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image src={imageUrl} alt={name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
@@ -71,36 +71,30 @@ export default function CatalogPage(props: CatalogPageProps) {
   const categories = ["Maderas Duras", "Maderas Blandas", "Contrachapados", "Exóticas"];
   
   const productDetails = [
-    { name: "Alamo", dataAiHint: "Poplar", imageUrl: "/images/alamo.svg"},
-    { name: "Caoba", dataAiHint: "Mahogany", imageUrl: "/images/caoba.svg"},
-    { name: "Cedro Blanco", dataAiHint: "White Cedar", imageUrl: "/images/cedro-blanco.svg"},
-    { name: "Congona", dataAiHint: "Congona", imageUrl: "/images/congona.svg"},
-    { name: "Encino", dataAiHint: "Oak", imageUrl: "/images/encino.svg"},
-    { name: "Fresno", dataAiHint: "Ash", imageUrl: "/images/fresno.svg"}, // From previous request, image is in public/
-    { name: "Nogal Americano", dataAiHint: "American Walnut", imageUrl: "/images/nogal-americano.svg"},
-    { name: "Macocell", dataAiHint: "Macocel", imageUrl: "/images/macocell.svg"},
-    { name: "MDF", dataAiHint: "MDF", imageUrl: "/images/mdf.svg"},
+    { name: "Alamo", dataAiHint: "Poplar"},
+    { name: "Caoba", dataAiHint: "Mahogany"},
+    { name: "Cedro Blanco", dataAiHint: "White Cedar"},
+    { name: "Congona", dataAiHint: "Congona Wood"},
+    { name: "Encino", dataAiHint: "Oak"},
+    { name: "Fresno", dataAiHint: "Ash"},
+    { name: "Nogal Americano", dataAiHint: "American Walnut"},
+    { name: "Macocell", dataAiHint: "Macocel Board"},
+    { name: "MDF", dataAiHint: "MDF Board"},
   ];
 
-  const products = productDetails.map((detail, i) => {
-    let finalImageUrl;
-    // Check if it's the special cased "Caoba Andina" with a pre-defined imageUrl
-    if (detail.name === "Caoba Andina" && detail.imageUrl) {
-      finalImageUrl = detail.imageUrl;
-    } else {
-      // For all others, derive from name and put in /images/
-      const slug = detail.name
-        .toLowerCase()
-        .replace(/\s+/g, '-') // Replace spaces with hyphens
-        .replace(/\(|\)/g, '');   // Remove parentheses
-      finalImageUrl = `/images/${slug}.svg`;
-    }
+  const products = productDetails.map((detail) => {
+    const slug = detail.name
+      .toLowerCase()
+      .replace(/\s+/g, '-') 
+      .replace(/\(|\)/g, ''); 
+    
+    const imageUrl = `/images/${slug}.svg`;
 
     return {
-      id: `sku-00${i + 1}`,
+      id: slug, // This is the SKU for linking
       name: detail.name,
-      price: `Desde RD$${(Math.random() * 2000 + 1000).toFixed(0)}`,
-      imageUrl: finalImageUrl,
+      price: `Desde RD$${(Math.random() * 1500 + 1000).toFixed(0)}`, // Adjusted price range
+      imageUrl: imageUrl,
       dataAiHint: detail.dataAiHint,
     };
   });
