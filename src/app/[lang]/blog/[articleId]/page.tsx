@@ -1,7 +1,7 @@
 
-import { getDictionary, type Dictionary } from '@/lib/dictionaries';
+import { getDictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
-import { getArticleById, type BlogArticle, placeholderArticlesData } from '@/lib/blog-data';
+import { getArticleById, placeholderArticlesData } from '@/lib/blog-data'; // Import placeholderArticlesData for generateStaticParams
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,18 +10,15 @@ import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface ArticlePageProps {
-  params: Promise<{ // Defined as Promise to satisfy build-time type checker
+  params: { // params is a direct object for Server Components
     lang: Locale;
     articleId: string;
-  }>;
+  };
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function ArticlePage(props: ArticlePageProps) {
-  // At runtime for a Server Component, props.params is already the resolved object.
-  // The 'await' caused the Internal Server Error. We use a type assertion here.
-  const params = props.params as unknown as { lang: Locale; articleId: string };
-  const { lang, articleId } = params;
+export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
+  const { lang, articleId } = params; // Directly destructure
   const numericArticleId = parseInt(articleId, 10);
 
   if (isNaN(numericArticleId)) {
@@ -83,13 +80,11 @@ export default async function ArticlePage(props: ArticlePageProps) {
 }
 
 export async function generateStaticParams({ params: { lang } }: { params: { lang: Locale } }) {
-  // Return an empty array if no articles or specific logic to pre-render paths
-  // For example, if placeholderArticlesData can be empty or dynamic:
+  // placeholderArticlesData is already imported at the top of the file
   if (!placeholderArticlesData || placeholderArticlesData.length === 0) {
     return [];
   }
   return placeholderArticlesData.map(article => ({
-    // lang: lang, // lang is already part of the route structure, not needed here for articleId
     articleId: article.id.toString(),
   }));
 }
