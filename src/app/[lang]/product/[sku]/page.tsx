@@ -38,8 +38,8 @@ const getProductDetailsSync = (sku: string, lang: Locale) => {
         { id: 'm3', label: '4" x 4" x 12\'', priceModifier: 2.2 },
       ],
       acabado: [
-        { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 },
-        { id: 'a2', label: 'Sellado Transparente', priceModifier: 500 }, // Additional cost
+        { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, // Additional cost
+        { id: 'a2', label: 'Sellado Transparente', priceModifier: 500 },
         { id: 'a3', label: 'Tinte Nogal', priceModifier: 750 },
       ],
     },
@@ -129,6 +129,12 @@ export default function ProductPage(props: ProductPageProps) {
   const [dictionary, setDictionary] = useState<Dictionary | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
+  const [selectedMedidaId, setSelectedMedidaId] = useState<string | undefined>(undefined);
+  const [selectedAcabadoId, setSelectedAcabadoId] = useState<string | undefined>(undefined);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [calculatedPrice, setCalculatedPrice] = useState<number | null>(null);
+
+
   useEffect(() => {
     let isActive = true;
     async function loadData() {
@@ -139,12 +145,16 @@ export default function ProductPage(props: ProductPageProps) {
         if (isActive) {
           setProduct(productData);
           setDictionary(dictData);
+          // Initialize options and price after product data is loaded
+          if (productData) {
+            const initialMedidaId = productData.options.medidas[0]?.id;
+            const initialAcabadoId = productData.options.acabado[0]?.id;
+            setSelectedMedidaId(initialMedidaId);
+            setSelectedAcabadoId(initialAcabadoId);
+          }
         }
       } catch (error) {
         console.error("Failed to load product page data:", error);
-        if (isActive) {
-          // Optionally set an error state here
-        }
       } finally {
         if (isActive) {
           setIsLoadingData(false);
@@ -153,9 +163,56 @@ export default function ProductPage(props: ProductPageProps) {
     }
     loadData();
     return () => {
-      isActive = false; // Cleanup to prevent setting state on unmounted component
+      isActive = false; 
     };
   }, [lang, sku]);
+
+
+  useEffect(() => {
+    if (product && selectedMedidaId && selectedAcabadoId && quantity > 0) {
+      const medidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId);
+      const acabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId);
+
+      if (medidaOpt && acabadoOpt) {
+        const priceAfterMedida = product.price * medidaOpt.priceModifier;
+        const priceAfterAcabado = priceAfterMedida + acabadoOpt.priceModifier;
+        const finalPrice = priceAfterAcabado * quantity;
+        setCalculatedPrice(finalPrice);
+      }
+    } else if (product && quantity > 0 && calculatedPrice === null) {
+      // Fallback for initial calculation if options not fully set yet, or default.
+      // This ensures an initial price is shown based on product base price and quantity 1.
+       const initialMedidaOpt = product.options.medidas[0];
+       const initialAcabadoOpt = product.options.acabado[0];
+       if(initialMedidaOpt && initialAcabadoOpt){
+         const priceAfterMedida = product.price * initialMedidaOpt.priceModifier;
+         const priceAfterAcabado = priceAfterMedida + initialAcabadoOpt.priceModifier;
+         setCalculatedPrice(priceAfterAcabado * quantity);
+       } else {
+        setCalculatedPrice(product.price * quantity);
+       }
+    }
+  }, [product, selectedMedidaId, selectedAcabadoId, quantity, calculatedPrice]);
+
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const num = parseInt(e.target.value, 10);
+    if (!isNaN(num) && num > 0) {
+      setQuantity(num);
+    } else if (e.target.value === '') {
+      // Allow clearing the input, defaulting to 1 or handle validation elsewhere
+      setQuantity(1); // Or perhaps set an error state / handle invalid input
+    }
+  };
+
+  const handleMedidaChange = (value: string) => {
+    setSelectedMedidaId(value);
+  };
+
+  const handleAcabadoChange = (value: string) => {
+    setSelectedAcabadoId(value);
+  };
+
 
   if (isLoadingData || !product || !dictionary) {
     return (
@@ -205,7 +262,11 @@ export default function ProductPage(props: ProductPageProps) {
                 <h3 className="text-xl font-semibold">{t.options}</h3>
                 <div>
                   <Label className="text-md font-medium">Medidas:</Label>
-                  <RadioGroup defaultValue={product.options.medidas[0].id} className="mt-2">
+                  <RadioGroup 
+                    value={selectedMedidaId} 
+                    onValueChange={handleMedidaChange} 
+                    className="mt-2"
+                  >
                     {product.options.medidas.map(opt => (
                       <div key={opt.id} className="flex items-center space-x-2">
                         <RadioGroupItem value={opt.id} id={`medida-${opt.id}`} />
@@ -216,7 +277,11 @@ export default function ProductPage(props: ProductPageProps) {
                 </div>
                 <div>
                   <Label className="text-md font-medium">Acabado:</Label>
-                  <RadioGroup defaultValue={product.options.acabado[0].id} className="mt-2">
+                  <RadioGroup 
+                    value={selectedAcabadoId} 
+                    onValueChange={handleAcabadoChange} 
+                    className="mt-2"
+                  >
                     {product.options.acabado.map(opt => (
                       <div key={opt.id} className="flex items-center space-x-2">
                         <RadioGroupItem value={opt.id} id={`acabado-${opt.id}`} />
@@ -235,13 +300,17 @@ export default function ProductPage(props: ProductPageProps) {
                  <div className="flex items-end gap-4">
                     <div className="flex-grow">
                       <Label htmlFor="quantity" className="text-md font-medium">Cantidad</Label>
-                      <Input type="number" id="quantity" defaultValue="1" min="1" className="mt-1"/>
+                      <Input 
+                        type="number" 
+                        id="quantity" 
+                        value={quantity}
+                        onChange={handleQuantityChange}
+                        min="1" 
+                        className="mt-1"
+                      />
                     </div>
-                    <Button variant="outline" disabled> {/* TODO: Implement calculator logic */}
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Calcular
-                    </Button>
                  </div>
-                 <p className="text-xl font-bold text-right">Total Estimado: <span className="text-primary">RD${product.price.toFixed(2)}</span></p>
+                 <p className="text-xl font-bold text-right">Total Estimado: <span className="text-primary">RD${calculatedPrice !== null ? calculatedPrice.toFixed(2) : '...'}</span></p>
               </div>
               
               {/* Action Buttons */}
@@ -276,3 +345,4 @@ export default function ProductPage(props: ProductPageProps) {
     </div>
   );
 }
+
