@@ -99,10 +99,9 @@ export default async function HomePage({ params: { lang } }: HomePageProps) {
 
   // Configure your hero media here
   const heroMedia = {
-    type: 'image' as const, // Cambia a 'video' si quieres usar un video
-    url: 'https://placehold.co/1920x1080/3D7748/F0F4F1?text=MADE+Timber+Hero', // URL de tu imagen o video
-    alt: 'Textura de madera abstracta o video de fondo', // Texto alternativo para imágenes
-    aiHint: 'wood texture hero' // data-ai-hint para imágenes
+    type: 'video' as const, // Configurado para video
+    url: '/videos/hero-background.mp4', // Ruta a tu video en public/videos/
+    // altText y dataAiHint no son directamente usados por la etiqueta <video> en esta configuración
   };
 
   const certifications = [
@@ -123,8 +122,8 @@ export default async function HomePage({ params: { lang } }: HomePageProps) {
       <VideoBackground
         mediaType={heroMedia.type}
         mediaUrl={heroMedia.url}
-        altText={heroMedia.alt}
-        dataAiHint={heroMedia.aiHint}
+        altText={heroMedia.type === 'image' ? heroMedia.altText : undefined}
+        dataAiHint={heroMedia.type === 'image' ? heroMedia.dataAiHint : undefined}
       >
         <AnimatedTitle text={tHome.heroTitle} subtext={tHome.heroSubtitle} />
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
