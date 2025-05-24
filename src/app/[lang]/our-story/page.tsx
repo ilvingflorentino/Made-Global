@@ -37,14 +37,14 @@ export default async function OurStoryPage({ params: { lang } }: OurStoryPagePro
           </p>
         </div>
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl">
-          <Image src="https://placehold.co/600x400.png" alt="Origen de MADE" layout="fill" objectFit="cover" data-ai-hint="old workshop"/>
+          <Image src="/images/our-story-origen.svg" alt="Origen de MADE" layout="fill" objectFit="cover" data-ai-hint="company origin"/>
         </div>
       </section>
 
       {/* Section: Crecimiento */}
        <section className="grid md:grid-cols-2 gap-8 items-center">
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl md:order-last">
-          <Image src="https://placehold.co/600x400.png" alt="Crecimiento de MADE" layout="fill" objectFit="cover" data-ai-hint="modern warehouse"/>
+          <Image src="/images/our-story-crecimiento.svg" alt="Crecimiento de MADE" layout="fill" objectFit="cover" data-ai-hint="company growth"/>
         </div>
         <div>
           <h2 className="text-3xl font-semibold mb-4">Crecimiento y Expansión</h2>
