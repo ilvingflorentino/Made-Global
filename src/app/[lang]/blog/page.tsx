@@ -10,16 +10,11 @@ import { Button } from '@/components/ui/button';
 import { getDictionary, type Dictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
 import { Skeleton } from '@/components/ui/skeleton';
+import { placeholderArticlesData, type BlogArticle } from '@/lib/blog-data';
 
 interface BlogPageProps {
   params: Promise<{ lang: Locale }>
 }
-
-const placeholderArticlesData = [
-  { id: 1, titleKey: "blogArticle1Title", excerptKey: "blogArticle1Excerpt", fullContentKey: "blogArticle1Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "woodworking tools", date: "2024-07-15" },
-  { id: 2, titleKey: "blogArticle2Title", excerptKey: "blogArticle2Excerpt", fullContentKey: "blogArticle2Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "forest sustainable", date: "2024-07-10" },
-  { id: 3, titleKey: "blogArticle3Title", excerptKey: "blogArticle3Excerpt", fullContentKey: "blogArticle3Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "wood varnish", date: "2024-07-05" },
-];
 
 export default function BlogPage(props: BlogPageProps) {
   const resolvedParams = use(props.params);
@@ -83,13 +78,13 @@ export default function BlogPage(props: BlogPageProps) {
   }
 
   const tCommon = dictionary.common;
-  const tBlog = dictionary.blogPage; // Assuming blog specific texts are here
+  const tBlog = dictionary.blogPage;
 
   const articles = placeholderArticlesData.map(article => ({
     ...article,
-    title: tBlog[article.titleKey as keyof typeof tBlog] || "Article Title",
-    excerpt: tBlog[article.excerptKey as keyof typeof tBlog] || "Article excerpt...",
-    fullContent: tBlog[article.fullContentKey as keyof typeof tBlog] || "Full article content...",
+    title: tBlog[article.titleKey] || "Article Title",
+    excerpt: tBlog[article.excerptKey] || "Article excerpt...",
+    fullContent: tBlog[article.fullContentKey] || "Full article content...",
   }));
 
 
