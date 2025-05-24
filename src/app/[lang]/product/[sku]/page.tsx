@@ -15,6 +15,7 @@ import { getDictionary, type Dictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
 import { useRouter } from 'next/navigation';
 import { useToast } from "@/hooks/use-toast";
+import { useQuote, type QuoteItem } from '@/context/QuoteContext'; // Added QuoteContext imports
 
 interface ProductPageProps {
   params: Promise<{ lang: Locale, sku: string }>
@@ -22,7 +23,8 @@ interface ProductPageProps {
 
 // Synchronous function to get product details
 const getProductDetailsSync = (sku: string, lang: Locale) => {
-  // Here you can add logic to return different details based on lang if needed
+  // This would ideally fetch from an API or a shared data source
+  // For now, using mock data as an example:
   return {
     id: sku,
     name: `Roble Americano Premium (SKU: ${sku})`, // This could be localized via dictionary later
@@ -129,6 +131,7 @@ export default function ProductPage(props: ProductPageProps) {
 
   const router = useRouter();
   const { toast } = useToast();
+  const { addToQuote } = useQuote(); // Get addToQuote from context
 
   const [product, setProduct] = useState<Product | null>(null);
   const [dictionary, setDictionary] = useState<Dictionary | null>(null);
@@ -150,7 +153,6 @@ export default function ProductPage(props: ProductPageProps) {
         if (isActive) {
           setProduct(productData);
           setDictionary(dictData);
-          // Initialize options and price after product data is loaded
           if (productData) {
             const initialMedidaId = productData.options.medidas[0]?.id;
             const initialAcabadoId = productData.options.acabado[0]?.id;
@@ -185,8 +187,6 @@ export default function ProductPage(props: ProductPageProps) {
         setCalculatedPrice(finalPrice);
       }
     } else if (product && quantity > 0 && calculatedPrice === null) {
-      // Fallback for initial calculation if options not fully set yet, or default.
-      // This ensures an initial price is shown based on product base price and quantity 1.
        const initialMedidaOpt = product.options.medidas[0];
        const initialAcabadoOpt = product.options.acabado[0];
        if(initialMedidaOpt && initialAcabadoOpt){
@@ -205,8 +205,7 @@ export default function ProductPage(props: ProductPageProps) {
     if (!isNaN(num) && num > 0) {
       setQuantity(num);
     } else if (e.target.value === '') {
-      // Allow clearing the input, defaulting to 1 or handle validation elsewhere
-      setQuantity(1); // Or perhaps set an error state / handle invalid input
+      setQuantity(1);
     }
   };
 
@@ -219,15 +218,36 @@ export default function ProductPage(props: ProductPageProps) {
   };
 
   const handleAddToCart = () => {
-    if (!product || !dictionary) return;
+    if (!product || !dictionary || !selectedMedidaId || !selectedAcabadoId || calculatedPrice === null || quantity <=0 ) return;
+    
+    const medidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId);
+    const acabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId);
+
+    const pricePerUnit = (product.price * (medidaOpt?.priceModifier || 1)) + (acabadoOpt?.priceModifier || 0);
+
+    const itemToAdd: Omit<QuoteItem, 'quantity'> = { // Omit quantity as it's handled by addToQuote
+      id: `${product.id}-${selectedMedidaId}-${selectedAcabadoId}`,
+      productId: product.id,
+      name: product.name,
+      pricePerUnit: pricePerUnit,
+      imageUrl: product.images[0]?.src, // Use first image as default
+      dataAiHint: product.images[0]?.dataAiHint,
+      selectedMedidaLabel: medidaOpt?.label,
+      selectedAcabadoLabel: acabadoOpt?.label,
+    };
+
+    addToQuote(itemToAdd, quantity);
+
     const tProductPage = dictionary.productPage;
     toast({
       title: tProductPage.itemAddedToQuoteTitle || "Item Added",
-      description: `${product.name} ${tProductPage.itemAddedToQuoteMsg || 'has been added to your quote.'}`,
+      description: `${quantity} x ${product.name} (${medidaOpt?.label}, ${acabadoOpt?.label}) ${tProductPage.itemAddedToQuoteMsg || 'has been added to your quote.'}`,
     });
   };
 
   const handleBuyNow = () => {
+    // Optional: Add to quote first, then redirect
+    // handleAddToCart(); // This might be too implicit, user might just want to go to checkout
     router.push(`/${lang}/checkout`);
   };
 
@@ -242,12 +262,10 @@ export default function ProductPage(props: ProductPageProps) {
   }
 
   const t = dictionary.productPage;
-  // const tCommon = dictionary.common; // Already have dictionary for tProductPage above
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-        {/* Left Column: Image Gallery / 3D Viewer */}
         <div>
           <Tabs defaultValue="gallery" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
@@ -263,7 +281,6 @@ export default function ProductPage(props: ProductPageProps) {
           </Tabs>
         </div>
 
-        {/* Right Column: Product Info & Options */}
         <div className="space-y-6">
           <Card className="shadow-lg">
             <CardHeader>
@@ -275,7 +292,6 @@ export default function ProductPage(props: ProductPageProps) {
               
               <Separator className="my-6" />
 
-              {/* Options Selector */}
               <div className="space-y-4 mb-6">
                 <h3 className="text-xl font-semibold">{t.options}</h3>
                 <div>
@@ -312,7 +328,6 @@ export default function ProductPage(props: ProductPageProps) {
               
               <Separator className="my-6" />
 
-              {/* Price Calculator - Simple version */}
               <div className="space-y-4 mb-6">
                  <h3 className="text-xl font-semibold">{t.priceCalculator}</h3>
                  <div className="flex items-end gap-4">
@@ -331,7 +346,6 @@ export default function ProductPage(props: ProductPageProps) {
                  <p className="text-xl font-bold text-right">Total Estimado: <span className="text-primary">RD${calculatedPrice !== null ? calculatedPrice.toFixed(2) : '...'}</span></p>
               </div>
               
-              {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="flex-1" onClick={handleAddToCart}>
                   <ShoppingCart className="mr-2 h-5 w-5" /> {t.addToCart}
@@ -343,7 +357,6 @@ export default function ProductPage(props: ProductPageProps) {
             </CardContent>
           </Card>
           
-          {/* Specifications */}
           <Card>
             <CardHeader>
               <CardTitle>Especificaciones Técnicas</CardTitle>
@@ -357,10 +370,8 @@ export default function ProductPage(props: ProductPageProps) {
               ))}
             </CardContent>
           </Card>
-
         </div>
       </div>
     </div>
   );
 }
-

@@ -1,5 +1,6 @@
+
 import Link from 'next/link'
-import { Home, Search, Calendar, Film, Menu } from 'lucide-react'
+import { Home, Search, Calendar, Film, Menu, ShoppingCart } from 'lucide-react' // Added ShoppingCart
 import type { Locale } from '@/config/i18n.config'
 import type { Dictionary } from '@/lib/dictionaries'
 import {
@@ -20,15 +21,16 @@ export function MobileDockMenu({ lang, dictionary }: MobileDockMenuProps) {
   const mainNavItems = [
     { href: `/${lang}`, icon: Home, label: dictionary.home },
     { href: `/${lang}/catalog`, icon: Search, label: dictionary.catalog },
-    { href: `/${lang}/budget`, icon: Calendar, label: dictionary.budget },
+    { href: `/${lang}/checkout`, icon: ShoppingCart, label: dictionary.quote || "Quote" }, // Changed budget to quote/cart
     { href: `/${lang}/virtual-tour`, icon: Film, label: dictionary.virtualTour },
   ];
 
   const moreNavItems = [
+     { href: `/${lang}/budget`, label: dictionary.budget }, // Kept budget here or can be removed if quote page replaces it
      { href: `/${lang}/blog`, label: dictionary.blog },
      { href: `/${lang}/our-story`, label: dictionary.ourStory },
      { href: `/${lang}/history`, label: dictionary.history },
-     { href: `/${lang}/contact`, label: dictionary.contact }, // Placeholder for contact page
+     { href: `/${lang}/contact`, label: dictionary.contact },
   ];
 
   return (

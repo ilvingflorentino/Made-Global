@@ -9,7 +9,7 @@
     "product": "Product",
     "checkout": "Checkout",
     "history": "Order History",
-    "budget": "Quote",
+    "budget": "Quote Request",
     "virtualTour": "Virtual Tour",
     "blog": "Blog",
     "ourStory": "Our Story",
@@ -37,7 +37,8 @@
     "loading": "Loading...",
     "selectLanguage": "Select Language",
     "readMore": "Read More",
-    "readLess": "Read Less"
+    "readLess": "Read Less",
+    "quote": "Quote"
   },
   "homePage": {
     "heroTitle": "Woods that travel from the heart of the jungle to the soul of your project.",
@@ -50,7 +51,7 @@
     "priceCalculator": "Price Calculator",
     "buyNow": "Buy Now",
     "addToCart": "Add to Quote",
-    "itemAddedToQuoteTitle": "Item Added",
+    "itemAddedToQuoteTitle": "Item Added to Quote",
     "itemAddedToQuoteMsg": "has been added to your quote."
   },
   "catalogPage": {
@@ -80,7 +81,10 @@
     "orderConfirmation": "Order Confirmation",
     "orderSuccess": "Your order has been placed successfully!",
     "orderNumber": "Order Number:",
-    "viewMyOrder": "View My Order"
+    "viewMyOrder": "View My Order",
+    "quantity": "Quantity",
+    "emptyQuoteTitle": "Your Quote is Empty",
+    "emptyQuoteMessage": "Add products to your quote to continue."
   },
   "virtualTourPage": {
     "warehouse": "Warehouse",

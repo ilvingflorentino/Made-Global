@@ -9,7 +9,7 @@
     "product": "Producto",
     "checkout": "Finalizar Compra",
     "history": "Historial de Pedidos",
-    "budget": "Cotización",
+    "budget": "Solicitar Cotización",
     "virtualTour": "Recorrido Virtual",
     "blog": "Blog",
     "ourStory": "Nuestra Historia",
@@ -37,7 +37,8 @@
     "loading": "Cargando...",
     "selectLanguage": "Seleccionar Idioma",
     "readMore": "Leer Más",
-    "readLess": "Leer Menos"
+    "readLess": "Leer Menos",
+    "quote": "Cotización"
   },
   "homePage": {
     "heroTitle": "Maderas que viajan desde el corazón de la selva al alma de tu proyecto.",
@@ -50,7 +51,7 @@
     "priceCalculator": "Calculadora de Precios",
     "buyNow": "Comprar Ahora",
     "addToCart": "Añadir a Cotización",
-    "itemAddedToQuoteTitle": "Artículo Añadido",
+    "itemAddedToQuoteTitle": "Artículo Añadido a la Cotización",
     "itemAddedToQuoteMsg": "ha sido añadido a tu cotización."
   },
   "catalogPage": {
@@ -80,7 +81,10 @@
     "orderConfirmation": "Confirmación de Pedido",
     "orderSuccess": "¡Tu pedido ha sido realizado con éxito!",
     "orderNumber": "Número de Pedido:",
-    "viewMyOrder": "Ver Mi Pedido"
+    "viewMyOrder": "Ver Mi Pedido",
+    "quantity": "Cantidad",
+    "emptyQuoteTitle": "Tu cotización está vacía",
+    "emptyQuoteMessage": "Añade productos a tu cotización para continuar."
   },
   "virtualTourPage": {
     "warehouse": "Almacén",

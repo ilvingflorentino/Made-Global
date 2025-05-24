@@ -1,12 +1,12 @@
 
-"use client" // This page needs client-side interactivity for the form
+"use client" 
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
@@ -15,8 +15,11 @@ import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
 import { getDictionary } from '@/lib/dictionaries'
 import type { Locale } from '@/config/i18n.config'
-import { use, useEffect, useState } from 'react' // For fetching dictionary and using use()
+import { use, useEffect, useState } from 'react'
 import type { Dictionary } from '@/lib/dictionaries'
+import { useQuote } from '@/context/QuoteContext' // Added import
+import Link from 'next/link' // Added import
+import { ShoppingBag } from 'lucide-react' // Added import
 
 // Define Zod schema for form validation
 const checkoutSchema = z.object({
@@ -30,23 +33,19 @@ const checkoutSchema = z.object({
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>
 
-// Mock order items - Updated to reflect catalog items
-const orderItems = [
-  { id: 'prod-encino', name: 'Encino', quantity: 2, price: 2850, imageUrl: '/images/encino.svg', dataAiHint: "oak wood" },
-  { id: 'prod-fresno', name: 'Fresno', quantity: 1, price: 3200, imageUrl: '/images/fresno.svg', dataAiHint: "ash wood" },
-]
-
 interface CheckoutPageProps {
-  params: Promise<{ lang: Locale }> // params is a Promise
+  params: Promise<{ lang: Locale }> 
 }
 
 export default function CheckoutPage(props: CheckoutPageProps) {
-  const resolvedParams = use(props.params); // Unwrap the promise
-  const { lang } = resolvedParams; // Destructure lang
+  const resolvedParams = use(props.params); 
+  const { lang } = resolvedParams; 
 
   const [dictionary, setDictionary] = useState<Dictionary | null>(null)
   const [orderConfirmed, setOrderConfirmed] = useState(false)
   const [orderNumber, setOrderNumber] = useState('')
+  
+  const { quoteItems, totalPrice: quoteTotalPrice, clearQuote } = useQuote(); // Use quote context
 
   useEffect(() => {
     const fetchDictionary = async () => {
@@ -70,10 +69,10 @@ export default function CheckoutPage(props: CheckoutPageProps) {
 
   const onSubmit = (data: CheckoutFormData) => {
     console.log("Checkout Data:", data)
-    // Simulate order placement
+    console.log("Order Items:", quoteItems)
     setOrderNumber(`MADE-${Math.floor(Math.random() * 90000) + 10000}`)
     setOrderConfirmed(true)
-    // Here you would typically call an API to process the order
+    clearQuote(); // Clear quote after order confirmed
   }
 
   if (!dictionary) {
@@ -82,8 +81,9 @@ export default function CheckoutPage(props: CheckoutPageProps) {
   const t = dictionary.checkoutPage;
   const tCommon = dictionary.common;
 
-  const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.18; // Assuming 18% ITBIS
+  const taxRate = 0.18; // Assuming 18% ITBIS
+  const subtotal = quoteTotalPrice;
+  const tax = subtotal * taxRate;
   const total = subtotal + tax;
 
   if (orderConfirmed) {
@@ -100,10 +100,10 @@ export default function CheckoutPage(props: CheckoutPageProps) {
           </CardContent>
           <CardFooter className="flex-col gap-4">
             <Button size="lg" asChild className="w-full">
-              <a href={`/${lang}/history`}>{t.viewMyOrder}</a>
+              <Link href={`/${lang}/history`}>{t.viewMyOrder}</Link>
             </Button>
             <Button variant="outline" asChild className="w-full">
-              <a href={`/${lang}/catalog`}>Seguir Comprando</a>
+              <Link href={`/${lang}/catalog`}>Seguir Comprando</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -111,11 +111,24 @@ export default function CheckoutPage(props: CheckoutPageProps) {
     )
   }
 
+  if (quoteItems.length === 0 && !orderConfirmed) {
+    return (
+      <div className="container mx-auto px-4 py-16 flex flex-col items-center text-center">
+        <ShoppingBag className="h-24 w-24 text-muted-foreground mb-6" />
+        <h2 className="text-2xl font-semibold mb-2">{t.emptyQuoteTitle || "Tu cotización está vacía"}</h2>
+        <p className="text-muted-foreground mb-6">{t.emptyQuoteMessage || "Añade productos a tu cotización para continuar."}</p>
+        <Button asChild size="lg">
+          <Link href={`/${lang}/catalog`}>{tCommon.exploreCatalog}</Link>
+        </Button>
+      </div>
+    );
+  }
+
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center">{tCommon.checkout}</h1>
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Customer Details Form */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="lg:col-span-2 space-y-8">
             <Card>
@@ -159,7 +172,6 @@ export default function CheckoutPage(props: CheckoutPageProps) {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl><SelectTrigger><SelectValue placeholder="Selecciona una provincia" /></SelectTrigger></FormControl>
                       <SelectContent>
-                        {/* Populate with actual provinces */}
                         <SelectItem value="santo-domingo">Santo Domingo</SelectItem>
                         <SelectItem value="santiago">Santiago</SelectItem>
                         <SelectItem value="la-altagracia">La Altagracia</SelectItem>
@@ -209,24 +221,34 @@ export default function CheckoutPage(props: CheckoutPageProps) {
           </form>
         </Form>
 
-        {/* Order Summary */}
         <aside className="lg:col-span-1">
-          <Card className="sticky top-24"> {/* Sticky for desktop */}
+          <Card className="sticky top-24">
             <CardHeader><CardTitle>{t.orderSummary}</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              {orderItems.map(item => (
+              {quoteItems.map(item => (
                 <div key={item.id} className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <Image src={item.imageUrl} alt={item.name} width={64} height={64} className="rounded-md border shadow-md" data-ai-hint={item.dataAiHint}/>
+                    <Image 
+                      src={item.imageUrl || 'https://placehold.co/64x64.png'} 
+                      alt={item.name} 
+                      width={64} 
+                      height={64} 
+                      className="rounded-md border shadow-md" 
+                      data-ai-hint={item.dataAiHint || 'product image'}
+                    />
                     <div>
                       <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-muted-foreground">Cantidad: {item.quantity}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {t.quantity || 'Cantidad'}: {item.quantity}
+                        {item.selectedMedidaLabel && ( <span className="block text-xs">Medida: {item.selectedMedidaLabel}</span> )}
+                        {item.selectedAcabadoLabel && ( <span className="block text-xs">Acabado: {item.selectedAcabadoLabel}</span> )}
+                      </p>
                     </div>
                   </div>
-                  <p className="font-medium">RD${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="font-medium">RD${(item.pricePerUnit * item.quantity).toFixed(2)}</p>
                 </div>
               ))}
-              <Separator />
+              {quoteItems.length > 0 && <Separator />}
               <div className="space-y-1">
                 <div className="flex justify-between text-sm"><p>{t.subtotal}:</p><p>RD${subtotal.toFixed(2)}</p></div>
                 <div className="flex justify-between text-sm"><p>{t.tax}:</p><p>RD${tax.toFixed(2)}</p></div>
@@ -240,4 +262,3 @@ export default function CheckoutPage(props: CheckoutPageProps) {
     </div>
   )
 }
-
