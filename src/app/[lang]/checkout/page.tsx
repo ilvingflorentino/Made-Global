@@ -1,3 +1,4 @@
+
 "use client" // This page needs client-side interactivity for the form
 
 import { useForm } from 'react-hook-form'
@@ -29,10 +30,10 @@ const checkoutSchema = z.object({
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>
 
-// Mock order items
+// Mock order items - Updated to reflect catalog items
 const orderItems = [
-  { id: 'prod1', name: 'Roble Americano Premium', quantity: 2, price: 2850, imageUrl: 'https://placehold.co/100x100/936d48/FFFFFF?text=Roble' },
-  { id: 'prod2', name: 'Sellador Transparente', quantity: 1, price: 500, imageUrl: 'https://placehold.co/100x100/CCCCCC/FFFFFF?text=Sellador' },
+  { id: 'prod-encino', name: 'Encino', quantity: 2, price: 2850, imageUrl: '/images/encino.svg', dataAiHint: "oak wood" },
+  { id: 'prod-fresno', name: 'Fresno', quantity: 1, price: 3200, imageUrl: '/images/fresno.svg', dataAiHint: "ash wood" },
 ]
 
 interface CheckoutPageProps {
@@ -213,7 +214,7 @@ export default function CheckoutPage({ params: { lang } }: CheckoutPageProps) {
               {orderItems.map(item => (
                 <div key={item.id} className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <Image src={item.imageUrl} alt={item.name} width={64} height={64} className="rounded-md border" data-ai-hint="product image"/>
+                    <Image src={item.imageUrl} alt={item.name} width={64} height={64} className="rounded-md border" data-ai-hint={item.dataAiHint}/>
                     <div>
                       <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-muted-foreground">Cantidad: {item.quantity}</p>

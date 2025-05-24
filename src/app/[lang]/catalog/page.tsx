@@ -71,15 +71,15 @@ export default function CatalogPage(props: CatalogPageProps) {
   const categories = ["Maderas Duras", "Maderas Blandas", "Contrachapados", "Exóticas"];
   
   const productDetails = [
-    { name: "Roble Rojo Americano", dataAiHint: "red oak" },
-    { name: "Pino Amarillo del Sur", dataAiHint: "yellow pine" },
-    { name: "Nogal Negro Americano", dataAiHint: "black walnut" },
-    { name: "Cerezo Brasileño (Jatoba)", dataAiHint: "jatoba wood" },
-    { name: "Arce Duro Canadiense", dataAiHint: "hard maple" },
-    { name: "Caoba Andina", dataAiHint: "andina mahogany", imageUrl: "/caoba-andina.svg"}, // From previous request, image is in public/
-    { name: "Teca de Birmania", dataAiHint: "teak wood" },
-    { name: "Fresno Blanco Americano", dataAiHint: "white ash" },
-    { name: "Cedro Rojo Occidental", dataAiHint: "red cedar" },
+    { name: "Alamo", dataAiHint: "Poplar", imageUrl: "/images/alamo.svg"},
+    { name: "Caoba", dataAiHint: "Mahogany", imageUrl: "/images/caoba.svg"},
+    { name: "Cedro Blanco", dataAiHint: "White Cedar", imageUrl: "/images/cedro-blanco.svg"},
+    { name: "Congona", dataAiHint: "Congona", imageUrl: "/images/congona.svg"},
+    { name: "Encino", dataAiHint: "Oak", imageUrl: "/images/encino.svg"},
+    { name: "Fresno", dataAiHint: "Ash", imageUrl: "/images/fresno.svg"}, // From previous request, image is in public/
+    { name: "Nogal Americano", dataAiHint: "American Walnut", imageUrl: "/images/nogal-americano.svg"},
+    { name: "Macocell", dataAiHint: "Macocel", imageUrl: "/images/macocell.svg"},
+    { name: "MDF", dataAiHint: "MDF", imageUrl: "/images/mdf.svg"},
   ];
 
   const products = productDetails.map((detail, i) => {

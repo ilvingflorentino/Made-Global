@@ -1,3 +1,4 @@
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -52,10 +53,10 @@ const CertificationCard = ({ title, description }: { title: string, description:
   </Card>
 );
 
-const ProductCard = ({ name, price, imageUrl, lang }: { name: string, price: string, imageUrl: string, lang: Locale }) => (
+const ProductCard = ({ name, price, imageUrl, lang, dataAiHint }: { name: string, price: string, imageUrl: string, lang: Locale, dataAiHint: string }) => (
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
     <div className="relative aspect-[4/3] overflow-hidden">
-      <Image src={imageUrl} alt={name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" data-ai-hint="wood product"/>
+      <Image src={imageUrl} alt={name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
          <Button asChild variant="secondary" className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
             <Link href={`/${lang}/product/sample-sku`}>Ver más <ArrowRight className="ml-2 h-4 w-4" /></Link>
@@ -82,9 +83,9 @@ export default async function HomePage({ params: { lang } }: HomePageProps) {
   ];
 
   const featuredProducts = [
-    { name: "Roble Americano", price: "Desde RD$2,500", imageUrl: "https://placehold.co/600x400/936d48/FFFFFF?text=Roble", dataAiHint: "oak wood" },
-    { name: "Caoba Dominicana", price: "Desde RD$3,200", imageUrl: "https://placehold.co/600x400/745437/FFFFFF?text=Caoba", dataAiHint: "mahogany wood" },
-    { name: "Pino Tratado", price: "Desde RD$1,800", imageUrl: "https://placehold.co/600x400/673f1c/FFFFFF?text=Pino", dataAiHint: "pine wood" },
+    { name: "Encino", price: "Desde RD$2,750", imageUrl: "/images/encino.svg", dataAiHint: "oak wood" },
+    { name: "Fresno", price: "Desde RD$3,100", imageUrl: "/images/fresno.svg", dataAiHint: "ash wood" },
+    { name: "Nogal Americano", price: "Desde RD$4,500", imageUrl: "/images/nogal-americano.svg", dataAiHint: "american walnut" },
   ];
 
   return (
@@ -117,7 +118,14 @@ export default async function HomePage({ params: { lang } }: HomePageProps) {
         <h2 className="text-3xl font-bold text-center mb-10">{tCommon.featuredProducts}</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
            {featuredProducts.map(product => (
-            <ProductCard key={product.name} name={product.name} price={product.price} imageUrl={product.imageUrl} lang={lang} />
+            <ProductCard 
+              key={product.name} 
+              name={product.name} 
+              price={product.price} 
+              imageUrl={product.imageUrl} 
+              lang={lang} 
+              dataAiHint={product.dataAiHint}
+            />
           ))}
         </div>
         <div className="text-center mt-10">
