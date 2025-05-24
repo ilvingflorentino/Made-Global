@@ -1,7 +1,7 @@
 
 import { getDictionary, type Dictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
-import { getArticleById, type BlogArticle } from '@/lib/blog-data';
+import { getArticleById, type BlogArticle, placeholderArticlesData } from '@/lib/blog-data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,14 +10,15 @@ import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface ArticlePageProps {
-  params: {
+  params: { // Reverted to direct object
     lang: Locale;
     articleId: string;
   };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { lang, articleId } = params;
+export default async function ArticlePage({ params }: ArticlePageProps) { // Changed to take params directly
+  const { lang, articleId } = params; // Destructure lang and articleId from params
   const numericArticleId = parseInt(articleId, 10);
 
   if (isNaN(numericArticleId)) {
@@ -32,7 +33,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   const tBlog = dictionary.blogPage;
-  const tCommon = dictionary.common;
 
   const article = {
     ...articleData,
@@ -53,17 +53,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <CardHeader>
           <CardTitle className="text-3xl md:text-4xl font-bold mb-3">{article.title}</CardTitle>
           <div className="relative aspect-video w-full overflow-hidden rounded-lg mb-4">
-            <Image 
-              src={article.imageUrl} 
-              alt={article.title} 
-              layout="fill" 
-              objectFit="cover" 
+            <Image
+              src={article.imageUrl}
+              alt={article.title}
+              fill // Updated from layout="fill"
+              className="object-cover" // Updated from objectFit="cover"
               data-ai-hint={article.dataAiHint}
               priority
             />
           </div>
           <CardDescription>
-            {lang === 'es' ? 'Publicado el ' : 'Published on '} 
+            {lang === 'es' ? 'Publicado el ' : 'Published on '}
             {new Date(article.date).toLocaleDateString(lang, { year: 'numeric', month: 'long', day: 'numeric' })}
           </CardDescription>
         </CardHeader>
@@ -80,12 +80,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   );
 }
 
-// Optional: Generate static params for better SEO and build times if articles are known
 export async function generateStaticParams({ params: { lang } }: { params: { lang: Locale } }) {
-  // Ensure placeholderArticlesData is imported or accessible here
-  const { placeholderArticlesData } = await import('@/lib/blog-data');
-  
   return placeholderArticlesData.map(article => ({
     articleId: article.id.toString(),
+    // lang is already part of the route structure for generateStaticParams,
+    // so it doesn't need to be returned for each articleId here if this function
+    // is called for each lang separately.
+    // However, to be explicit for each lang, you could do:
+    // lang: lang, // but this is usually handled by Next.js calling this for each locale
   }));
 }
