@@ -1,39 +1,110 @@
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Newspaper } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { getDictionary } from '@/lib/dictionaries'
-import type { Locale } from '@/config/i18n.config'
+"use client";
+
+import { useState, useEffect, use } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Newspaper } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { getDictionary, type Dictionary } from '@/lib/dictionaries';
+import type { Locale } from '@/config/i18n.config';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface BlogPageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>
 }
 
-const placeholderArticles = [
-  { id: 1, title: "Cómo Elegir la Madera Perfecta para tu Proyecto de Ebanistería", excerpt: "Descubre los secretos para seleccionar la madera ideal que dará vida a tus muebles y creaciones.", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "woodworking tools", date: "2024-07-15" },
-  { id: 2, title: "Maderas Sostenibles: El Futuro de la Construcción Ecológica", excerpt: "Conoce las opciones de maderas certificadas y cómo contribuyen a un planeta más verde.", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "forest sustainable", date: "2024-07-10" },
-  { id: 3, title: "Innovación en Acabados: Protege y Embellece tu Madera", excerpt: "Explora las últimas tendencias en acabados que realzan la belleza natural de la madera y prolongan su vida útil.", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "wood varnish", date: "2024-07-05" },
+const placeholderArticlesData = [
+  { id: 1, titleKey: "blogArticle1Title", excerptKey: "blogArticle1Excerpt", fullContentKey: "blogArticle1Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "woodworking tools", date: "2024-07-15" },
+  { id: 2, titleKey: "blogArticle2Title", excerptKey: "blogArticle2Excerpt", fullContentKey: "blogArticle2Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "forest sustainable", date: "2024-07-10" },
+  { id: 3, titleKey: "blogArticle3Title", excerptKey: "blogArticle3Excerpt", fullContentKey: "blogArticle3Full", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "wood varnish", date: "2024-07-05" },
 ];
 
+export default function BlogPage(props: BlogPageProps) {
+  const resolvedParams = use(props.params);
+  const { lang } = resolvedParams;
 
-export default async function BlogPage({ params: { lang } }: BlogPageProps) {
-  const dictionary = await getDictionary(lang);
+  const [dictionary, setDictionary] = useState<Dictionary | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [expandedArticles, setExpandedArticles] = useState<Record<number, boolean>>({});
+
+  useEffect(() => {
+    const fetchDictionary = async () => {
+      setIsLoading(true);
+      try {
+        const dict = await getDictionary(lang);
+        setDictionary(dict);
+      } catch (error)
+        console.error("Error fetching dictionary:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDictionary();
+  }, [lang]);
+
+  const toggleArticle = (articleId: number) => {
+    setExpandedArticles(prev => ({
+      ...prev,
+      [articleId]: !prev[articleId]
+    }));
+  };
+
+  if (isLoading || !dictionary) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <header className="mb-12 text-center">
+          <Skeleton className="h-10 w-1/2 mx-auto mb-2" />
+          <Skeleton className="h-4 w-3/4 mx-auto" />
+        </header>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, i) => (
+            <Card key={i} className="flex flex-col overflow-hidden">
+              <div className="relative aspect-video">
+                <Skeleton className="h-full w-full" />
+              </div>
+              <CardHeader>
+                <Skeleton className="h-6 w-full mb-1" />
+                <Skeleton className="h-4 w-1/4" />
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <Skeleton className="h-4 w-full mb-1" />
+                <Skeleton className="h-4 w-2/3" />
+              </CardContent>
+              <div className="p-6 pt-0">
+                <Skeleton className="h-10 w-24" />
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   const tCommon = dictionary.common;
+  const tBlog = dictionary.blogPage; // Assuming blog specific texts are here
+
+  const articles = placeholderArticlesData.map(article => ({
+    ...article,
+    title: tBlog[article.titleKey as keyof typeof tBlog] || "Article Title",
+    excerpt: tBlog[article.excerptKey as keyof typeof tBlog] || "Article excerpt...",
+    fullContent: tBlog[article.fullContentKey as keyof typeof tBlog] || "Full article content...",
+  }));
+
 
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold tracking-tight">{tCommon.blog}</h1>
-        <p className="text-muted-foreground mt-2">Consejos, noticias y conocimientos sobre el mundo de la madera.</p>
+        <p className="text-muted-foreground mt-2">{tBlog.subtitle}</p>
       </header>
 
-      {placeholderArticles.length > 0 ? (
+      {articles.length > 0 ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {placeholderArticles.map(article => (
+          {articles.map(article => (
             <Card key={article.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <Link href={`/${lang}/blog/${article.id}`} className="block">
+              <Link href={`/${lang}/blog/${article.id}`} className="block" aria-label={`Read more about ${article.title}`}>
                 <div className="relative aspect-video">
                   <Image src={article.imageUrl} alt={article.title} layout="fill" objectFit="cover" data-ai-hint={article.dataAiHint}/>
                 </div>
@@ -45,11 +116,13 @@ export default async function BlogPage({ params: { lang } }: BlogPageProps) {
                 <CardDescription>{new Date(article.date).toLocaleDateString(lang, { year: 'numeric', month: 'long', day: 'numeric' })}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="text-sm text-muted-foreground">{article.excerpt}</p>
+                <p className="text-sm text-muted-foreground">
+                  {expandedArticles[article.id] ? article.fullContent : article.excerpt}
+                </p>
               </CardContent>
               <div className="p-6 pt-0">
-                <Button variant="outline" asChild>
-                  <Link href={`/${lang}/blog/${article.id}`}>Leer Más</Link>
+                <Button variant="outline" onClick={() => toggleArticle(article.id)}>
+                  {expandedArticles[article.id] ? tCommon.readLess : tCommon.readMore}
                 </Button>
               </div>
             </Card>
@@ -58,10 +131,10 @@ export default async function BlogPage({ params: { lang } }: BlogPageProps) {
       ) : (
         <div className="flex flex-col items-center text-center py-16">
             <Newspaper className="h-24 w-24 text-muted-foreground mb-6" />
-            <h2 className="text-2xl font-semibold mb-2">Nuestro Blog está en Construcción</h2>
-            <p className="text-muted-foreground mb-6">Pronto compartiremos artículos interesantes. ¡Vuelve a visitarnos!</p>
+            <h2 className="text-2xl font-semibold mb-2">{tBlog.emptyStateTitle}</h2>
+            <p className="text-muted-foreground mb-6">{tBlog.emptyStateMessage}</p>
             <Button asChild>
-                <Link href={`/${lang}`}>Volver al Inicio</Link>
+                <Link href={`/${lang}`}>{tBlog.emptyStateButton}</Link>
             </Button>
         </div>
       )}

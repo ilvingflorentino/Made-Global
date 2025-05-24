@@ -35,7 +35,9 @@
     "askMeAnything": "Ask me anything about wood...",
     "send": "Send",
     "loading": "Loading...",
-    "selectLanguage": "Select Language"
+    "selectLanguage": "Select Language",
+    "readMore": "Read More",
+    "readLess": "Read Less"
   },
   "homePage": {
     "heroTitle": "Woods that travel from the heart of the jungle to the soul of your project.",
@@ -95,5 +97,20 @@
   "historyPage": {
     "title": "Customer Area",
     "comingSoon": "Order history and account management coming soon."
+  },
+  "blogPage": {
+    "subtitle": "Tips, news, and insights from the world of wood.",
+    "blogArticle1Title": "How to Choose the Perfect Wood for Your Woodworking Project",
+    "blogArticle1Excerpt": "Discover the secrets to selecting the ideal wood that will bring your furniture and creations to life.",
+    "blogArticle1Full": "Discover the secrets to selecting the ideal wood that will bring your furniture and creations to life. In this detailed article, we'll explore different wood types, their characteristics, advantages, and how factors like hardness, grain, and color influence the final result. Learn to identify the right wood for fine woodworking, structural carpentry, or decorative projects, ensuring durability and beauty in every piece.",
+    "blogArticle2Title": "Sustainable Woods: The Future of Green Building",
+    "blogArticle2Excerpt": "Learn about certified wood options and how they contribute to a greener planet.",
+    "blogArticle2Full": "Learn about certified wood options and how they contribute to a greener planet. Sustainability is key in the timber industry. We analyze the environmental impact of logging, the importance of certifications like FSC and PEFC, and how choosing responsibly sourced woods can make a significant difference for our forests and the global ecosystem. We also present innovative alternatives and reclaimed woods.",
+    "blogArticle3Title": "Innovation in Finishes: Protect and Beautify Your Wood",
+    "blogArticle3Excerpt": "Explore the latest trends in finishes that enhance wood's natural beauty and extend its lifespan.",
+    "blogArticle3Full": "Explore the latest trends in finishes that enhance wood's natural beauty and extend its lifespan. From eco-friendly varnishes to natural oils and artificial aging techniques, we show you how finishes not only protect wood from moisture, insects, and wear but can also transform its appearance, highlighting its grain and color or giving it a completely new, modern look.",
+    "emptyStateTitle": "Our Blog is Under Construction",
+    "emptyStateMessage": "We'll be sharing interesting articles soon. Visit us again!",
+    "emptyStateButton": "Back to Home"
   }
 }

@@ -35,7 +35,9 @@
     "askMeAnything": "Pregúntame cualquier cosa sobre madera...",
     "send": "Enviar",
     "loading": "Cargando...",
-    "selectLanguage": "Seleccionar Idioma"
+    "selectLanguage": "Seleccionar Idioma",
+    "readMore": "Leer Más",
+    "readLess": "Leer Menos"
   },
   "homePage": {
     "heroTitle": "Maderas que viajan desde el corazón de la selva al alma de tu proyecto.",
@@ -95,5 +97,20 @@
   "historyPage": {
     "title": "Área de Cliente",
     "comingSoon": "Historial de pedidos y gestión de cuenta próximamente."
+  },
+  "blogPage": {
+    "subtitle": "Consejos, noticias y conocimientos sobre el mundo de la madera.",
+    "blogArticle1Title": "Cómo Elegir la Madera Perfecta para tu Proyecto de Ebanistería",
+    "blogArticle1Excerpt": "Descubre los secretos para seleccionar la madera ideal que dará vida a tus muebles y creaciones.",
+    "blogArticle1Full": "Descubre los secretos para seleccionar la madera ideal que dará vida a tus muebles y creaciones. En este artículo detallado, exploraremos los diferentes tipos de madera, sus características, ventajas, y cómo factores como la dureza, el grano y el color influyen en el resultado final. Aprende a identificar la madera adecuada para ebanistería, carpintería estructural o proyectos decorativos, asegurando durabilidad y belleza en cada pieza.",
+    "blogArticle2Title": "Maderas Sostenibles: El Futuro de la Construcción Ecológica",
+    "blogArticle2Excerpt": "Conoce las opciones de maderas certificadas y cómo contribuyen a un planeta más verde.",
+    "blogArticle2Full": "Conoce las opciones de maderas certificadas y cómo contribuyen a un planeta más verde. La sostenibilidad es clave en la industria maderera. Analizamos el impacto ambiental de la tala, la importancia de certificaciones como FSC y PEFC, y cómo elegir maderas de fuentes responsables puede marcar una diferencia significativa para nuestros bosques y el ecosistema global. También presentamos alternativas innovadoras y maderas recuperadas.",
+    "blogArticle3Title": "Innovación en Acabados: Protege y Embellece tu Madera",
+    "blogArticle3Excerpt": "Explora las últimas tendencias en acabados que realzan la belleza natural de la madera y prolongan su vida útil.",
+    "blogArticle3Full": "Explora las últimas tendencias en acabados que realzan la belleza natural de la madera y prolongan su vida útil. Desde barnices ecológicos hasta aceites naturales y técnicas de envejecimiento artificial, te mostramos cómo los acabados no solo protegen la madera de la humedad, los insectos y el desgaste, sino que también pueden transformar su apariencia, destacando su veta y color o dándole un look completamente nuevo y moderno.",
+    "emptyStateTitle": "Nuestro Blog está en Construcción",
+    "emptyStateMessage": "Pronto compartiremos artículos interesantes. ¡Vuelve a visitarnos!",
+    "emptyStateButton": "Volver al Inicio"
   }
 }
