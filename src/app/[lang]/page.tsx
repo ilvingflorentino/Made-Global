@@ -7,21 +7,39 @@ import { ArrowRight, CheckCircle } from 'lucide-react'
 import { getDictionary } from '@/lib/dictionaries'
 import type { Locale } from '@/config/i18n.config'
 
-interface HomePageProps {
-  params: { lang: Locale }
+interface VideoBackgroundProps {
+  children: React.ReactNode;
+  mediaUrl: string;
+  mediaType: 'image' | 'video';
+  altText?: string;
+  dataAiHint?: string;
 }
 
-// Placeholder components to be refined or moved later
-const VideoBackground = ({ children }: { children: React.ReactNode }) => (
+const VideoBackground = ({ children, mediaUrl, mediaType, altText = "Hero background", dataAiHint }: VideoBackgroundProps) => (
   <div className="relative h-[70vh] min-h-[500px] w-full overflow-hidden">
-    <Image
-      src="https://placehold.co/1920x1080/3D7748/F0F4F1?text=MADE+Timber" // Placeholder image
-      alt="Abstract wood texture"
-      layout="fill"
-      objectFit="cover"
-      priority
-      data-ai-hint="wood texture"
-    />
+    {mediaType === 'image' && (
+      <Image
+        src={mediaUrl}
+        alt={altText}
+        layout="fill"
+        objectFit="cover"
+        priority
+        data-ai-hint={dataAiHint || "hero background"}
+      />
+    )}
+    {mediaType === 'video' && (
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline // Important for mobile browsers
+        className="absolute top-0 left-0 w-full h-full object-cover"
+        src={mediaUrl}
+        key={mediaUrl} // Add key to re-render video if src changes
+      >
+        Tu navegador no soporta la etiqueta de video.
+      </video>
+    )}
     <div className="absolute inset-0 bg-black/30" /> {/* Overlay */}
     <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white p-4">
       {children}
@@ -70,11 +88,22 @@ const ProductCard = ({ name, price, imageUrl, lang, dataAiHint }: { name: string
   </Card>
 );
 
+interface HomePageProps {
+  params: { lang: Locale }
+}
 
 export default async function HomePage({ params: { lang } }: HomePageProps) {
   const dictionary = await getDictionary(lang);
   const tHome = dictionary.homePage;
   const tCommon = dictionary.common;
+
+  // Configure your hero media here
+  const heroMedia = {
+    type: 'image' as const, // Cambia a 'video' si quieres usar un video
+    url: 'https://placehold.co/1920x1080/3D7748/F0F4F1?text=MADE+Timber+Hero', // URL de tu imagen o video
+    alt: 'Textura de madera abstracta o video de fondo', // Texto alternativo para imágenes
+    aiHint: 'wood texture hero' // data-ai-hint para imágenes
+  };
 
   const certifications = [
     { title: "ISO 9001", description: "Quality Management Certified" },
@@ -91,7 +120,12 @@ export default async function HomePage({ params: { lang } }: HomePageProps) {
   return (
     <div className="space-y-16 md:space-y-24">
       {/* Hero Section */}
-      <VideoBackground>
+      <VideoBackground
+        mediaType={heroMedia.type}
+        mediaUrl={heroMedia.url}
+        altText={heroMedia.alt}
+        dataAiHint={heroMedia.aiHint}
+      >
         <AnimatedTitle text={tHome.heroTitle} subtext={tHome.heroSubtitle} />
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg" variant="primary" asChild className="hover:scale-105 transform transition-transform duration-300 shadow-md hover:shadow-lg">
