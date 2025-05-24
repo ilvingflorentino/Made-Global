@@ -13,9 +13,9 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
-import { getDictionary } from '@/lib/dictionaries' // This won't work directly in client component
+import { getDictionary } from '@/lib/dictionaries'
 import type { Locale } from '@/config/i18n.config'
-import { useEffect, useState } from 'react' // For fetching dictionary
+import { use, useEffect, useState } from 'react' // For fetching dictionary and using use()
 import type { Dictionary } from '@/lib/dictionaries'
 
 // Define Zod schema for form validation
@@ -37,10 +37,13 @@ const orderItems = [
 ]
 
 interface CheckoutPageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }> // params is a Promise
 }
 
-export default function CheckoutPage({ params: { lang } }: CheckoutPageProps) {
+export default function CheckoutPage(props: CheckoutPageProps) {
+  const resolvedParams = use(props.params); // Unwrap the promise
+  const { lang } = resolvedParams; // Destructure lang
+
   const [dictionary, setDictionary] = useState<Dictionary | null>(null)
   const [orderConfirmed, setOrderConfirmed] = useState(false)
   const [orderNumber, setOrderNumber] = useState('')
