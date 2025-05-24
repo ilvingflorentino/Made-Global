@@ -27,9 +27,9 @@ const getProductDetailsSync = (sku: string, lang: Locale) => {
     description: "Madera de roble americano de la más alta calidad, ideal para ebanistería fina, pisos y revestimientos. Conocida por su durabilidad y hermoso veteado.",
     price: 2850.00, // Base price per unit (e.g. per pie tablar)
     images: [
-      { id: '1', src: 'https://placehold.co/800x600/936d48/FFFFFF?text=Roble+Vista+1', alt: 'Roble Americano Vista Principal', dataAiHint: "oak wood" },
-      { id: '2', src: 'https://placehold.co/800x600/A07A55/FFFFFF?text=Roble+Detalle', alt: 'Detalle veta Roble Americano', dataAiHint: "wood grain" },
-      { id: '3', src: 'https://placehold.co/800x600/85623E/FFFFFF?text=Roble+Aplicacion', alt: 'Aplicación de Roble Americano', dataAiHint: "wood furniture" },
+      { id: '1', src: 'https://placehold.co/800x600.png', alt: 'Roble Americano Vista Principal', dataAiHint: "oak wood" },
+      { id: '2', src: 'https://placehold.co/800x600.png', alt: 'Detalle veta Roble Americano', dataAiHint: "wood grain" },
+      { id: '3', src: 'https://placehold.co/800x600.png', alt: 'Aplicación de Roble Americano', dataAiHint: "wood furniture" },
     ],
     options: {
       medidas: [
