@@ -35,7 +35,7 @@ export default function BlogPage(props: BlogPageProps) {
       try {
         const dict = await getDictionary(lang);
         setDictionary(dict);
-      } catch (error)
+      } catch (error) {
         console.error("Error fetching dictionary:", error);
       } finally {
         setIsLoading(false);
