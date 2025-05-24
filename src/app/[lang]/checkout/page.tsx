@@ -217,7 +217,7 @@ export default function CheckoutPage(props: CheckoutPageProps) {
               {orderItems.map(item => (
                 <div key={item.id} className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <Image src={item.imageUrl} alt={item.name} width={64} height={64} className="rounded-md border" data-ai-hint={item.dataAiHint}/>
+                    <Image src={item.imageUrl} alt={item.name} width={64} height={64} className="rounded-md border shadow-md" data-ai-hint={item.dataAiHint}/>
                     <div>
                       <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-muted-foreground">Cantidad: {item.quantity}</p>
@@ -240,3 +240,4 @@ export default function CheckoutPage(props: CheckoutPageProps) {
     </div>
   )
 }
+
