@@ -55,29 +55,67 @@ const getProductDetailsSync = (sku: string, lang: Locale) => {
 type Product = ReturnType<typeof getProductDetailsSync>;
 
 const ImageCarousel = ({ images }: { images: Product['images'] }) => {
-  // Display the first image as per original logic and comment.
-  // A real carousel would need more state and controls.
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
   if (!images || images.length === 0) {
     return (
       <div className="aspect-video bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
-        No Image
+        No Image Available
       </div>
     );
   }
-  
+
+  const selectedImage = images[selectedImageIndex];
+
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-lg">
-      <Image src={images[0].src} alt={images[0].alt} layout="fill" objectFit="cover" data-ai-hint={images[0].dataAiHint} />
+    <div className="space-y-4">
+      <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-lg">
+        <Image
+          key={selectedImage.id}
+          src={selectedImage.src}
+          alt={selectedImage.alt}
+          layout="fill"
+          objectFit="cover"
+          data-ai-hint={selectedImage.dataAiHint}
+          priority={selectedImageIndex === 0}
+        />
+      </div>
+      {images.length > 1 && (
+        <div className="flex space-x-2 overflow-x-auto pb-2">
+          {images.map((image, index) => (
+            <button
+              key={image.id}
+              onClick={() => setSelectedImageIndex(index)}
+              className={`relative h-20 w-20 shrink-0 overflow-hidden rounded-md border-2 transition-all
+                          ${selectedImageIndex === index ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent hover:border-muted-foreground/50'}`}
+              aria-label={`View image ${index + 1} of ${images.length}`}
+            >
+              <Image
+                src={image.src}
+                alt={`Thumbnail for ${image.alt}`}
+                layout="fill"
+                objectFit="cover"
+                data-ai-hint={image.dataAiHint}
+              />
+              {selectedImageIndex === index && (
+                <div className="absolute inset-0 bg-primary/30" />
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 const ThreeViewer = () => (
-  <div className="aspect-video bg-muted rounded-lg flex flex-col items-center justify-center text-muted-foreground shadow-inner">
+  <div className="aspect-video bg-muted rounded-lg flex flex-col items-center justify-center text-muted-foreground shadow-inner p-4">
     <ZoomIn className="w-16 h-16 mb-2 opacity-50" />
-    <p className="text-sm">(Visor 3D Interactivo Próximamente)</p>
-    <div className="flex gap-2 mt-4">
-      <Button variant="outline" size="sm"><RotateCcw className="mr-2 h-4 w-4"/> Auto-Rotar</Button>
+    <p className="text-sm mb-4 text-center">(Visor 3D Interactivo Próximamente)</p>
+    <div className="flex gap-2 mt-auto">
+      <Button variant="outline" size="sm" disabled>
+        <RotateCcw className="mr-2 h-4 w-4"/> Auto-Rotar
+      </Button>
     </div>
   </div>
 );
@@ -238,4 +276,3 @@ export default function ProductPage(props: ProductPageProps) {
     </div>
   );
 }
-
