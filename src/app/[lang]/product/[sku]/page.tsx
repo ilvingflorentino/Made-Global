@@ -15,7 +15,7 @@ import { getDictionary, type Dictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
 import { useRouter } from 'next/navigation';
 import { useToast } from "@/hooks/use-toast";
-import { useQuote, type QuoteItem } from '@/context/QuoteContext'; // Added QuoteContext imports
+import { useQuote, type QuoteItem } from '@/context/QuoteContext'; 
 
 interface ProductPageProps {
   params: Promise<{ lang: Locale, sku: string }>
@@ -24,34 +24,34 @@ interface ProductPageProps {
 // Synchronous function to get product details
 const getProductDetailsSync = (sku: string, lang: Locale) => {
   // This would ideally fetch from an API or a shared data source
-  // For now, using mock data as an example:
+  // For now, using mock data for "Alamo" as an example:
   return {
     id: sku,
-    name: `Roble Americano Premium (SKU: ${sku})`, // This could be localized via dictionary later
-    description: "Madera de roble americano de la más alta calidad, ideal para ebanistería fina, pisos y revestimientos. Conocida por su durabilidad y hermoso veteado.",
-    price: 2850.00, // Base price per unit (e.g. per pie tablar)
+    name: `Alamo (SKU: ${sku})`, // Example: Alamo
+    description: "Madera de Alamo de buena calidad, versátil para carpintería general, molduras y proyectos de interior. Conocida por su ligereza y facilidad para trabajar.",
+    price: 1250.00, // Base price per unit (e.g. per pie tablar for Alamo)
     images: [
-      { id: '1', src: 'https://placehold.co/800x600.png', alt: 'Roble Americano Vista Principal', dataAiHint: "oak wood" },
-      { id: '2', src: 'https://placehold.co/800x600.png', alt: 'Detalle veta Roble Americano', dataAiHint: "wood grain" },
-      { id: '3', src: 'https://placehold.co/800x600.png', alt: 'Aplicación de Roble Americano', dataAiHint: "wood furniture" },
+      { id: '1', src: `/images/alamo-principal.svg`, alt: 'Alamo Vista Principal', dataAiHint: "poplar wood" },
+      { id: '2', src: `/images/alamo-detalle-veta.svg`, alt: 'Detalle veta Alamo', dataAiHint: "poplar wood grain" },
+      { id: '3', src: `/images/alamo-aplicacion.svg`, alt: 'Aplicación de Alamo', dataAiHint: "poplar wood product" },
     ],
     options: {
       medidas: [
-        { id: 'm1', label: '2" x 4" x 8\'', priceModifier: 1.0 },
-        { id: 'm2', label: '2" x 6" x 10\'', priceModifier: 1.5 },
-        { id: 'm3', label: '4" x 4" x 12\'', priceModifier: 2.2 },
+        { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 },
+        { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 },
+        { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 },
       ],
       acabado: [
-        { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, // Additional cost
-        { id: 'a2', label: 'Sellado Transparente', priceModifier: 500 },
-        { id: 'a3', label: 'Tinte Nogal', priceModifier: 750 },
+        { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 },
+        { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 },
+        { id: 'a3', label: 'Tinte Claro', priceModifier: 450 },
       ],
     },
     specifications: [
-        {label: "Especie:", value: "Quercus alba"},
-        {label: "Densidad:", value: "755 kg/m³"},
-        {label: "Dureza Janka:", value: "1360 lbf"},
-        {label: "Usos Comunes:", value: "Muebles, pisos, gabinetes, barriles"},
+        {label: "Especie:", value: "Populus (Alamo)"},
+        {label: "Densidad Aprox.:", value: "450 kg/m³"},
+        {label: "Dureza Janka Aprox.:", value: "540 lbf"},
+        {label: "Usos Comunes:", value: "Muebles ligeros, molduras, madera contrachapada, cajas"},
     ]
   };
 };
@@ -131,7 +131,7 @@ export default function ProductPage(props: ProductPageProps) {
 
   const router = useRouter();
   const { toast } = useToast();
-  const { addToQuote } = useQuote(); // Get addToQuote from context
+  const { addToQuote } = useQuote(); 
 
   const [product, setProduct] = useState<Product | null>(null);
   const [dictionary, setDictionary] = useState<Dictionary | null>(null);
@@ -186,9 +186,9 @@ export default function ProductPage(props: ProductPageProps) {
         const finalPrice = priceAfterAcabado * quantity;
         setCalculatedPrice(finalPrice);
       }
-    } else if (product && quantity > 0 && calculatedPrice === null) {
-       const initialMedidaOpt = product.options.medidas[0];
-       const initialAcabadoOpt = product.options.acabado[0];
+    } else if (product && quantity > 0 && calculatedPrice === null) { // Initial calculation if options already set
+       const initialMedidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId) || product.options.medidas[0];
+       const initialAcabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId) || product.options.acabado[0];
        if(initialMedidaOpt && initialAcabadoOpt){
          const priceAfterMedida = product.price * initialMedidaOpt.priceModifier;
          const priceAfterAcabado = priceAfterMedida + initialAcabadoOpt.priceModifier;
@@ -205,7 +205,7 @@ export default function ProductPage(props: ProductPageProps) {
     if (!isNaN(num) && num > 0) {
       setQuantity(num);
     } else if (e.target.value === '') {
-      setQuantity(1);
+      setQuantity(1); // Reset to 1 if input is cleared, or handle as preferred
     }
   };
 
@@ -225,12 +225,12 @@ export default function ProductPage(props: ProductPageProps) {
 
     const pricePerUnit = (product.price * (medidaOpt?.priceModifier || 1)) + (acabadoOpt?.priceModifier || 0);
 
-    const itemToAdd: Omit<QuoteItem, 'quantity'> = { // Omit quantity as it's handled by addToQuote
-      id: `${product.id}-${selectedMedidaId}-${selectedAcabadoId}`,
+    const itemToAdd: Omit<QuoteItem, 'quantity'> = { 
+      id: `${product.id}-${selectedMedidaId}-${selectedAcabadoId}`, // Unique ID per variant
       productId: product.id,
       name: product.name,
       pricePerUnit: pricePerUnit,
-      imageUrl: product.images[0]?.src, // Use first image as default
+      imageUrl: product.images[0]?.src, 
       dataAiHint: product.images[0]?.dataAiHint,
       selectedMedidaLabel: medidaOpt?.label,
       selectedAcabadoLabel: acabadoOpt?.label,
@@ -246,8 +246,6 @@ export default function ProductPage(props: ProductPageProps) {
   };
 
   const handleBuyNow = () => {
-    // Optional: Add to quote first, then redirect
-    // handleAddToCart(); // This might be too implicit, user might just want to go to checkout
     router.push(`/${lang}/checkout`);
   };
 
@@ -375,3 +373,4 @@ export default function ProductPage(props: ProductPageProps) {
     </div>
   );
 }
+
