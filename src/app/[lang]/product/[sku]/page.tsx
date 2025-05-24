@@ -13,6 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ShoppingCart, ZoomIn, RotateCcw, Loader2 } from 'lucide-react';
 import { getDictionary, type Dictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
+import { useRouter } from 'next/navigation';
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductPageProps {
   params: Promise<{ lang: Locale, sku: string }>
@@ -125,6 +127,9 @@ export default function ProductPage(props: ProductPageProps) {
   const resolvedParams = use(props.params);
   const { lang, sku } = resolvedParams;
 
+  const router = useRouter();
+  const { toast } = useToast();
+
   const [product, setProduct] = useState<Product | null>(null);
   const [dictionary, setDictionary] = useState<Dictionary | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -213,6 +218,19 @@ export default function ProductPage(props: ProductPageProps) {
     setSelectedAcabadoId(value);
   };
 
+  const handleAddToCart = () => {
+    if (!product || !dictionary) return;
+    const tProductPage = dictionary.productPage;
+    toast({
+      title: tProductPage.itemAddedToQuoteTitle || "Item Added",
+      description: `${product.name} ${tProductPage.itemAddedToQuoteMsg || 'has been added to your quote.'}`,
+    });
+  };
+
+  const handleBuyNow = () => {
+    router.push(`/${lang}/checkout`);
+  };
+
 
   if (isLoadingData || !product || !dictionary) {
     return (
@@ -224,7 +242,7 @@ export default function ProductPage(props: ProductPageProps) {
   }
 
   const t = dictionary.productPage;
-  const tCommon = dictionary.common;
+  // const tCommon = dictionary.common; // Already have dictionary for tProductPage above
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -315,11 +333,11 @@ export default function ProductPage(props: ProductPageProps) {
               
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="flex-1">
+                <Button size="lg" className="flex-1" onClick={handleAddToCart}>
                   <ShoppingCart className="mr-2 h-5 w-5" /> {t.addToCart}
                 </Button>
-                 <Button size="lg" variant="primary" className="flex-1">
-                   {t.buyNow} {/* This would redirect to checkout */}
+                 <Button size="lg" variant="link" className="flex-1" onClick={handleBuyNow}>
+                   {t.buyNow}
                 </Button>
               </div>
             </CardContent>
