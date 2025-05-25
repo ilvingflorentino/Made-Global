@@ -9,14 +9,17 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { i18nConfig } from '@/config/i18n.config';
+import type { ServerPageProps } from '@/types/page-props'; // Import ServerPageProps
 
-interface ArticlePageProps {
-  params: { lang: Locale; articleId: string; };
-  searchParams?: { [key: string]: string | string[] | undefined };
+// Define the specific shape of params for this page
+interface ArticlePageParams {
+  lang: Locale;
+  articleId: string;
 }
 
-export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
-  const { lang, articleId } = params;
+// Use ServerPageProps with the specific ArticlePageParams
+export default async function ArticlePage({ params, searchParams }: ServerPageProps<ArticlePageParams>) {
+  const { lang, articleId } = params; // Direct destructuring
 
   const numericArticleId = parseInt(articleId, 10);
 
@@ -83,9 +86,8 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 }
 
 export async function generateStaticParams() {
-  const articleParams: { lang: Locale; articleId: string }[] = [];
+  const articleParams: ArticlePageParams[] = []; // Use the specific params type
 
-  // Ensure placeholderArticlesData is available. If it's imported, it should be fine.
   if (!placeholderArticlesData || placeholderArticlesData.length === 0) {
     console.warn("generateStaticParams for blog articles: placeholderArticlesData is empty or undefined. No params will be generated.");
     return [];
