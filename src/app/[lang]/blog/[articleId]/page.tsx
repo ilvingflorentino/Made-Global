@@ -85,7 +85,9 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 export async function generateStaticParams() {
   const articleParams: { lang: Locale; articleId: string }[] = [];
 
+  // Ensure placeholderArticlesData is available. If it's imported, it should be fine.
   if (!placeholderArticlesData || placeholderArticlesData.length === 0) {
+    console.warn("generateStaticParams for blog articles: placeholderArticlesData is empty or undefined. No params will be generated.");
     return [];
   }
 
