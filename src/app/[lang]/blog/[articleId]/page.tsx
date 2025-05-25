@@ -9,8 +9,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { i18nConfig } from '@/config/i18n.config';
-// Using ServerPageProps from global types
-import type { ServerPageProps } from '@/types/page-props';
 
 // Define the specific shape of params for this page
 interface ArticlePageParams {
@@ -18,11 +16,14 @@ interface ArticlePageParams {
   articleId: string;
 }
 
-// Use the generic ServerPageProps with our specific params type
-type ArticlePageProps = ServerPageProps<ArticlePageParams>;
+// Define ArticlePageProps correctly for a Server Component
+interface ArticlePageProps {
+  params: ArticlePageParams;
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
 
 export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
-  const { lang, articleId } = params; // Direct destructuring
+  const { lang, articleId } = params; // Destructure directly
 
   const numericArticleId = parseInt(articleId, 10);
 
@@ -88,13 +89,13 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 }
 
 // This is for what generateStaticParams returns, which are direct objects.
-interface ArticlePageStaticParams {
+interface ArticleStaticParams {
   lang: Locale;
   articleId: string;
 }
 
-export async function generateStaticParams(): Promise<ArticlePageStaticParams[]> {
-  const articleParams: ArticlePageStaticParams[] = [];
+export async function generateStaticParams(): Promise<ArticleStaticParams[]> {
+  const articleParams: ArticleStaticParams[] = [];
 
   if (!placeholderArticlesData || placeholderArticlesData.length === 0) {
     console.warn("generateStaticParams for blog articles: placeholderArticlesData is empty or undefined. No params will be generated.");
