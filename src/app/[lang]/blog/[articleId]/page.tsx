@@ -1,24 +1,23 @@
 
 import { getDictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
-import { getArticleById, placeholderArticlesData } from '@/lib/blog-data'; // Import placeholderArticlesData for generateStaticParams
+import { getArticleById, placeholderArticlesData } from '@/lib/blog-data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { i18nConfig } from '@/config/i18n.config';
 
 interface ArticlePageProps {
-  params: { // params is a direct object for Server Components
-    lang: Locale;
-    articleId: string;
-  };
+  params: { lang: Locale; articleId: string; };
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
-  const { lang, articleId } = params; // Directly destructure
+  const { lang, articleId } = params;
+
   const numericArticleId = parseInt(articleId, 10);
 
   if (isNaN(numericArticleId)) {
@@ -34,10 +33,14 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 
   const tBlog = dictionary.blogPage;
 
+  // Ensure titleKey and fullContentKey are valid keys for tBlog
+  const title = tBlog[articleData.titleKey as keyof typeof tBlog] || "Article Title Not Found";
+  const fullContent = tBlog[articleData.fullContentKey as keyof typeof tBlog] || "Full article content not found...";
+
   const article = {
     ...articleData,
-    title: tBlog[articleData.titleKey as keyof typeof tBlog] || "Article Title",
-    fullContent: tBlog[articleData.fullContentKey as keyof typeof tBlog] || "Full article content...",
+    title: title,
+    fullContent: fullContent,
   };
 
   return (
@@ -79,12 +82,20 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
   );
 }
 
-export async function generateStaticParams({ params: { lang } }: { params: { lang: Locale } }) {
-  // placeholderArticlesData is already imported at the top of the file
+export async function generateStaticParams() {
+  const articleParams: { lang: Locale; articleId: string }[] = [];
+
   if (!placeholderArticlesData || placeholderArticlesData.length === 0) {
     return [];
   }
-  return placeholderArticlesData.map(article => ({
-    articleId: article.id.toString(),
-  }));
+
+  for (const locale of i18nConfig.locales) {
+    for (const article of placeholderArticlesData) {
+      articleParams.push({
+        lang: locale,
+        articleId: article.id.toString(),
+      });
+    }
+  }
+  return articleParams;
 }
