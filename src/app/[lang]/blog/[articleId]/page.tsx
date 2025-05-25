@@ -1,7 +1,7 @@
 
 import { getDictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
-import { getArticleById, placeholderArticlesData } from '@/lib/blog-data';
+import { getArticleById, placeholderArticlesData, type BlogArticle } from '@/lib/blog-data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { i18nConfig } from '@/config/i18n.config';
-import type { ServerPageProps } from '@/types/page-props'; // Import ServerPageProps
+// Using ServerPageProps from global types
+import type { ServerPageProps } from '@/types/page-props';
 
 // Define the specific shape of params for this page
 interface ArticlePageParams {
@@ -17,8 +18,10 @@ interface ArticlePageParams {
   articleId: string;
 }
 
-// Use ServerPageProps with the specific ArticlePageParams
-export default async function ArticlePage({ params, searchParams }: ServerPageProps<ArticlePageParams>) {
+// Use the generic ServerPageProps with our specific params type
+type ArticlePageProps = ServerPageProps<ArticlePageParams>;
+
+export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
   const { lang, articleId } = params; // Direct destructuring
 
   const numericArticleId = parseInt(articleId, 10);
@@ -36,7 +39,6 @@ export default async function ArticlePage({ params, searchParams }: ServerPagePr
 
   const tBlog = dictionary.blogPage;
 
-  // Ensure titleKey and fullContentKey are valid keys for tBlog
   const title = tBlog[articleData.titleKey as keyof typeof tBlog] || "Article Title Not Found";
   const fullContent = tBlog[articleData.fullContentKey as keyof typeof tBlog] || "Full article content not found...";
 
@@ -85,8 +87,14 @@ export default async function ArticlePage({ params, searchParams }: ServerPagePr
   );
 }
 
-export async function generateStaticParams() {
-  const articleParams: ArticlePageParams[] = []; // Use the specific params type
+// This is for what generateStaticParams returns, which are direct objects.
+interface ArticlePageStaticParams {
+  lang: Locale;
+  articleId: string;
+}
+
+export async function generateStaticParams(): Promise<ArticlePageStaticParams[]> {
+  const articleParams: ArticlePageStaticParams[] = [];
 
   if (!placeholderArticlesData || placeholderArticlesData.length === 0) {
     console.warn("generateStaticParams for blog articles: placeholderArticlesData is empty or undefined. No params will be generated.");
