@@ -21,8 +21,8 @@ const VideoBackground = ({ children, mediaUrl, mediaType, altText = "Hero backgr
       <Image
         src={mediaUrl}
         alt={altText}
-        layout="fill"
-        objectFit="cover"
+        fill
+        className="object-cover"
         priority
         data-ai-hint={dataAiHint || "hero background"}
       />
@@ -49,9 +49,12 @@ const VideoBackground = ({ children, mediaUrl, mediaType, altText = "Hero backgr
 
 const AnimatedTitle = ({ text, subtext }: { text: string, subtext: string }) => (
   <>
-    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 animate-fade-in drop-shadow-lg typewriter-text">
-      {text}
-    </h1>
+    <div className="marquee-wrapper w-full"> {/* Container for H1 */}
+      <h1 className="marquee-text text-4xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
+        <span>{text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{/* First instance of text */}
+        <span>{text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{/* Second instance for continuous loop */}
+      </h1>
+    </div>
     <p className="text-lg sm:text-xl md:text-2xl mb-8 animate-fade-in animation-delay-500 drop-shadow-md">
       {subtext}
     </p>
@@ -74,7 +77,7 @@ const CertificationCard = ({ title, description }: { title: string, description:
 const ProductCard = ({ id, name, price, imageUrl, lang, dataAiHint }: { id: string, name: string, price: string, imageUrl: string, lang: Locale, dataAiHint: string }) => (
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
     <div className="relative aspect-[4/3] overflow-hidden">
-      <Image src={imageUrl} alt={name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
+      <Image src={imageUrl} alt={name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
          <Button asChild variant="secondary" className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
             <Link href={`/${lang}/product/${id}`}>Ver más <ArrowRight className="ml-2 h-4 w-4" /></Link>

@@ -106,27 +106,6 @@ body {
   }
 }
 
-/* Custom animation for typewriter effect */
-@keyframes typing {
-  0% { width: 0; } /* Start typing */
-  65% { width: 100%; } /* Typing completes */
-  100% { width: 100%; } /* Text remains visible (pause) */
-}
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: hsl(var(--foreground)); }
-}
-
-.typewriter-text {
-  overflow: hidden;
-  border-right: .15em solid hsl(var(--foreground)); /* Cursor */
-  white-space: nowrap;
-  letter-spacing: .05em;
-  animation:
-    typing 5.5s steps(80, end) infinite, /* Updated animation */
-    blink-caret .75s step-end infinite;
-}
-
 /* 3D card rotation effect */
 .certification-card {
   transform-style: preserve-3d;
@@ -134,4 +113,30 @@ body {
 }
 .certification-card:hover {
   transform: rotateY(10deg) scale(1.05);
+}
+
+/* Marquee animation styles */
+.marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative; 
+}
+
+.marquee-text {
+  white-space: nowrap; 
+  display: inline-block; 
+  animation: horizontal-scroll 25s linear infinite; 
+}
+
+.marquee-text span {
+  display: inline-block; /* Ensures spans are part of the nowrap flow */
+}
+
+@keyframes horizontal-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%); /* Moves left by half of its total width (because content is duplicated) */
+  }
 }
