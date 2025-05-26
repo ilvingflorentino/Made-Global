@@ -108,8 +108,9 @@ body {
 
 /* Custom animation for typewriter effect */
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  0% { width: 0; } /* Start typing */
+  65% { width: 100%; } /* Typing completes */
+  100% { width: 100%; } /* Text remains visible (pause) */
 }
 @keyframes blink-caret {
   from, to { border-color: transparent }
@@ -122,7 +123,7 @@ body {
   white-space: nowrap;
   letter-spacing: .05em;
   animation:
-    typing 3.5s steps(40, end) infinite, /* Added infinite here */
+    typing 5.5s steps(80, end) infinite, /* Updated animation */
     blink-caret .75s step-end infinite;
 }
 
