@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { i18nConfig } from '@/config/i18n.config';
+import type { ServerPageProps } from '@/types/page-props'; // Import ServerPageProps
 
 // Define the specific shape of params for this page
 interface ArticlePageParams {
@@ -16,14 +17,10 @@ interface ArticlePageParams {
   articleId: string;
 }
 
-// Define ArticlePageProps correctly for a Server Component
-interface ArticlePageProps {
-  params: ArticlePageParams;
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
+// No longer need local ArticlePageProps, we use ServerPageProps<ArticlePageParams>
 
-export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
-  const { lang, articleId } = params; // Destructure directly
+export default async function ArticlePage({ params, searchParams }: ServerPageProps<ArticlePageParams>) {
+  const { lang, articleId } = params; // Destructure directly from params object
 
   const numericArticleId = parseInt(articleId, 10);
 
