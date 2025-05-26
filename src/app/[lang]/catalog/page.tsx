@@ -28,7 +28,7 @@ const ProductCard = ({ id, name, price, imageUrl, lang, dictionary, dataAiHint }
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
     <Link href={`/${lang}/product/${id}`} className="block" aria-label={`${dictionary.viewMore} ${name}`}>
       <div className="relative aspect-[4/3] overflow-hidden">
-        <Image src={imageUrl} alt={name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
+        <Image src={imageUrl} alt={name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
            <Button variant="secondary" className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
               {dictionary.viewMore} <ArrowRight className="ml-2 h-4 w-4" />
@@ -72,7 +72,7 @@ export default function CatalogPage(props: CatalogPageProps) {
   
   const productDetails = [
     { name: "Alamo", dataAiHint: "Poplar"},
-    { name: "Caoba", dataAiHint: "Mahogany"},
+    { name: "Caoba Andina", imageUrl: "/caoba-andina.svg", dataAiHint: "andina mahogany" }, // Special case for Caoba Andina
     { name: "Cedro Blanco", dataAiHint: "White Cedar"},
     { name: "Congona", dataAiHint: "Congona Wood"},
     { name: "Encino", dataAiHint: "Oak"},
@@ -88,7 +88,8 @@ export default function CatalogPage(props: CatalogPageProps) {
       .replace(/\s+/g, '-') 
       .replace(/\(|\)/g, ''); 
     
-    const imageUrl = `/images/${slug}.svg`;
+    // Use pre-defined imageUrl if it exists (for Caoba Andina), otherwise generate it
+    const imageUrl = detail.imageUrl || `/images/${slug}.svg`;
 
     return {
       id: slug, // This is the SKU for linking
@@ -136,7 +137,7 @@ export default function CatalogPage(props: CatalogPageProps) {
       <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
         <SheetTrigger asChild>
           <Button
-            className="fixed bottom-24 left-6 md:bottom-6 md:left-6 rounded-full shadow-lg p-4 h-16 w-16 z-30 bg-[hsl(var(--primary)/0.4)] text-primary-foreground hover:bg-[hsl(var(--primary)/0.5)]"
+            className="fixed bottom-20 left-6 md:bottom-6 md:left-6 rounded-full shadow-lg p-4 h-16 w-16 z-30 bg-[hsl(var(--primary)/0.4)] text-primary-foreground hover:bg-[hsl(var(--primary)/0.5)]"
             aria-label={t.filters}
           >
             <Filter className="h-7 w-7" />
