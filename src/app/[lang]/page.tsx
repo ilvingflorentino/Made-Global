@@ -55,7 +55,7 @@ const AnimatedTitle = ({ text, subtext }: { text: string, subtext: string }) => 
         <span>{text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{/* Second instance for continuous loop */}
       </h1>
     </div>
-    <p className="text-lg sm:text-xl md:text-2xl mb-8 animate-fade-in animation-delay-500 drop-shadow-md">
+    <p className="text-lg sm:text-xl md:text-2xl mb-8 animate-fade-in drop-shadow-md">
       {subtext}
     </p>
   </>
