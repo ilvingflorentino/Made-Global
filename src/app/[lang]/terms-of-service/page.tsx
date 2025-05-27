@@ -5,10 +5,11 @@ import { getDictionary } from '@/lib/dictionaries'
 import type { Locale } from '@/config/i18n.config'
 
 interface TermsOfServicePageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>; // ✅ corrección aquí
 }
 
-export default async function TermsOfServicePage({ params: { lang } }: TermsOfServicePageProps) {
+export default async function TermsOfServicePage({ params }: TermsOfServicePageProps) {
+  const { lang } = await params; // ✅ corrección aquí
   const dictionary = await getDictionary(lang);
   const tCommon = dictionary.common;
 

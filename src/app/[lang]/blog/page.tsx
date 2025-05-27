@@ -82,9 +82,9 @@ export default function BlogPage(props: BlogPageProps) {
 
   const articles = placeholderArticlesData.map(article => ({
     ...article,
-    title: tBlog[article.titleKey] || "Article Title",
-    excerpt: tBlog[article.excerptKey] || "Article excerpt...",
-    fullContent: tBlog[article.fullContentKey] || "Full article content...",
+    title: tBlog[article.titleKey as keyof typeof tBlog] || "Article Title",
+    excerpt: tBlog[article.excerptKey as keyof typeof tBlog] || "Article excerpt...",
+    fullContent: tBlog[article.fullContentKey as keyof typeof tBlog] || "Full article content...",
   }));
 
 

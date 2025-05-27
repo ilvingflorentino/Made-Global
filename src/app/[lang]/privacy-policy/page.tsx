@@ -5,10 +5,12 @@ import { getDictionary } from '@/lib/dictionaries'
 import type { Locale } from '@/config/i18n.config'
 
 interface PrivacyPolicyPageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>;
 }
 
-export default async function PrivacyPolicyPage({ params: { lang } }: PrivacyPolicyPageProps) {
+export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPageProps) {
+  const { lang } = await params;
+
   const dictionary = await getDictionary(lang);
   const tCommon = dictionary.common;
 

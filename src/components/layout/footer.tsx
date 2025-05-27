@@ -23,7 +23,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
     social: [
       { name: "Facebook", Icon: Facebook, href: "https://www.facebook.com/madespinalrd" },
       { name: "Instagram", Icon: Instagram, href: "https://www.instagram.com/madespinalrd" },
-      // { name: "LinkedIn", Icon: Linkedin, href: "#" }, // Placeholder LinkedIn
+      // { name: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/company/maderas-y-derivados-espinal-made/about/?viewAsMember=true" }, // Placeholder LinkedIn
     ]
   }
 
@@ -70,7 +70,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
             <div key={group.title}>
               <h3 className="text-sm font-semibold tracking-wider uppercase">{group.title}</h3>
               <ul role="list" className="mt-4 space-y-2">
-                {group.links.map(link => (
+                {group.links?.map(link => (
                   <li key={link.label}>
                     <Link href={link.href} className="text-sm hover:text-primary transition-colors">
                       {link.label}

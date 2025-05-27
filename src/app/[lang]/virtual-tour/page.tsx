@@ -7,10 +7,11 @@ import { getDictionary } from '@/lib/dictionaries'
 import type { Locale } from '@/config/i18n.config'
 
 interface VirtualTourPageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>; // ✅ Corregido
 }
 
-export default async function VirtualTourPage({ params: { lang } }: VirtualTourPageProps) {
+export default async function VirtualTourPage({ params }: VirtualTourPageProps) {
+  const { lang } = await params; // ✅ Await agregado
   const dictionary = await getDictionary(lang);
   const t = dictionary.virtualTourPage;
   const tCommon = dictionary.common;

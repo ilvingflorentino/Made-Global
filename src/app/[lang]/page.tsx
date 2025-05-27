@@ -1,11 +1,10 @@
-
-import Image from 'next/image'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { ArrowRight, CheckCircle } from 'lucide-react'
-import { getDictionary } from '@/lib/dictionaries'
-import type { Locale } from '@/config/i18n.config'
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { ArrowRight, CheckCircle } from 'lucide-react';
+import { getDictionary } from '@/lib/dictionaries';
+import type { Locale } from '@/config/i18n.config';
 
 interface VideoBackgroundProps {
   children: React.ReactNode;
@@ -32,37 +31,35 @@ const VideoBackground = ({ children, mediaUrl, mediaType, altText = "Hero backgr
         autoPlay
         loop
         muted
-        playsInline // Important for mobile browsers
+        playsInline
         className="absolute top-0 left-0 w-full h-full object-cover"
         src={mediaUrl}
-        key={mediaUrl} // Add key to re-render video if src changes
       >
         Tu navegador no soporta la etiqueta de video.
       </video>
     )}
-    <div className="absolute inset-0 bg-black/30" /> {/* Overlay */}
+    <div className="absolute inset-0 bg-black/30" />
     <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white p-4">
       {children}
     </div>
   </div>
 );
 
-const AnimatedTitle = ({ text, subtext }: { text: string, subtext: string }) => (
+const AnimatedTitle = ({ text, subtext }: { text: string; subtext: string }) => (
   <>
-    <div className="marquee-wrapper w-full"> {/* Container for H1 */}
+    <div className="marquee-wrapper w-full">
       <h1 className="marquee-text text-4xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-        <span>{text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{/* First instance of text */}
-        <span>{text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{/* Second instance for continuous loop */}
+        <span>{text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span>{text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
       </h1>
     </div>
-    <p className="text-lg sm:text-xl md:text-2xl mb-8 animate-fade-in drop-shadow-md">
+    <p className="text-lg sm:text-xl md:text-2xl mb-8 animate-fade-in animation-delay-500 drop-shadow-md">
       {subtext}
     </p>
   </>
 );
 
-
-const CertificationCard = ({ title, description }: { title: string, description: string }) => (
+const CertificationCard = ({ title, description }: { title: string; description: string }) => (
   <Card className="certification-card bg-card shadow-xl hover:shadow-2xl transition-all duration-300">
     <CardHeader className="items-center text-center">
       <CheckCircle className="w-12 h-12 text-primary mb-2" />
@@ -74,14 +71,40 @@ const CertificationCard = ({ title, description }: { title: string, description:
   </Card>
 );
 
-const ProductCard = ({ id, name, price, imageUrl, lang, dataAiHint }: { id: string, name: string, price: string, imageUrl: string, lang: Locale, dataAiHint: string }) => (
+const ProductCard = ({
+  id,
+  name,
+  price,
+  imageUrl,
+  lang,
+  dataAiHint,
+}: {
+  id: string;
+  name: string;
+  price: string;
+  imageUrl: string;
+  lang: Locale;
+  dataAiHint: string;
+}) => (
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
     <div className="relative aspect-[4/3] overflow-hidden">
-      <Image src={imageUrl} alt={name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
+      <Image
+        src={imageUrl}
+        alt={name}
+        fill
+        className="object-cover group-hover:scale-105 transition-transform duration-300"
+        data-ai-hint={dataAiHint}
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
-         <Button asChild variant="secondary" className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-            <Link href={`/${lang}/product/${id}`}>Ver más <ArrowRight className="ml-2 h-4 w-4" /></Link>
-          </Button>
+        <Button
+          asChild
+          variant="secondary"
+          className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+        >
+          <Link href={`/${lang}/product/${id}`}>
+            Ver más <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
       </div>
     </div>
     <CardContent className="p-4">
@@ -92,20 +115,14 @@ const ProductCard = ({ id, name, price, imageUrl, lang, dataAiHint }: { id: stri
 );
 
 interface HomePageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>;
 }
 
-export default async function HomePage({ params: { lang } }: HomePageProps) {
+export default async function HomePage({ params }: HomePageProps) {
+  const { lang } = await params;
   const dictionary = await getDictionary(lang);
   const tHome = dictionary.homePage;
   const tCommon = dictionary.common;
-
-  // Configure your hero media here
-  const heroMedia = {
-    type: 'video' as const, // Configurado para video
-    url: '/videos/hero-background.mp4', // Ruta a tu video en public/videos/
-    // altText y dataAiHint no son directamente usados por la etiqueta <video> en esta configuración
-  };
 
   const certifications = [
     { title: "ISO 9001", description: "Quality Management Certified" },
@@ -121,12 +138,9 @@ export default async function HomePage({ params: { lang } }: HomePageProps) {
 
   return (
     <div className="space-y-16 md:space-y-24">
-      {/* Hero Section */}
       <VideoBackground
-        mediaType={heroMedia.type}
-        mediaUrl={heroMedia.url}
-        altText={heroMedia.type === 'image' ? heroMedia.altText : undefined}
-        dataAiHint={heroMedia.type === 'image' ? heroMedia.dataAiHint : undefined}
+        mediaType="video"
+        mediaUrl="/videos/hero-background.mp4"
       >
         <AnimatedTitle text={tHome.heroTitle} subtext={tHome.heroSubtitle} />
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -139,21 +153,19 @@ export default async function HomePage({ params: { lang } }: HomePageProps) {
         </div>
       </VideoBackground>
 
-      {/* Certifications Section */}
       <section className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-10">{tCommon.certifications}</h2>
         <div className="grid md:grid-cols-3 gap-8">
-          {certifications.map(cert => (
+          {certifications.map((cert) => (
             <CertificationCard key={cert.title} title={cert.title} description={cert.description} />
           ))}
         </div>
       </section>
 
-      {/* Featured Products Section */}
       <section className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-10">{tCommon.featuredProducts}</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-           {featuredProducts.map(product => (
+          {featuredProducts.map((product) => (
             <ProductCard
               key={product.id}
               id={product.id}
@@ -167,7 +179,9 @@ export default async function HomePage({ params: { lang } }: HomePageProps) {
         </div>
         <div className="text-center mt-10">
           <Button variant="outline" asChild size="lg">
-            <Link href={`/${lang}/catalog`}>{tCommon.exploreCatalog} <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            <Link href={`/${lang}/catalog`}>
+              {tCommon.exploreCatalog} <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
           </Button>
         </div>
       </section>

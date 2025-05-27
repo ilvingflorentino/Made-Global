@@ -83,8 +83,32 @@ const allProductDetails: Record<string, ProductDetailData> = {
       { id: '2', src: `/images/caoba-detalle-veta.svg`, alt: 'Detalle veta Caoba', dataAiHint: "mahogany wood grain" },
       { id: '3', src: `/images/caoba-aplicacion.svg`, alt: 'Aplicación de Caoba', dataAiHint: "mahogany furniture" },
     ],
-    options: { /* Placeholder - copy from Alamo or define new */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
     specifications: [ {label: "Especie:", value: "Swietenia macrophylla"}, {label: "Densidad Aprox.:", value: "640 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "900 lbf"}, {label: "Usos Comunes:", value: "Muebles, gabinetes, instrumentos"}, ]
+  },
+  'caoba-andina': {
+    name: "Caoba Andina",
+    description: "Madera de Caoba Andina, apreciada por su color rojizo profundo y veta elegante. Adecuada para muebles de calidad, carpintería interior y acabados decorativos.",
+    price: 2950.00,
+    images: [
+      { id: '1', src: `/images/caoba-andina-principal.svg`, alt: 'Caoba Andina Vista Principal', dataAiHint: "andina mahogany wood" },
+      { id: '2', src: `/images/caoba-andina-detalle-veta.svg`, alt: 'Detalle veta Caoba Andina', dataAiHint: "andina mahogany grain" },
+      { id: '3', src: `/images/caoba-andina-aplicacion.svg`, alt: 'Aplicación de Caoba Andina', dataAiHint: "andina mahogany furniture" },
+    ],
+    options: {
+      medidas: [
+        { id: 'm1ca', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2ca', label: '1" x 8" x 10\'', priceModifier: 1.35 }, { id: 'm3ca', label: '2" x 4" x 8\'', priceModifier: 1.65 },
+      ],
+      acabado: [
+        { id: 'a1ca', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2ca', label: 'Sellado Nitro Transparente', priceModifier: 350 }, { id: 'a3ca', label: 'Tinte Caoba Clásico', priceModifier: 500 },
+      ],
+    },
+    specifications: [
+        {label: "Especie:", value: "Familia Meliaceae (Caoba Andina)"},
+        {label: "Densidad Aprox.:", value: "550-650 kg/m³"},
+        {label: "Dureza Janka Aprox.:", value: "800-950 lbf"},
+        {label: "Usos Comunes:", value: "Muebles, ebanistería, revestimientos"},
+    ]
   },
   'cedro-blanco': {
     name: "Cedro Blanco",
@@ -95,7 +119,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
       { id: '2', src: `/images/cedro-blanco-detalle-veta.svg`, alt: 'Detalle veta Cedro Blanco', dataAiHint: "white cedar grain" },
       { id: '3', src: `/images/cedro-blanco-aplicacion.svg`, alt: 'Aplicación de Cedro Blanco', dataAiHint: "cedar closet" },
     ],
-    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
     specifications: [ {label: "Especie:", value: "Thuja occidentalis"}, {label: "Densidad Aprox.:", value: "370 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "320 lbf"}, {label: "Usos Comunes:", value: "Revestimientos, tejas, postes"}, ]
   },
    'congona': {
@@ -107,7 +131,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
       { id: '2', src: `/images/congona-detalle-veta.svg`, alt: 'Detalle veta Congona', dataAiHint: "congona wood grain" },
       { id: '3', src: `/images/congona-aplicacion.svg`, alt: 'Aplicación de Congona', dataAiHint: "congona structure" },
     ],
-    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
     specifications: [ {label: "Especie:", value: "Congona (genérico)"}, {label: "Densidad Aprox.:", value: "700 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1200 lbf"}, {label: "Usos Comunes:", value: "Construcción, pisos, durmientes"}, ]
   },
   'encino': {
@@ -119,7 +143,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
       { id: '2', src: `/images/encino-detalle-veta.svg`, alt: 'Detalle veta Encino', dataAiHint: "oak wood grain" },
       { id: '3', src: `/images/encino-aplicacion.svg`, alt: 'Aplicación de Encino', dataAiHint: "oak furniture" },
     ],
-    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
     specifications: [ {label: "Especie:", value: "Quercus (Roble/Encino)"}, {label: "Densidad Aprox.:", value: "720 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1290 lbf"}, {label: "Usos Comunes:", value: "Pisos, muebles, gabinetes, barriles"}, ]
   },
   'fresno': {
@@ -131,7 +155,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
       { id: '2', src: `/images/fresno-detalle-veta.svg`, alt: 'Detalle veta Fresno', dataAiHint: "ash wood grain" },
       { id: '3', src: `/images/fresno-aplicacion.svg`, alt: 'Aplicación de Fresno', dataAiHint: "ash furniture" },
     ],
-    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
     specifications: [ {label: "Especie:", value: "Fraxinus"}, {label: "Densidad Aprox.:", value: "670 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1320 lbf"}, {label: "Usos Comunes:", value: "Muebles, bates de béisbol, mangos"}, ]
   },
   'nogal-americano': {
@@ -143,7 +167,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
       { id: '2', src: `/images/nogal-americano-detalle-veta.svg`, alt: 'Detalle veta Nogal Americano', dataAiHint: "walnut wood grain" },
       { id: '3', src: `/images/nogal-americano-aplicacion.svg`, alt: 'Aplicación de Nogal Americano', dataAiHint: "walnut furniture" },
     ],
-    options: { /* Placeholder */ medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
     specifications: [ {label: "Especie:", value: "Juglans nigra"}, {label: "Densidad Aprox.:", value: "610 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1010 lbf"}, {label: "Usos Comunes:", value: "Muebles de alta gama, gabinetes, chapas"}, ]
   },
   'macocell': {
@@ -155,7 +179,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
       { id: '2', src: `/images/macocell-textura.svg`, alt: 'Textura Macocell', dataAiHint: "macocel texture" },
       { id: '3', src: `/images/macocell-aplicacion.svg`, alt: 'Aplicación de Macocell', dataAiHint: "macocel project" },
     ],
-    options: { /* Placeholder */ medidas: [ { id: 'm1', label: 'Lámina Estándar', priceModifier: 1.0 }, ], acabado: [ { id: 'a1', label: 'Crudo', priceModifier: 0 }, ], },
+    options: { medidas: [ { id: 'm1', label: 'Lámina Estándar', priceModifier: 1.0 }, ], acabado: [ { id: 'a1', label: 'Crudo', priceModifier: 0 }, ], },
     specifications: [ {label: "Tipo:", value: "Tablero Aglomerado Ligero"}, {label: "Usos Comunes:", value: "Mueblería económica, divisiones, embalaje"}, ]
   },
   'mdf': {
@@ -167,7 +191,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
       { id: '2', src: `/images/mdf-textura.svg`, alt: 'Textura MDF', dataAiHint: "mdf texture" },
       { id: '3', src: `/images/mdf-aplicacion.svg`, alt: 'Aplicación de MDF', dataAiHint: "mdf furniture" },
     ],
-    options: { /* Placeholder */ medidas: [ { id: 'm1', label: 'Lámina 15mm', priceModifier: 1.0 }, { id: 'm2', label: 'Lámina 18mm', priceModifier: 1.2 },], acabado: [ { id: 'a1', label: 'Crudo', priceModifier: 0 }, { id: 'a2', label: 'Melamina Blanca', priceModifier: 500 }, ], },
+    options: { medidas: [ { id: 'm1', label: 'Lámina 15mm', priceModifier: 1.0 }, { id: 'm2', label: 'Lámina 18mm', priceModifier: 1.2 },], acabado: [ { id: 'a1', label: 'Crudo', priceModifier: 0 }, { id: 'a2', label: 'Melamina Blanca', priceModifier: 500 }, ], },
     specifications: [ {label: "Tipo:", value: "Tablero de Fibra de Densidad Media"}, {label: "Usos Comunes:", value: "Muebles, gabinetes, molduras, artesanías"}, ]
   }
 };
@@ -182,8 +206,6 @@ const getProductDetailsSync = (sku: string, lang: Locale): Product => {
   if (productData) {
     return { id: sku, ...productData };
   }
-  // Fallback or notFound() logic if SKU is invalid.
-  // For now, returning null if not found, UI will handle loading/error state.
   return null; 
 };
 
@@ -207,8 +229,8 @@ const ImageCarousel = ({ images }: { images: ProductImageData[] }) => {
           key={selectedImage.id}
           src={selectedImage.src}
           alt={selectedImage.alt}
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
           data-ai-hint={selectedImage.dataAiHint}
           priority={selectedImageIndex === 0}
         />
@@ -226,8 +248,8 @@ const ImageCarousel = ({ images }: { images: ProductImageData[] }) => {
               <Image
                 src={image.src}
                 alt={`Thumbnail for ${image.alt}`}
-                layout="fill"
-                objectFit="cover"
+                fill
+                className="object-cover"
                 data-ai-hint={image.dataAiHint}
               />
               {selectedImageIndex === index && (
@@ -291,17 +313,17 @@ export default function ProductPage(props: ProductPageProps) {
         }
       } catch (error) {
         console.error("Failed to load product page data:", error);
-        if(isActive) setProduct(null); // Ensure product is null on error
+        if(isActive) setProduct(null); 
       } finally {
         if (isActive) {
           setIsLoadingData(false);
         }
       }
     }
-    if (sku && lang) { // Ensure sku and lang are available
+    if (sku && lang) { 
         loadData();
     } else {
-        setIsLoadingData(false); // Stop loading if essential params are missing
+        setIsLoadingData(false); 
         setProduct(null);
     }
     return () => {
@@ -311,39 +333,25 @@ export default function ProductPage(props: ProductPageProps) {
 
 
   useEffect(() => {
-    if (product && selectedMedidaId && selectedAcabadoId && quantity > 0) {
+    if (product && quantity > 0) {
+      let currentPrice = product.price;
       const medidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId);
       const acabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId);
 
-      if (medidaOpt && acabadoOpt) {
-        const priceAfterMedida = product.price * medidaOpt.priceModifier;
-        const priceAfterAcabado = priceAfterMedida + acabadoOpt.priceModifier;
-        const finalPrice = priceAfterAcabado * quantity;
-        setCalculatedPrice(finalPrice);
-      } else if (medidaOpt && !product.options.acabado.length) { // Case where there are no acabado options
-        const priceAfterMedida = product.price * medidaOpt.priceModifier;
-        setCalculatedPrice(priceAfterMedida * quantity);
-      } else if (acabadoOpt && !product.options.medidas.length) { // Case where there are no medida options
-         const priceAfterAcabado = product.price + acabadoOpt.priceModifier;
-         setCalculatedPrice(priceAfterAcabado * quantity);
-      } else if (!product.options.medidas.length && !product.options.acabado.length) { // No options
-        setCalculatedPrice(product.price * quantity);
+      if (medidaOpt) {
+        currentPrice *= medidaOpt.priceModifier;
       }
+      if (acabadoOpt) {
+        currentPrice += acabadoOpt.priceModifier;
+      }
+      
+      setCalculatedPrice(currentPrice * quantity);
 
-    } else if (product && quantity > 0 && calculatedPrice === null) { 
-       const initialMedidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId) || product.options.medidas[0];
-       const initialAcabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId) || product.options.acabado[0];
-       
-       let basePriceWithOptions = product.price;
-       if (initialMedidaOpt) {
-           basePriceWithOptions *= initialMedidaOpt.priceModifier;
-       }
-       if (initialAcabadoOpt) {
-           basePriceWithOptions += initialAcabadoOpt.priceModifier;
-       }
-       setCalculatedPrice(basePriceWithOptions * quantity);
+    } else if (product && quantity > 0 && product.options.medidas.length === 0 && product.options.acabado.length === 0) {
+        // Handle products with no options
+        setCalculatedPrice(product.price * quantity);
     }
-  }, [product, selectedMedidaId, selectedAcabadoId, quantity, calculatedPrice]);
+  }, [product, selectedMedidaId, selectedAcabadoId, quantity]);
 
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -395,9 +403,8 @@ export default function ProductPage(props: ProductPageProps) {
   };
 
   const handleBuyNow = () => {
-    // Optional: Add to quote first, then redirect. For now, just redirect.
     if (!product || !dictionary || calculatedPrice === null || quantity <=0 ) return;
-    handleAddToCart(); // Add to quote before redirecting
+    handleAddToCart(); 
     router.push(`/${lang}/checkout`);
   };
 
@@ -412,7 +419,6 @@ export default function ProductPage(props: ProductPageProps) {
   }
 
   if (!product || !dictionary) {
-    // This can happen if SKU is invalid or dictionary fails to load
      return (
       <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
         <CardTitle>Producto no encontrado</CardTitle>
@@ -423,6 +429,9 @@ export default function ProductPage(props: ProductPageProps) {
   }
 
   const t = dictionary.productPage;
+  const defaultMedidaId = product.options.medidas.length > 0 ? product.options.medidas[0].id : undefined;
+  const defaultAcabadoId = product.options.acabado.length > 0 ? product.options.acabado[0].id : undefined;
+
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -459,7 +468,7 @@ export default function ProductPage(props: ProductPageProps) {
                   <div>
                     <Label className="text-md font-medium">Medidas:</Label>
                     <RadioGroup 
-                      value={selectedMedidaId} 
+                      value={selectedMedidaId || defaultMedidaId} 
                       onValueChange={handleMedidaChange} 
                       className="mt-2"
                     >
@@ -476,7 +485,7 @@ export default function ProductPage(props: ProductPageProps) {
                   <div>
                     <Label className="text-md font-medium">Acabado:</Label>
                     <RadioGroup 
-                      value={selectedAcabadoId} 
+                      value={selectedAcabadoId || defaultAcabadoId} 
                       onValueChange={handleAcabadoChange} 
                       className="mt-2"
                     >
@@ -512,10 +521,21 @@ export default function ProductPage(props: ProductPageProps) {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="flex-1" onClick={handleAddToCart} disabled={isLoadingData || !selectedMedidaId || (product.options.acabado.length > 0 && !selectedAcabadoId)}>
+                <Button 
+                    size="lg" 
+                    className="flex-1" 
+                    onClick={handleAddToCart} 
+                    disabled={isLoadingData || (product.options.medidas.length > 0 && !selectedMedidaId) || (product.options.acabado.length > 0 && !selectedAcabadoId)}
+                >
                   <ShoppingCart className="mr-2 h-5 w-5" /> {t.addToCart}
                 </Button>
-                 <Button size="lg" variant="link" className="flex-1" onClick={handleBuyNow} disabled={isLoadingData || !selectedMedidaId || (product.options.acabado.length > 0 && !selectedAcabadoId)}>
+                 <Button 
+                    size="lg" 
+                    variant="link" 
+                    className="flex-1" 
+                    onClick={handleBuyNow} 
+                    disabled={isLoadingData || (product.options.medidas.length > 0 && !selectedMedidaId) || (product.options.acabado.length > 0 && !selectedAcabadoId)}
+                >
                    {t.buyNow}
                 </Button>
               </div>
@@ -542,3 +562,6 @@ export default function ProductPage(props: ProductPageProps) {
     </div>
   );
 }
+
+
+    
