@@ -1,15 +1,18 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { UserCircle } from 'lucide-react'
-import Link from 'next/link'
-import { getDictionary } from '@/lib/dictionaries'
-import type { Locale } from '@/config/i18n.config'
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { UserCircle } from 'lucide-react';
+import Link from 'next/link';
+import { getDictionary } from '@/lib/dictionaries';
+import type { Locale } from '@/config/i18n.config';
 
+// ✅ CAMBIO: params ahora es una Promise para cumplir con Next.js 15+
 interface HistoryPageProps {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>;
 }
 
-export default async function HistoryPage({ params: { lang } }: HistoryPageProps) {
+export default async function HistoryPage({ params }: HistoryPageProps) {
+  const { lang } = await params; // ✅ CAMBIO: ahora se hace await a params
+
   const dictionary = await getDictionary(lang);
   const t = dictionary.historyPage;
   const tCommon = dictionary.common;

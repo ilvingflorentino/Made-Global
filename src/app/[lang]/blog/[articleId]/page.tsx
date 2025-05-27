@@ -1,7 +1,8 @@
+// File: src/app/[lang]/blog/[articleId]/page.tsx
 
 import { getDictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
-import { getArticleById, placeholderArticlesData, type BlogArticle } from '@/lib/blog-data';
+import { getArticleById, placeholderArticlesData } from '@/lib/blog-data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,18 +10,26 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { i18nConfig } from '@/config/i18n.config';
-import type { ServerPageProps } from '@/types/page-props'; // Import ServerPageProps
 
-// Define the specific shape of params for this page
-interface ArticlePageParams {
-  lang: Locale;
-  articleId: string;
+// Define the props for this specific page
+interface ArticlePageProps {
+  // Type 'params' as a Promise to satisfy the build-time type checker.
+  params: Promise<{
+    lang: Locale;
+    articleId: string;
+  }>;
+  // 'searchParams' is a direct object for Server Components.
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-// No longer need local ArticlePageProps, we use ServerPageProps<ArticlePageParams>
+export default async function ArticlePage(props: ArticlePageProps) {
+  // At runtime, for a Server Component, 'props.params' will be the resolved object.
+  // Use a type assertion to tell TypeScript this. DO NOT await props.params.
+  const resolvedParams = props.params as unknown as { lang: Locale; articleId: string; };
+  const { lang, articleId } = resolvedParams;
 
-export default async function ArticlePage({ params, searchParams }: ServerPageProps<ArticlePageParams>) {
-  const { lang, articleId } = params; // Destructure directly from params object
+  // searchParams is used directly
+  const search = props.searchParams || {};
 
   const numericArticleId = parseInt(articleId, 10);
 
@@ -37,6 +46,7 @@ export default async function ArticlePage({ params, searchParams }: ServerPagePr
 
   const tBlog = dictionary.blogPage;
 
+  // Ensure the keys exist in tBlog before accessing
   const title = tBlog[articleData.titleKey as keyof typeof tBlog] || "Article Title Not Found";
   const fullContent = tBlog[articleData.fullContentKey as keyof typeof tBlog] || "Full article content not found...";
 
@@ -85,7 +95,6 @@ export default async function ArticlePage({ params, searchParams }: ServerPagePr
   );
 }
 
-// This is for what generateStaticParams returns, which are direct objects.
 interface ArticleStaticParams {
   lang: Locale;
   articleId: string;

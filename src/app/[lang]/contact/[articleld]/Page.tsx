@@ -1,45 +1,37 @@
-"use client" // For form handling
+"use client";
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Mail, MapPin, Phone, Send, Loader2 } from 'lucide-react'
-import { getDictionary } from '@/lib/dictionaries'
-import type { Locale } from '@/config/i18n.config'
-import { useEffect, useState } from 'react'
-import type { Dictionary } from '@/lib/dictionaries'
-import { useToast } from "@/hooks/use-toast"
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Mail, MapPin, Phone, Send, Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import type { Dictionary } from '@/lib/dictionaries';
+import type { Locale } from '@/config/i18n.config';
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Nombre es requerido."),
-  email: z.string().email("Correo electrónico inválido."),
-  subject: z.string().min(3, "Asunto es requerido."),
-  message: z.string().min(10, "Mensaje debe tener al menos 10 caracteres."),
-})
+  name: z.string().min(2),
+  email: z.string().email(),
+  subject: z.string().min(3),
+  message: z.string().min(10),
+});
 
-type ContactFormData = z.infer<typeof contactSchema>
+type ContactFormData = z.infer<typeof contactSchema>;
 
-interface ContactPageProps {
-  params: { lang: Locale }
-}
-
-export default function ContactPage({ params: { lang } }: ContactPageProps) {
-  const [dictionary, setDictionary] = useState<Dictionary | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const { toast } = useToast()
-
-  useEffect(() => {
-    const fetchDictionary = async () => {
-      const dict = await getDictionary(lang)
-      setDictionary(dict)
-    }
-    fetchDictionary()
-  }, [lang])
+export default function ContactFormClient({
+  lang,
+  dictionary,
+}: {
+  lang: Locale;
+  dictionary: Dictionary;
+}) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -49,27 +41,22 @@ export default function ContactPage({ params: { lang } }: ContactPageProps) {
       subject: '',
       message: '',
     },
-  })
+  });
 
   const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true)
-    console.log("Contact Form Data:", data)
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    setIsSubmitting(false)
+    setIsSubmitting(true);
+    console.log("Contact Form Data:", data);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsSubmitting(false);
     toast({
-      title: dictionary?.common.appName === "MADE Global Timber" ? "Message Sent" : "Mensaje Enviado", // Quick lang check
+      title: dictionary?.common.appName === "MADE Global Timber" ? "Message Sent" : "Mensaje Enviado",
       description: dictionary?.common.appName === "MADE Global Timber" ? "We'll get back to you soon." : "Nos pondremos en contacto contigo pronto.",
-    })
-    form.reset()
-  }
-  
-  if (!dictionary) {
-    return <div className="container mx-auto px-4 py-8 text-center">{/* Loading... */}</div>;
-  }
+    });
+    form.reset();
+  };
+
   const tCommon = dictionary.common;
   const tCheckout = dictionary.checkoutPage;
-
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -81,7 +68,7 @@ export default function ContactPage({ params: { lang } }: ContactPageProps) {
       </header>
 
       <div className="grid md:grid-cols-2 gap-12">
-        {/* Contact Information */}
+        {/* Contact Info */}
         <div className="space-y-8">
           <Card className="shadow-lg">
             <CardHeader>
@@ -112,6 +99,7 @@ export default function ContactPage({ params: { lang } }: ContactPageProps) {
               </div>
             </CardContent>
           </Card>
+
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle>{tCommon.hours}</CardTitle>
