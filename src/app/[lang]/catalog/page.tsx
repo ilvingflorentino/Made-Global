@@ -68,33 +68,42 @@ export default function CatalogPage(props: CatalogPageProps) {
   }, [lang]);
 
   // Placeholder data
-  const categories = ["Maderas Duras", "Maderas Blandas", "Contrachapados", "Exóticas"];
+  const categories = ["Maderas Duras", "Maderas Blandas", "Tableros", "Exóticas"];
   
   const productDetails = [
-    { name: "Alamo", dataAiHint: "Poplar"},
-    { name: "Caoba Andina", imageUrl: "/caoba-andina.svg", dataAiHint: "andina mahogany" }, // Special case for Caoba Andina
-    { name: "Cedro Blanco", dataAiHint: "White Cedar"},
-    { name: "Congona", dataAiHint: "Congona Wood"},
-    { name: "Encino", dataAiHint: "Oak"},
-    { name: "Fresno", dataAiHint: "Ash"},
-    { name: "Nogal Americano", dataAiHint: "American Walnut"},
-    { name: "Macocell", dataAiHint: "Macocel Board"},
-    { name: "MDF", dataAiHint: "MDF Board"},
+    { name: "Caoba Andina", dataAiHint: "andina mahogany", price: "Desde RD$145.00" },
+    { name: "Caoba Sudamericana", dataAiHint: "south american mahogany", price: "Desde RD$150.00" },
+    { name: "Roble Congona", dataAiHint: "congona oak", price: "Desde RD$153.00" },
+    { name: "Roble Congona P/Blanca", dataAiHint: "white congona oak", price: "Desde RD$130.00" },
+    { name: "Cedro Macho", dataAiHint: "cedro macho wood", price: "RD$185.00" },
+    { name: "Jequitiba", dataAiHint: "jequitiba wood", price: "Desde RD$155.00" },
+    { name: "Roble Cerejeira", dataAiHint: "cerejeira oak", price: "Desde RD$215.00" },
+    { name: "Poplar (Alamo)", dataAiHint: "poplar wood", price: "RD$95.00" },
+    { name: "Formaleta Brasileña 4x8 3/4", dataAiHint: "plywood formwork", price: "RD$2,000.00" },
+    { name: "MDF Hidrofugo 3/8", dataAiHint: "waterproof mdf", price: "RD$1,350.00" },
+    { name: "MDF Hidrofugo 5/8", dataAiHint: "waterproof mdf", price: "RD$1,650.00" },
+    { name: "MDF Hidrofugo 3/4", dataAiHint: "waterproof mdf", price: "RD$2,400.00" },
+    { name: "MDF Hidrofugo 1/4", dataAiHint: "waterproof mdf", price: "RD$725.00" },
+    { name: "Melamina 4x8 3/4 Blanca", dataAiHint: "white melamine", price: "RD$2,420.00" },
+    { name: "Melamina 4x8 5/8 Blanca", dataAiHint: "white melamine", price: "RD$2,215.00" },
+    { name: "Canto Blanco MT 1mm", dataAiHint: "white edge banding", price: "RD$900.00" },
+    { name: "Encino", dataAiHint: "Oak", price: "Desde RD$2,750" },
+    { name: "Fresno", dataAiHint: "Ash", price: "Desde RD$3,100" },
+    { name: "Nogal Americano", dataAiHint: "American Walnut", price: "Desde RD$4,500" },
   ];
 
   const products = productDetails.map((detail) => {
     const slug = detail.name
       .toLowerCase()
-      .replace(/\s+/g, '-') 
-      .replace(/\(|\)/g, ''); 
+      .replace(/[\s/]+/g, '-') // Replace spaces and slashes with hyphens
+      .replace(/[()*]/g, ''); // Remove parentheses
     
-    // Use pre-defined imageUrl if it exists (for Caoba Andina), otherwise generate it
-    const imageUrl = detail.imageUrl || `/images/${slug}.svg`;
+    const imageUrl = `/images/${slug}.svg`;
 
     return {
-      id: slug, // This is the SKU for linking
+      id: slug,
       name: detail.name,
-      price: `Desde RD$${(Math.random() * 1500 + 1000).toFixed(0)}`, // Adjusted price range
+      price: detail.price,
       imageUrl: imageUrl,
       dataAiHint: detail.dataAiHint,
     };

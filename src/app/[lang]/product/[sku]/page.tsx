@@ -31,7 +31,8 @@ interface ProductImageData {
 interface ProductOption {
   id: string;
   label: string;
-  priceModifier: number;
+  priceModifier: number; // For options that multiply the price
+  priceAdditive?: number; // For options that add to the price
 }
 
 interface ProductSpecification {
@@ -41,7 +42,7 @@ interface ProductSpecification {
 interface ProductDetailData {
   name: string;
   description: string;
-  price: number; // Base price
+  price: number; // Base price (usually the 'Corto' or standard price)
   images: ProductImageData[];
   options: {
     medidas: ProductOption[];
@@ -53,97 +54,194 @@ interface ProductDetailData {
 // Define product details for all catalog items
 // SKUs should match the slugs generated in catalog/page.tsx
 const allProductDetails: Record<string, ProductDetailData> = {
-  'alamo': {
-    name: "Alamo",
-    description: "Madera de Alamo de buena calidad, versátil para carpintería general, molduras y proyectos de interior. Conocida por su ligereza y facilidad para trabajar.",
-    price: 1250.00,
-    images: [
-      { id: '1', src: `/images/alamo-principal.svg`, alt: 'Alamo Vista Principal', dataAiHint: "poplar wood" },
-      { id: '2', src: `/images/alamo-detalle-veta.svg`, alt: 'Detalle veta Alamo', dataAiHint: "poplar wood grain" },
-      { id: '3', src: `/images/alamo-aplicacion.svg`, alt: 'Aplicación de Alamo', dataAiHint: "poplar wood product" },
-    ],
-    options: {
-      medidas: [
-        { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 },
-      ],
-      acabado: [
-        { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 },
-      ],
-    },
-    specifications: [
-        {label: "Especie:", value: "Populus (Alamo)"}, {label: "Densidad Aprox.:", value: "450 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "540 lbf"}, {label: "Usos Comunes:", value: "Muebles ligeros, molduras, madera contrachapada, cajas"},
-    ]
-  },
-  'caoba': {
-    name: "Caoba",
-    description: "Clásica madera de Caoba, conocida por su belleza, durabilidad y rico color marrón rojizo. Ideal para muebles finos y ebanistería de alta calidad.",
-    price: 2800.00,
-    images: [
-      { id: '1', src: `/images/caoba-principal.svg`, alt: 'Caoba Vista Principal', dataAiHint: "mahogany wood" },
-      { id: '2', src: `/images/caoba-detalle-veta.svg`, alt: 'Detalle veta Caoba', dataAiHint: "mahogany wood grain" },
-      { id: '3', src: `/images/caoba-aplicacion.svg`, alt: 'Aplicación de Caoba', dataAiHint: "mahogany furniture" },
-    ],
-    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
-    specifications: [ {label: "Especie:", value: "Swietenia macrophylla"}, {label: "Densidad Aprox.:", value: "640 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "900 lbf"}, {label: "Usos Comunes:", value: "Muebles, gabinetes, instrumentos"}, ]
-  },
+  // == Updated products from price list ==
   'caoba-andina': {
     name: "Caoba Andina",
     description: "Madera de Caoba Andina, apreciada por su color rojizo profundo y veta elegante. Adecuada para muebles de calidad, carpintería interior y acabados decorativos.",
-    price: 2950.00,
+    price: 145.00, // Base price is 'Corto'
     images: [
-      { id: '1', src: `/images/caoba-andina-principal.svg`, alt: 'Caoba Andina Vista Principal', dataAiHint: "andina mahogany wood" },
+      { id: '1', src: `/images/caoba-andina.svg`, alt: 'Caoba Andina Vista Principal', dataAiHint: "andina mahogany wood" },
       { id: '2', src: `/images/caoba-andina-detalle-veta.svg`, alt: 'Detalle veta Caoba Andina', dataAiHint: "andina mahogany grain" },
       { id: '3', src: `/images/caoba-andina-aplicacion.svg`, alt: 'Aplicación de Caoba Andina', dataAiHint: "andina mahogany furniture" },
     ],
     options: {
       medidas: [
-        { id: 'm1ca', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2ca', label: '1" x 8" x 10\'', priceModifier: 1.35 }, { id: 'm3ca', label: '2" x 4" x 8\'', priceModifier: 1.65 },
+        { id: 'corto', label: 'Corto', priceModifier: 1.0, priceAdditive: 0 },
+        { id: 'largo', label: 'Largo (+RD$30.00)', priceModifier: 1.0, priceAdditive: 30.00 }, // 175 - 145 = 30
       ],
       acabado: [
-        { id: 'a1ca', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2ca', label: 'Sellado Nitro Transparente', priceModifier: 350 }, { id: 'a3ca', label: 'Tinte Caoba Clásico', priceModifier: 500 },
+        { id: 'a1', label: 'Natural Cepillado', priceModifier: 1.0, priceAdditive: 0 },
+        { id: 'a2', label: 'Sellado (+RD$350)', priceModifier: 1.0, priceAdditive: 350 },
       ],
     },
     specifications: [
-        {label: "Especie:", value: "Familia Meliaceae (Caoba Andina)"},
-        {label: "Densidad Aprox.:", value: "550-650 kg/m³"},
-        {label: "Dureza Janka Aprox.:", value: "800-950 lbf"},
-        {label: "Usos Comunes:", value: "Muebles, ebanistería, revestimientos"},
+        {label: "Especie:", value: "Familia Meliaceae (Caoba Andina)"}, {label: "Densidad Aprox.:", value: "550-650 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "800-950 lbf"}, {label: "Usos Comunes:", value: "Muebles, ebanistería, revestimientos"},
     ]
   },
-  'cedro-blanco': {
-    name: "Cedro Blanco",
-    description: "Madera ligera y aromática, conocida por su resistencia natural a la putrefacción y los insectos. Excelente para revestimientos y armarios.",
-    price: 1500.00,
-    images: [
-      { id: '1', src: `/images/cedro-blanco-principal.svg`, alt: 'Cedro Blanco Vista Principal', dataAiHint: "white cedar wood" },
-      { id: '2', src: `/images/cedro-blanco-detalle-veta.svg`, alt: 'Detalle veta Cedro Blanco', dataAiHint: "white cedar grain" },
-      { id: '3', src: `/images/cedro-blanco-aplicacion.svg`, alt: 'Aplicación de Cedro Blanco', dataAiHint: "cedar closet" },
-    ],
-    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
-    specifications: [ {label: "Especie:", value: "Thuja occidentalis"}, {label: "Densidad Aprox.:", value: "370 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "320 lbf"}, {label: "Usos Comunes:", value: "Revestimientos, tejas, postes"}, ]
+  'caoba-sudamericana': {
+    name: "Caoba Sudamericana",
+    description: "Una madera clásica y muy valorada, conocida por su trabajabilidad, color rico y durabilidad. Ideal para muebles finos y carpintería de alta gama.",
+    price: 150.00, // Base price is 'Corto'
+    images: [ { id: '1', src: `/images/caoba-sudamericana.svg`, alt: 'Caoba Sudamericana', dataAiHint: "south american mahogany" } ],
+    options: {
+      medidas: [
+        { id: 'corto', label: 'Corto', priceModifier: 1.0, priceAdditive: 0 },
+        { id: 'largo', label: 'Largo (+RD$35.00)', priceModifier: 1.0, priceAdditive: 35.00 }, // 185 - 150 = 35
+      ],
+      acabado: [],
+    },
+    specifications: [ {label: "Especie:", value: "Swietenia macrophylla"}, {label: "Usos Comunes:", value: "Muebles de lujo, gabinetes, instrumentos"}, ]
   },
-   'congona': {
-    name: "Congona",
-    description: "Madera Congona, apreciada por su durabilidad y resistencia, ideal para construcciones robustas y elementos exteriores.",
-    price: 1850.00,
-    images: [
-      { id: '1', src: `/images/congona-principal.svg`, alt: 'Congona Vista Principal', dataAiHint: "congona wood" },
-      { id: '2', src: `/images/congona-detalle-veta.svg`, alt: 'Detalle veta Congona', dataAiHint: "congona wood grain" },
-      { id: '3', src: `/images/congona-aplicacion.svg`, alt: 'Aplicación de Congona', dataAiHint: "congona structure" },
-    ],
-    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
-    specifications: [ {label: "Especie:", value: "Congona (genérico)"}, {label: "Densidad Aprox.:", value: "700 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1200 lbf"}, {label: "Usos Comunes:", value: "Construcción, pisos, durmientes"}, ]
+  'roble-congona': {
+    name: "Roble Congona",
+    description: "Madera dura y resistente, con una veta atractiva. Adecuada para proyectos que requieren durabilidad y un acabado robusto.",
+    price: 153.00, // Base price is 'Corto'
+    images: [ { id: '1', src: `/images/roble-congona.svg`, alt: 'Roble Congona', dataAiHint: "congona oak" } ],
+    options: {
+      medidas: [
+        { id: 'corto', label: 'Corto', priceModifier: 1.0, priceAdditive: 0 },
+        { id: 'largo', label: 'Largo (+RD$37.00)', priceModifier: 1.0, priceAdditive: 37.00 }, // 190 - 153 = 37
+      ],
+      acabado: [],
+    },
+    specifications: [ {label: "Tipo:", value: "Madera dura"}, {label: "Usos Comunes:", value: "Estructuras, pisos, carpintería general"}, ]
   },
+  'roble-congona-p-blanca': {
+    name: "Roble Congona P/Blanca",
+    description: "Variante de Roble Congona con tonalidades más claras, manteniendo la resistencia y versatilidad de la especie.",
+    price: 130.00, // Base price is 'Corto'
+    images: [ { id: '1', src: `/images/roble-congona-p-blanca.svg`, alt: 'Roble Congona P/Blanca', dataAiHint: "white congona oak" } ],
+    options: {
+      medidas: [
+        { id: 'corto', label: 'Corto', priceModifier: 1.0, priceAdditive: 0 },
+        { id: 'largo', label: 'Largo (+RD$25.00)', priceModifier: 1.0, priceAdditive: 25.00 }, // 155 - 130 = 25
+      ],
+      acabado: [],
+    },
+    specifications: [ {label: "Tipo:", value: "Madera dura"}, {label: "Usos Comunes:", value: "Muebles, revestimientos, carpintería"}, ]
+  },
+  'cedro-macho': {
+    name: "Cedro Macho",
+    description: "Madera semidura y estable, con un color que varía de rosado a marrón rojizo. Fácil de trabajar y resistente a insectos.",
+    price: 185.00, // Only 'Largo' price available
+    images: [ { id: '1', src: `/images/cedro-macho.svg`, alt: 'Cedro Macho', dataAiHint: "cedro macho wood" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Especie:", value: "Carapa guianensis"}, {label: "Usos Comunes:", value: "Puertas, ventanas, muebles, construcción ligera"}, ]
+  },
+  'jequitiba': {
+    name: "Jequitiba",
+    description: "Madera brasileña de color rosado a rojizo claro, de grano recto y textura media. Usada en muebles, chapas y construcción civil.",
+    price: 155.00, // Base price is 'Corto'
+    images: [ { id: '1', src: `/images/jequitiba.svg`, alt: 'Jequitiba', dataAiHint: "jequitiba wood" } ],
+    options: {
+      medidas: [
+        { id: 'corto', label: 'Corto', priceModifier: 1.0, priceAdditive: 0 },
+        { id: 'largo', label: 'Largo (+RD$20.00)', priceModifier: 1.0, priceAdditive: 20.00 }, // 175 - 155 = 20
+      ],
+      acabado: [],
+    },
+    specifications: [ {label: "Especie:", value: "Cariniana legalis"}, {label: "Usos Comunes:", value: "Muebles, carpintería interior, paneles"}, ]
+  },
+  'roble-cerejeira': {
+    name: "Roble Cerejeira",
+    description: "Conocida como Cerejeira o Roble Brasileño, es una madera de alta calidad con un color amarillo a marrón dorado y un veteado atractivo.",
+    price: 215.00, // Base price is 'Corto'
+    images: [ { id: '1', src: `/images/roble-cerejeira.svg`, alt: 'Roble Cerejeira', dataAiHint: "cerejeira oak" } ],
+    options: {
+      medidas: [
+        { id: 'corto', label: 'Corto', priceModifier: 1.0, priceAdditive: 0 },
+        { id: 'largo', label: 'Largo (+RD$80.00)', priceModifier: 1.0, priceAdditive: 80.00 }, // 295 - 215 = 80
+      ],
+      acabado: [],
+    },
+    specifications: [ {label: "Especie:", value: "Amburana cearensis"}, {label: "Usos Comunes:", value: "Muebles finos, pisos, puertas"}, ]
+  },
+  'poplar-(alamo)': {
+    name: "Poplar (Alamo)",
+    description: "Madera de Alamo (Poplar) de buena calidad, versátil para carpintería general, molduras y proyectos de interior. Conocida por su ligereza y facilidad para trabajar.",
+    price: 95.00,
+    images: [
+      { id: '1', src: `/images/poplar-(alamo).svg`, alt: 'Alamo Vista Principal', dataAiHint: "poplar wood" },
+    ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Especie:", value: "Populus"}, {label: "Usos Comunes:", value: "Muebles ligeros, molduras, madera contrachapada"}, ]
+  },
+  'formaleta-brasileña-4x8-3-4': {
+    name: "Formaleta Brasileña 4x8 3/4",
+    description: "Tablero de encofrado de alta resistencia, utilizado en la construcción para moldear estructuras de hormigón.",
+    price: 2000.00,
+    images: [ { id: '1', src: `/images/formaleta-brasileña-4x8-3-4.svg`, alt: 'Formaleta Brasileña', dataAiHint: "plywood formwork" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Tipo:", value: "Tablero Contrachapado (Plywood)"}, {label: "Uso:", value: "Encofrado para construcción"}, ]
+  },
+  'mdf-hidrofugo-3-8': {
+    name: "MDF Hidrofugo 3/8",
+    description: "Tablero de MDF con tratamiento resistente a la humedad, ideal para ambientes como cocinas y baños. Espesor de 3/8 pulgadas.",
+    price: 1350.00,
+    images: [ { id: '1', src: `/images/mdf-hidrofugo-3-8.svg`, alt: 'MDF Hidrofugo', dataAiHint: "waterproof mdf" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Tipo:", value: "MDF Resistente a la Humedad"}, {label: "Espesor:", value: "3/8\" (9.5mm)"}, ]
+  },
+  'mdf-hidrofugo-5-8': {
+    name: "MDF Hidrofugo 5/8",
+    description: "Tablero de MDF con tratamiento resistente a la humedad, ideal para ambientes como cocinas y baños. Espesor de 5/8 pulgadas.",
+    price: 1650.00,
+    images: [ { id: '1', src: `/images/mdf-hidrofugo-5-8.svg`, alt: 'MDF Hidrofugo', dataAiHint: "waterproof mdf" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Tipo:", value: "MDF Resistente a la Humedad"}, {label: "Espesor:", value: "5/8\" (15.9mm)"}, ]
+  },
+  'mdf-hidrofugo-3-4': {
+    name: "MDF Hidrofugo 3/4",
+    description: "Tablero de MDF con tratamiento resistente a la humedad, ideal para ambientes como cocinas y baños. Espesor de 3/4 pulgadas.",
+    price: 2400.00,
+    images: [ { id: '1', src: `/images/mdf-hidrofugo-3-4.svg`, alt: 'MDF Hidrofugo', dataAiHint: "waterproof mdf" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Tipo:", value: "MDF Resistente a la Humedad"}, {label: "Espesor:", value: "3/4\" (19mm)"}, ]
+  },
+  'mdf-hidrofugo-1-4': {
+    name: "MDF Hidrofugo 1/4",
+    description: "Tablero de MDF con tratamiento resistente a la humedad, ideal para ambientes como cocinas y baños. Espesor de 1/4 pulgadas.",
+    price: 725.00,
+    images: [ { id: '1', src: `/images/mdf-hidrofugo-1-4.svg`, alt: 'MDF Hidrofugo', dataAiHint: "waterproof mdf" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Tipo:", value: "MDF Resistente a la Humedad"}, {label: "Espesor:", value: "1/4\" (6.35mm)"}, ]
+  },
+  'melamina-4x8-3-4-blanca': {
+    name: "Melamina 4x8 3/4 Blanca",
+    description: "Tablero de aglomerado recubierto con melamina blanca de alta durabilidad, listo para usar en la fabricación de muebles. Espesor de 3/4 pulgadas.",
+    price: 2420.00,
+    images: [ { id: '1', src: `/images/melamina-4x8-3-4-blanca.svg`, alt: 'Melamina Blanca', dataAiHint: "white melamine board" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Tipo:", value: "Tablero de Melamina"}, {label: "Color:", value: "Blanco"}, {label: "Espesor:", value: "3/4\" (19mm)"}, ]
+  },
+  'melamina-4x8-5-8-blanca': {
+    name: "Melamina 4x8 5/8 Blanca",
+    description: "Tablero de aglomerado recubierto con melamina blanca de alta durabilidad, listo para usar en la fabricación de muebles. Espesor de 5/8 pulgadas.",
+    price: 2215.00,
+    images: [ { id: '1', src: `/images/melamina-4x8-5-8-blanca.svg`, alt: 'Melamina Blanca', dataAiHint: "white melamine board" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Tipo:", value: "Tablero de Melamina"}, {label: "Color:", value: "Blanco"}, {label: "Espesor:", value: "5/8\" (15.9mm)"}, ]
+  },
+  'canto-blanco-mt-1mm': {
+    name: "Canto Blanco MT 1mm",
+    description: "Cinta de PVC para recubrir los bordes de tableros de melamina y MDF, proporcionando un acabado profesional y duradero. Se vende por metro.",
+    price: 900.00,
+    images: [ { id: '1', src: `/images/canto-blanco-mt-1mm.svg`, alt: 'Canto Blanco', dataAiHint: "white edge banding" } ],
+    options: { medidas: [], acabado: [] },
+    specifications: [ {label: "Tipo:", value: "Tapacanto de PVC"}, {label: "Color:", value: "Blanco"}, {label: "Ancho:", value: "22mm"}, {label: "Espesor:", value: "1mm"}, ]
+  },
+
+  // == Existing products not in the new price list (kept for variety) ==
   'encino': {
     name: "Encino",
     description: "Madera de Encino (Roble), fuerte, dura y resistente al desgaste. Muy popular para pisos, muebles y barriles.",
     price: 2200.00,
     images: [
-      { id: '1', src: `/images/encino-principal.svg`, alt: 'Encino Vista Principal', dataAiHint: "oak wood" },
+      { id: '1', src: `/images/encino.svg`, alt: 'Encino Vista Principal', dataAiHint: "oak wood" },
       { id: '2', src: `/images/encino-detalle-veta.svg`, alt: 'Detalle veta Encino', dataAiHint: "oak wood grain" },
       { id: '3', src: `/images/encino-aplicacion.svg`, alt: 'Aplicación de Encino', dataAiHint: "oak furniture" },
     ],
-    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [], acabado: [] },
     specifications: [ {label: "Especie:", value: "Quercus (Roble/Encino)"}, {label: "Densidad Aprox.:", value: "720 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1290 lbf"}, {label: "Usos Comunes:", value: "Pisos, muebles, gabinetes, barriles"}, ]
   },
   'fresno': {
@@ -151,11 +249,11 @@ const allProductDetails: Record<string, ProductDetailData> = {
     description: "Madera de Fresno, conocida por su tenacidad y elasticidad. Color claro y veta prominente, ideal para mangos de herramientas y muebles.",
     price: 1950.00,
     images: [
-      { id: '1', src: `/images/fresno-principal.svg`, alt: 'Fresno Vista Principal', dataAiHint: "ash wood" },
+      { id: '1', src: `/images/fresno.svg`, alt: 'Fresno Vista Principal', dataAiHint: "ash wood" },
       { id: '2', src: `/images/fresno-detalle-veta.svg`, alt: 'Detalle veta Fresno', dataAiHint: "ash wood grain" },
       { id: '3', src: `/images/fresno-aplicacion.svg`, alt: 'Aplicación de Fresno', dataAiHint: "ash furniture" },
     ],
-    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [], acabado: [] },
     specifications: [ {label: "Especie:", value: "Fraxinus"}, {label: "Densidad Aprox.:", value: "670 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1320 lbf"}, {label: "Usos Comunes:", value: "Muebles, bates de béisbol, mangos"}, ]
   },
   'nogal-americano': {
@@ -163,37 +261,13 @@ const allProductDetails: Record<string, ProductDetailData> = {
     description: "Preciada madera de Nogal Americano, de color marrón oscuro rico y veta atractiva. Perfecta para muebles de lujo y detalles finos.",
     price: 3500.00,
     images: [
-      { id: '1', src: `/images/nogal-americano-principal.svg`, alt: 'Nogal Americano Vista Principal', dataAiHint: "american walnut wood" },
+      { id: '1', src: `/images/nogal-americano.svg`, alt: 'Nogal Americano Vista Principal', dataAiHint: "american walnut wood" },
       { id: '2', src: `/images/nogal-americano-detalle-veta.svg`, alt: 'Detalle veta Nogal Americano', dataAiHint: "walnut wood grain" },
       { id: '3', src: `/images/nogal-americano-aplicacion.svg`, alt: 'Aplicación de Nogal Americano', dataAiHint: "walnut furniture" },
     ],
-    options: { medidas: [ { id: 'm1', label: '1" x 6" x 8\'', priceModifier: 1.0 }, { id: 'm2', label: '1" x 8" x 10\'', priceModifier: 1.3 }, { id: 'm3', label: '2" x 4" x 8\'', priceModifier: 1.6 }, ], acabado: [ { id: 'a1', label: 'Natural Cepillado', priceModifier: 0 }, { id: 'a2', label: 'Sellado Transparente', priceModifier: 300 }, { id: 'a3', label: 'Tinte Claro', priceModifier: 450 }, ], },
+    options: { medidas: [], acabado: [] },
     specifications: [ {label: "Especie:", value: "Juglans nigra"}, {label: "Densidad Aprox.:", value: "610 kg/m³"}, {label: "Dureza Janka Aprox.:", value: "1010 lbf"}, {label: "Usos Comunes:", value: "Muebles de alta gama, gabinetes, chapas"}, ]
   },
-  'macocell': {
-    name: "Macocell",
-    description: "Tablero Macocell, una opción versátil y económica para diversos proyectos de carpintería y construcción ligera.",
-    price: 900.00,
-    images: [
-      { id: '1', src: `/images/macocell-principal.svg`, alt: 'Macocell Vista Principal', dataAiHint: "macocel board" },
-      { id: '2', src: `/images/macocell-textura.svg`, alt: 'Textura Macocell', dataAiHint: "macocel texture" },
-      { id: '3', src: `/images/macocell-aplicacion.svg`, alt: 'Aplicación de Macocell', dataAiHint: "macocel project" },
-    ],
-    options: { medidas: [ { id: 'm1', label: 'Lámina Estándar', priceModifier: 1.0 }, ], acabado: [ { id: 'a1', label: 'Crudo', priceModifier: 0 }, ], },
-    specifications: [ {label: "Tipo:", value: "Tablero Aglomerado Ligero"}, {label: "Usos Comunes:", value: "Mueblería económica, divisiones, embalaje"}, ]
-  },
-  'mdf': {
-    name: "MDF",
-    description: "Tablero de MDF (Fibra de Densidad Media), uniforme y fácil de trabajar. Ideal para la fabricación de muebles, molduras y paneles.",
-    price: 1100.00,
-    images: [
-      { id: '1', src: `/images/mdf-principal.svg`, alt: 'MDF Vista Principal', dataAiHint: "mdf board" },
-      { id: '2', src: `/images/mdf-textura.svg`, alt: 'Textura MDF', dataAiHint: "mdf texture" },
-      { id: '3', src: `/images/mdf-aplicacion.svg`, alt: 'Aplicación de MDF', dataAiHint: "mdf furniture" },
-    ],
-    options: { medidas: [ { id: 'm1', label: 'Lámina 15mm', priceModifier: 1.0 }, { id: 'm2', label: 'Lámina 18mm', priceModifier: 1.2 },], acabado: [ { id: 'a1', label: 'Crudo', priceModifier: 0 }, { id: 'a2', label: 'Melamina Blanca', priceModifier: 500 }, ], },
-    specifications: [ {label: "Tipo:", value: "Tablero de Fibra de Densidad Media"}, {label: "Usos Comunes:", value: "Muebles, gabinetes, molduras, artesanías"}, ]
-  }
 };
 
 
@@ -338,17 +412,17 @@ export default function ProductPage(props: ProductPageProps) {
       const medidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId);
       const acabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId);
 
+      // Apply modifiers
       if (medidaOpt) {
-        currentPrice *= medidaOpt.priceModifier;
+          currentPrice = (currentPrice * medidaOpt.priceModifier) + (medidaOpt.priceAdditive || 0);
       }
       if (acabadoOpt) {
-        currentPrice += acabadoOpt.priceModifier;
+          currentPrice = (currentPrice * acabadoOpt.priceModifier) + (acabadoOpt.priceAdditive || 0);
       }
       
       setCalculatedPrice(currentPrice * quantity);
 
     } else if (product && quantity > 0 && product.options.medidas.length === 0 && product.options.acabado.length === 0) {
-        // Handle products with no options
         setCalculatedPrice(product.price * quantity);
     }
   }, [product, selectedMedidaId, selectedAcabadoId, quantity]);
@@ -378,9 +452,12 @@ export default function ProductPage(props: ProductPageProps) {
     const acabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId);
 
     let pricePerUnit = product.price;
-    if (medidaOpt) pricePerUnit *= medidaOpt.priceModifier;
-    if (acabadoOpt) pricePerUnit += acabadoOpt.priceModifier;
-
+    if (medidaOpt) {
+      pricePerUnit = (pricePerUnit * medidaOpt.priceModifier) + (medidaOpt.priceAdditive || 0);
+    }
+    if (acabadoOpt) {
+      pricePerUnit = (pricePerUnit * acabadoOpt.priceModifier) + (acabadoOpt.priceAdditive || 0);
+    }
 
     const itemToAdd: Omit<QuoteItem, 'quantity'> = { 
       id: `${product.id}${selectedMedidaId ? '-' + selectedMedidaId : ''}${selectedAcabadoId ? '-' + selectedAcabadoId : ''}`,
@@ -492,7 +569,7 @@ export default function ProductPage(props: ProductPageProps) {
                       {product.options.acabado.map(opt => (
                         <div key={opt.id} className="flex items-center space-x-2">
                           <RadioGroupItem value={opt.id} id={`acabado-${opt.id}`} />
-                          <Label htmlFor={`acabado-${opt.id}`} className="font-normal">{opt.label} (+RD${opt.priceModifier.toFixed(2)})</Label>
+                          <Label htmlFor={`acabado-${opt.id}`} className="font-normal">{opt.label} {(opt.priceAdditive || 0) > 0 ? `(+RD$${opt.priceAdditive?.toFixed(2)})` : ''}</Label>
                         </div>
                       ))}
                     </RadioGroup>
@@ -562,6 +639,3 @@ export default function ProductPage(props: ProductPageProps) {
     </div>
   );
 }
-
-
-    
