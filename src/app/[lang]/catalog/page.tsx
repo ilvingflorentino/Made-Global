@@ -75,26 +75,26 @@ export default function CatalogPage(props: CatalogPageProps) {
 
   // Updated product list based on the user's price list
   const productDetails = [
-    { id: 'caoba-andina', name: "Caoba Andina", price: "Desde RD$2,800", imageUrl: "/images/caoba-andina.png", dataAiHint: "andina mahogany" },
-    { id: 'caoba-sudamericana', name: "Caoba Sudamericana", price: "Desde RD$3,500", imageUrl: "/images/caoba-sudamericana.png", dataAiHint: "south american mahogany" },
-    { id: 'roble-congona', name: "Roble Congona", price: "Desde RD$2,500", imageUrl: "/images/roble-congona.png", dataAiHint: "congona oak" },
-    { id: 'cedro-macho', name: "Cedro Macho", price: "Desde RD$1,950", imageUrl: "/images/cedro-macho.png", dataAiHint: "male cedar" },
-    { id: 'jequitiba', name: "Jequitiba", price: "Desde RD$3,500", imageUrl: "/images/jequitiba.png", dataAiHint: "jequitiba wood" },
-    { id: 'roble-cerejeira', name: "Roble Cerejeira", price: "Desde RD$2,750", imageUrl: "/images/roble-cerejeira.png", dataAiHint: "cerejeira oak" },
-    { id: 'poplar-alamo', name: "Poplar/Alamo", price: "Desde RD$2,200", imageUrl: "/images/poplar-alamo.png", dataAiHint: "poplar wood" },
-    { id: 'mdf-3mm', name: "MDF 3mm", price: "RD$400", imageUrl: "/images/mdf.png", dataAiHint: "mdf board" },
-    { id: 'mdf-5mm', name: "MDF 5mm", price: "RD$550", imageUrl: "/images/mdf.png", dataAiHint: "mdf board" },
-    { id: 'mdf-9mm', name: "MDF 9mm", price: "RD$900", imageUrl: "/images/mdf.png", dataAiHint: "mdf board" },
-    { id: 'mdf-12mm', name: "MDF 12mm", price: "RD$1,100", imageUrl: "/images/mdf.png", dataAiHint: "mdf board" },
-    { id: 'mdf-15mm', name: "MDF 15mm", price: "RD$1,300", imageUrl: "/images/mdf.png", dataAiHint: "mdf board" },
-    { id: 'mdf-18mm', name: "MDF 18mm", price: "RD$1,550", imageUrl: "/images/mdf.png", dataAiHint: "mdf board" },
-    { id: 'mdf-hidrofugo-15mm', name: "MDF Hidrofugo 15mm", price: "RD$1,700", imageUrl: "/images/mdf-hidrofugo.png", dataAiHint: "waterproof mdf" },
-    { id: 'mdf-hidrofugo-18mm', name: "MDF Hidrofugo 18mm", price: "RD$1,950", imageUrl: "/images/mdf-hidrofugo.png", dataAiHint: "waterproof mdf" },
-    { id: 'melamina-blanca', name: "Melamina Blanca", price: "Desde RD$2,200", imageUrl: "/images/melamina-blanca.png", dataAiHint: "white melamine" },
-    { id: 'pino-americano', name: "Pino Americano", price: "Desde RD$2,500", imageUrl: "/images/pino-americano.png", dataAiHint: "american pine" },
-    { id: 'pino-caribe', name: "Pino Caribe", price: "Desde RD$1,750", imageUrl: "/images/pino-caribe.png", dataAiHint: "caribbean pine" },
-    { id: 'playwood', name: "Playwood", price: "Desde RD$1,200", imageUrl: "/images/playwood.png", dataAiHint: "plywood sheet" },
-    { id: 'canto-blanco-mt-1mm', name: "Canto Blanco MT 1mm", price: "RD$25", imageUrl: "/images/canto-blanco.png", dataAiHint: "white edge banding" },
+    { id: 'caoba-andina', name: "Caoba Andina", price: "Desde RD$2,800", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "andina mahogany" },
+    { id: 'caoba-sudamericana', name: "Caoba Sudamericana", price: "Desde RD$3,500", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "south american mahogany" },
+    { id: 'roble-congona', name: "Roble Congona", price: "Desde RD$2,500", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "congona oak" },
+    { id: 'cedro-macho', name: "Cedro Macho", price: "Desde RD$1,950", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "male cedar" },
+    { id: 'jequitiba', name: "Jequitiba", price: "Desde RD$3,500", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "jequitiba wood" },
+    { id: 'roble-cerejeira', name: "Roble Cerejeira", price: "Desde RD$2,750", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "cerejeira oak" },
+    { id: 'poplar-alamo', name: "Poplar/Alamo", price: "Desde RD$2,200", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "poplar wood" },
+    { id: 'mdf-3mm', name: "MDF 3mm", price: "RD$400", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "mdf board" },
+    { id: 'mdf-5mm', name: "MDF 5mm", price: "RD$550", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "mdf board" },
+    { id: 'mdf-9mm', name: "MDF 9mm", price: "RD$900", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "mdf board" },
+    { id: 'mdf-12mm', name: "MDF 12mm", price: "RD$1,100", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "mdf board" },
+    { id: 'mdf-15mm', name: "MDF 15mm", price: "RD$1,300", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "mdf board" },
+    { id: 'mdf-18mm', name: "MDF 18mm", price: "RD$1,550", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "mdf board" },
+    { id: 'mdf-hidrofugo-15mm', name: "MDF Hidrofugo 15mm", price: "RD$1,700", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "waterproof mdf" },
+    { id: 'mdf-hidrofugo-18mm', name: "MDF Hidrofugo 18mm", price: "RD$1,950", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "waterproof mdf" },
+    { id: 'melamina-blanca', name: "Melamina Blanca", price: "Desde RD$2,200", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "white melamine" },
+    { id: 'pino-americano', name: "Pino Americano", price: "Desde RD$2,500", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "american pine" },
+    { id: 'pino-caribe', name: "Pino Caribe", price: "Desde RD$1,750", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "caribbean pine" },
+    { id: 'playwood', name: "Playwood", price: "Desde RD$1,200", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "plywood sheet" },
+    { id: 'canto-blanco-mt-1mm', name: "Canto Blanco MT 1mm", price: "RD$25", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "white edge banding" },
   ];
   
   const categories = ["Maderas Duras", "Maderas Blandas", "Tableros", "Exóticas", "Melaminas", "Contrachapados", "Accesorios"];
@@ -214,3 +214,5 @@ export default function CatalogPage(props: CatalogPageProps) {
     </div>
   );
 }
+
+    

@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -53,7 +54,7 @@ const AnimatedTitle = ({ text, subtext }: { text: string; subtext: string }) => 
         <span>{text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
       </h1>
     </div>
-    <p className="text-lg sm:text-xl md:text-2xl mb-8 animate-fade-in animation-delay-500 drop-shadow-md">
+    <p className="text-lg sm:text-xl md:text-2xl mb-8 animate-fade-in drop-shadow-md">
       {subtext}
     </p>
   </>
@@ -131,9 +132,9 @@ export default async function HomePage({ params }: HomePageProps) {
   ];
 
   const featuredProducts = [
-    { id: "encino", name: "Encino", price: "Desde RD$2,750", imageUrl: "/images/encino.svg", dataAiHint: "oak wood" },
-    { id: "fresno", name: "Fresno", price: "Desde RD$3,100", imageUrl: "/images/fresno.svg", dataAiHint: "ash wood" },
-    { id: "nogal-americano", name: "Nogal Americano", price: "Desde RD$4,500", imageUrl: "/images/nogal-americano.svg", dataAiHint: "american walnut" },
+    { id: "encino", name: "Encino", price: "Desde RD$2,750", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "oak wood" },
+    { id: "fresno", name: "Fresno", price: "Desde RD$3,100", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "ash wood" },
+    { id: "nogal-americano", name: "Nogal Americano", price: "Desde RD$4,500", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "american walnut" },
   ];
 
   return (
@@ -188,3 +189,5 @@ export default async function HomePage({ params }: HomePageProps) {
     </div>
   );
 }
+
+    

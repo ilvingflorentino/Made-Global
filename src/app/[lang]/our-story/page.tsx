@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, Users, MapPin, BarChartBig } from 'lucide-react';
 import Image from 'next/image';
@@ -41,14 +42,14 @@ export default async function OurStoryPage({ params }: OurStoryPageProps) {
           </p>
         </div>
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl">
-          <Image src="/images/our-story-origen.svg" alt="Origen de MADE" layout="fill" objectFit="cover" data-ai-hint="company origin" />
+          <Image src="https://placehold.co/800x600.png" alt="Origen de MADE" layout="fill" objectFit="cover" data-ai-hint="company origin" />
         </div>
       </section>
 
       {/* Section: Crecimiento */}
       <section className="grid md:grid-cols-2 gap-8 items-center">
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl md:order-last">
-          <Image src="/images/our-story-crecimiento.svg" alt="Crecimiento de MADE" layout="fill" objectFit="cover" data-ai-hint="company growth" />
+          <Image src="https://placehold.co/800x600.png" alt="Crecimiento de MADE" layout="fill" objectFit="cover" data-ai-hint="company growth" />
         </div>
         <div>
           <h2 className="text-3xl font-semibold mb-4">Crecimiento y Expansión</h2>
@@ -113,3 +114,5 @@ export default async function OurStoryPage({ params }: OurStoryPageProps) {
     </div>
   );
 }
+
+    
