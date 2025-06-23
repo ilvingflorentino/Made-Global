@@ -23,8 +23,24 @@ interface CatalogPageProps {
   params: Promise<{ lang: Locale }>
 }
 
-// Reusable ProductCard, could be moved to a shared component
-const ProductCard = ({ id, name, price, imageUrl, lang, dictionary, dataAiHint }: { id: string, name: string, price: string, imageUrl: string, lang: Locale, dictionary: any, dataAiHint: string }) => (
+// Reusable ProductCard, simplified to show a single price
+const ProductCard = ({ 
+  id, 
+  name, 
+  price, 
+  imageUrl, 
+  lang, 
+  dictionary, 
+  dataAiHint 
+}: { 
+  id: string, 
+  name: string, 
+  price: string, 
+  imageUrl: string, 
+  lang: Locale, 
+  dictionary: any, 
+  dataAiHint: string 
+}) => (
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
     <Link href={`/${lang}/product/${id}`} className="block" aria-label={`${dictionary.viewMore} ${name}`}>
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -70,35 +86,29 @@ export default function CatalogPage(props: CatalogPageProps) {
   // Placeholder data
   const categories = ["Maderas Duras", "Maderas Blandas", "Tableros", "Exóticas"];
   
+  // Simplified product list to a known stable state
   const productDetails = [
-    { name: "Caoba Andina", dataAiHint: "andina mahogany", price: "Desde RD$145.00" },
-    { name: "Caoba Sudamericana", dataAiHint: "south american mahogany", price: "Desde RD$150.00" },
-    { name: "Roble Congona", dataAiHint: "congona oak", price: "Desde RD$153.00" },
-    { name: "Roble Congona P/Blanca", dataAiHint: "white congona oak", price: "Desde RD$130.00" },
-    { name: "Cedro Macho", dataAiHint: "cedro macho wood", price: "RD$185.00" },
-    { name: "Jequitiba", dataAiHint: "jequitiba wood", price: "Desde RD$155.00" },
-    { name: "Roble Cerejeira", dataAiHint: "cerejeira oak", price: "Desde RD$215.00" },
-    { name: "Poplar (Alamo)", dataAiHint: "poplar wood", price: "RD$95.00" },
-    { name: "Formaleta Brasileña 4x8 3/4", dataAiHint: "plywood formwork", price: "RD$2,000.00" },
-    { name: "MDF Hidrofugo 3/8", dataAiHint: "waterproof mdf", price: "RD$1,350.00" },
-    { name: "MDF Hidrofugo 5/8", dataAiHint: "waterproof mdf", price: "RD$1,650.00" },
-    { name: "MDF Hidrofugo 3/4", dataAiHint: "waterproof mdf", price: "RD$2,400.00" },
-    { name: "MDF Hidrofugo 1/4", dataAiHint: "waterproof mdf", price: "RD$725.00" },
-    { name: "Melamina 4x8 3/4 Blanca", dataAiHint: "white melamine", price: "RD$2,420.00" },
-    { name: "Melamina 4x8 5/8 Blanca", dataAiHint: "white melamine", price: "RD$2,215.00" },
-    { name: "Canto Blanco MT 1mm", dataAiHint: "white edge banding", price: "RD$900.00" },
-    { name: "Encino", dataAiHint: "Oak", price: "Desde RD$2,750" },
-    { name: "Fresno", dataAiHint: "Ash", price: "Desde RD$3,100" },
-    { name: "Nogal Americano", dataAiHint: "American Walnut", price: "Desde RD$4,500" },
+    { name: "Caoba Andina", dataAiHint: "andina mahogany", price: "Desde RD$2,800", imageFile: "caoba-andina.svg" },
+    { name: "Encino", dataAiHint: "oak wood", price: "Desde RD$2,750", imageFile: "encino.svg" },
+    { name: "Fresno", dataAiHint: "ash wood", price: "Desde RD$3,100", imageFile: "fresno.svg" },
+    { name: "Nogal Americano", dataAiHint: "american walnut", price: "Desde RD$4,500", imageFile: "nogal-americano.svg" },
+    { name: "Cedro Blanco", dataAiHint: "white cedar", price: "Desde RD$1,500", imageFile: "cedro-blanco-principal.svg" },
+    { name: "Congona", dataAiHint: "congona wood", price: "Desde RD$1,850", imageFile: "congona-principal.svg" },
   ];
 
+
   const products = productDetails.map((detail) => {
+    // Slug generation remains robust to create clean URLs
     const slug = detail.name
       .toLowerCase()
-      .replace(/[\s/]+/g, '-') // Replace spaces and slashes with hyphens
-      .replace(/[()*]/g, ''); // Remove parentheses
+      .replace(/á/g, 'a').replace(/é/g, 'e').replace(/í/g, 'i').replace(/ó/g, 'o').replace(/ú/g, 'u').replace(/ñ/g, 'n')
+      .replace(/\s+/g, '-') 
+      .replace(/[^a-z0-9-]/g, '') 
+      .replace(/--+/g, '-') 
+      .replace(/^-+|-+$/g, ''); 
     
-    const imageUrl = `/images/${slug}.svg`;
+    // Construct image URL directly from the imageFile name
+    const imageUrl = `/images/${detail.imageFile}`;
 
     return {
       id: slug,
@@ -156,7 +166,7 @@ export default function CatalogPage(props: CatalogPageProps) {
           <SheetHeader className="mb-4">
             <SheetTitle className="flex items-center"><Filter className="mr-2 h-5 w-5 text-primary"/> {t.filters}</SheetTitle>
           </SheetHeader>
-          <div className="space-y-6 p-1"> {/* Added p-1 for slight padding if needed */}
+          <div className="space-y-6 p-1">
             <Accordion type="multiple" defaultValue={['category', 'price']} className="w-full">
               <AccordionItem value="category">
                 <AccordionTrigger className="text-base">{t.category}</AccordionTrigger>
@@ -228,3 +238,5 @@ export default function CatalogPage(props: CatalogPageProps) {
     </div>
   );
 }
+
+    
