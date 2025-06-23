@@ -51,7 +51,7 @@ interface ProductDetailData {
   specifications: ProductSpecification[];
 }
 
-// Simplified product details to a known stable state
+// Simplified and restored product details object
 const allProductDetails: Record<string, ProductDetailData> = {
   'caoba-andina': {
     name: "Caoba Andina",
@@ -131,13 +131,11 @@ const allProductDetails: Record<string, ProductDetailData> = {
 type Product = (ProductDetailData & { id: string; }) | null;
 
 
-// Synchronous function to get product details
 const getProductDetailsSync = (sku: string, lang: Locale): Product => {
   const productData = allProductDetails[sku];
   if (productData) {
     return { id: sku, ...productData };
   }
-  // Fallback for slugs ending with '-principal'
   const fallbackSku = sku.replace(/-principal$/, '');
   const fallbackProductData = allProductDetails[fallbackSku];
   if(fallbackProductData) {
@@ -276,7 +274,6 @@ export default function ProductPage(props: ProductPageProps) {
     const medidaOpt = product.options.medidas.find(m => m.id === selectedMedidaId);
     const acabadoOpt = product.options.acabado.find(a => a.id === selectedAcabadoId);
 
-    // Apply modifiers
     if (medidaOpt) {
         currentPrice = (currentPrice * medidaOpt.priceModifier) + (medidaOpt.priceAdditive || 0);
     }
@@ -500,5 +497,3 @@ export default function ProductPage(props: ProductPageProps) {
     </div>
   );
 }
-
-    

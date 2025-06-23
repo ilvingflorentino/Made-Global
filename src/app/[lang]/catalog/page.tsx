@@ -24,27 +24,17 @@ interface CatalogPageProps {
 }
 
 // Reusable ProductCard, simplified to show a single price
-const ProductCard = ({ 
-  id, 
-  name, 
-  price, 
-  imageUrl, 
-  lang, 
-  dictionary, 
-  dataAiHint 
-}: { 
-  id: string, 
-  name: string, 
-  price: string, 
-  imageUrl: string, 
-  lang: Locale, 
-  dictionary: any, 
-  dataAiHint: string 
-}) => (
+const ProductCard = ({ id, name, price, imageUrl, lang, dictionary, dataAiHint }: { id: string, name: string, price: string, imageUrl: string, lang: Locale, dictionary: any, dataAiHint: string }) => (
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
     <Link href={`/${lang}/product/${id}`} className="block" aria-label={`${dictionary.viewMore} ${name}`}>
       <div className="relative aspect-[4/3] overflow-hidden">
-        <Image src={imageUrl} alt={name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={dataAiHint}/>
+        <Image 
+          src={imageUrl} 
+          alt={name} 
+          fill 
+          className="object-cover group-hover:scale-105 transition-transform duration-300" 
+          data-ai-hint={dataAiHint}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
            <Button variant="secondary" className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
               {dictionary.viewMore} <ArrowRight className="ml-2 h-4 w-4" />
@@ -83,43 +73,18 @@ export default function CatalogPage(props: CatalogPageProps) {
     fetchDictionary();
   }, [lang]);
 
-  // Placeholder data
+  // Simplified product data matching the stable product detail page
+  const products = [
+    { id: "caoba-andina", name: "Caoba Andina", price: "Desde RD$2,800", imageUrl: "/images/caoba-andina.svg", dataAiHint: "andina mahogany" },
+    { id: "encino", name: "Encino", price: "Desde RD$2,750", imageUrl: "/images/encino.svg", dataAiHint: "oak wood" },
+    { id: "fresno", name: "Fresno", price: "Desde RD$3,100", imageUrl: "/images/fresno.svg", dataAiHint: "ash wood" },
+    { id: "nogal-americano", name: "Nogal Americano", price: "Desde RD$4,500", imageUrl: "/images/nogal-americano.svg", dataAiHint: "american walnut" },
+    { id: "cedro-blanco-principal", name: "Cedro Blanco", price: "Desde RD$1,500", imageUrl: "/images/cedro-blanco-principal.svg", dataAiHint: "white cedar" },
+    { id: "congona-principal", name: "Congona", price: "Desde RD$1,850", imageUrl: "/images/congona-principal.svg", dataAiHint: "congona wood" }
+  ];
+  
   const categories = ["Maderas Duras", "Maderas Blandas", "Tableros", "Exóticas"];
   
-  // Simplified product list to a known stable state
-  const productDetails = [
-    { name: "Caoba Andina", dataAiHint: "andina mahogany", price: "Desde RD$2,800", imageFile: "caoba-andina.svg" },
-    { name: "Encino", dataAiHint: "oak wood", price: "Desde RD$2,750", imageFile: "encino.svg" },
-    { name: "Fresno", dataAiHint: "ash wood", price: "Desde RD$3,100", imageFile: "fresno.svg" },
-    { name: "Nogal Americano", dataAiHint: "american walnut", price: "Desde RD$4,500", imageFile: "nogal-americano.svg" },
-    { name: "Cedro Blanco", dataAiHint: "white cedar", price: "Desde RD$1,500", imageFile: "cedro-blanco-principal.svg" },
-    { name: "Congona", dataAiHint: "congona wood", price: "Desde RD$1,850", imageFile: "congona-principal.svg" },
-  ];
-
-
-  const products = productDetails.map((detail) => {
-    // Slug generation remains robust to create clean URLs
-    const slug = detail.name
-      .toLowerCase()
-      .replace(/á/g, 'a').replace(/é/g, 'e').replace(/í/g, 'i').replace(/ó/g, 'o').replace(/ú/g, 'u').replace(/ñ/g, 'n')
-      .replace(/\s+/g, '-') 
-      .replace(/[^a-z0-9-]/g, '') 
-      .replace(/--+/g, '-') 
-      .replace(/^-+|-+$/g, ''); 
-    
-    // Construct image URL directly from the imageFile name
-    const imageUrl = `/images/${detail.imageFile}`;
-
-    return {
-      id: slug,
-      name: detail.name,
-      price: detail.price,
-      imageUrl: imageUrl,
-      dataAiHint: detail.dataAiHint,
-    };
-  });
-
-
   if (isLoading || !dictionary) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -152,7 +117,6 @@ export default function CatalogPage(props: CatalogPageProps) {
         <p className="text-muted-foreground mt-2">Explora nuestra amplia selección de maderas de alta calidad.</p>
       </header>
 
-      {/* Floating Filter Button and Sheet */}
       <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
         <SheetTrigger asChild>
           <Button
@@ -214,7 +178,6 @@ export default function CatalogPage(props: CatalogPageProps) {
         </SheetContent>
       </Sheet>
 
-      {/* Product Grid */}
       <main className="w-full">
         <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map(product => (
@@ -230,7 +193,6 @@ export default function CatalogPage(props: CatalogPageProps) {
             />
           ))}
         </div>
-        {/* Pagination Placeholder */}
         <div className="mt-12 flex justify-center">
           <Button variant="outline">Cargar más productos</Button>
         </div>
@@ -238,5 +200,3 @@ export default function CatalogPage(props: CatalogPageProps) {
     </div>
   );
 }
-
-    
