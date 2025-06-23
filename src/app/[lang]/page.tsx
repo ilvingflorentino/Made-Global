@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { getDictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/config/i18n.config';
+import { allProductDetails } from '@/lib/product-data';
 
 interface VideoBackgroundProps {
   children: React.ReactNode;
@@ -88,26 +89,25 @@ const ProductCard = ({
   dataAiHint: string;
 }) => (
   <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
-    <div className="relative aspect-[4/3] overflow-hidden">
-      <Image
-        src={imageUrl}
-        alt={name}
-        fill
-        className="object-cover group-hover:scale-105 transition-transform duration-300"
-        data-ai-hint={dataAiHint}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
-        <Button
-          asChild
-          variant="secondary"
-          className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300"
-        >
-          <Link href={`/${lang}/product/${id}`}>
+    <Link href={`/${lang}/product/${id}`} className="block" aria-label={`Ver más ${name}`}>
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <Image
+          src={imageUrl}
+          alt={name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          data-ai-hint={dataAiHint}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+          <Button
+            variant="secondary"
+            className="mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+          >
             Ver más <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
+          </Button>
+        </div>
       </div>
-    </div>
+    </Link>
     <CardContent className="p-4">
       <h3 className="text-lg font-semibold mb-1">{name}</h3>
       <p className="text-primary font-medium">{price}</p>
@@ -126,16 +126,24 @@ export default async function HomePage({ params }: HomePageProps) {
   const tCommon = dictionary.common;
 
   const certifications = [
-    { title: "ISO 9001", description: "Quality Management Certified" },
-    { title: "FSC Certified", description: "Sustainably Sourced Wood" },
-    { title: "Local Expertise", description: "Trusted by Dominican Artisans" },
+    { title: "ISO 9001", description: "Gestión de Calidad Certificada" },
+    { title: "Certificado FSC", description: "Madera de Origen Sostenible" },
+    { title: "Experiencia Local", description: "Confiado por Artesanos Dominicanos" },
   ];
 
-  const featuredProducts = [
-    { id: "encino", name: "Encino", price: "Desde RD$2,750", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "oak wood" },
-    { id: "fresno", name: "Fresno", price: "Desde RD$3,100", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "ash wood" },
-    { id: "nogal-americano", name: "Nogal Americano", price: "Desde RD$4,500", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "american walnut" },
-  ];
+  const featuredProductIds = ['caoba-sudamericana', 'roble-congona', 'pino-americano'];
+  const featuredProducts = featuredProductIds
+    .filter(id => allProductDetails[id]) // Ensure product exists
+    .map(id => {
+      const details = allProductDetails[id];
+      return {
+        id,
+        name: details.name,
+        price: details.options.medidas.length > 0 ? `Desde RD$${details.price.toFixed(2)}` : `RD$${details.price.toFixed(2)}`,
+        imageUrl: details.images[0]?.src || 'https://placehold.co/600x400.png',
+        dataAiHint: details.images[0]?.dataAiHint || 'wood product'
+      };
+  });
 
   return (
     <div className="space-y-16 md:space-y-24">
@@ -189,5 +197,3 @@ export default async function HomePage({ params }: HomePageProps) {
     </div>
   );
 }
-
-    
