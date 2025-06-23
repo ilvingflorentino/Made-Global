@@ -235,7 +235,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
   'encino': {
     name: "Encino",
     description: "Madera de Encino (Roble), fuerte, dura y resistente al desgaste. Muy popular para pisos, muebles y barriles.",
-    price: 2200.00,
+    price: 2750.00,
     images: [
       { id: '1', src: `/images/encino.svg`, alt: 'Encino Vista Principal', dataAiHint: "oak wood" },
       { id: '2', src: `/images/encino-detalle-veta.svg`, alt: 'Detalle veta Encino', dataAiHint: "oak wood grain" },
@@ -247,7 +247,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
   'fresno': {
     name: "Fresno",
     description: "Madera de Fresno, conocida por su tenacidad y elasticidad. Color claro y veta prominente, ideal para mangos de herramientas y muebles.",
-    price: 1950.00,
+    price: 3100.00,
     images: [
       { id: '1', src: `/images/fresno.svg`, alt: 'Fresno Vista Principal', dataAiHint: "ash wood" },
       { id: '2', src: `/images/fresno-detalle-veta.svg`, alt: 'Detalle veta Fresno', dataAiHint: "ash wood grain" },
@@ -259,7 +259,7 @@ const allProductDetails: Record<string, ProductDetailData> = {
   'nogal-americano': {
     name: "Nogal Americano",
     description: "Preciada madera de Nogal Americano, de color marrón oscuro rico y veta atractiva. Perfecta para muebles de lujo y detalles finos.",
-    price: 3500.00,
+    price: 4500.00,
     images: [
       { id: '1', src: `/images/nogal-americano.svg`, alt: 'Nogal Americano Vista Principal', dataAiHint: "american walnut wood" },
       { id: '2', src: `/images/nogal-americano-detalle-veta.svg`, alt: 'Detalle veta Nogal Americano', dataAiHint: "walnut wood grain" },
