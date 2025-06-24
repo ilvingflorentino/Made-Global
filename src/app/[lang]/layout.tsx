@@ -1,3 +1,4 @@
+
 import type { ReactNode } from 'react';
 import { MainLayout } from '@/components/layout/main-layout';
 import type { Locale } from '@/config/i18n.config';
@@ -12,11 +13,11 @@ export async function generateStaticParams() {
   return i18nConfig.locales.map(locale => ({ lang: locale }));
 }
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
-  params: { lang },
+  params,
 }: LocaleLayoutProps) {
-  // Removed <html> and <body> tags from here
+  const { lang } = params;
   return (
     <MainLayout lang={lang}>
       {children}
