@@ -1,3 +1,4 @@
+
 import Link from 'next/link'
 import Image from 'next/image' // Import next/image
 import { Facebook, Instagram, Linkedin, Languages, Menu } from 'lucide-react'
@@ -56,10 +57,10 @@ export function Header({ lang, dictionary }: HeaderProps) {
       <div className="container px-4 flex h-16 max-w-screen-2xl items-center justify-between">
         <Link href={`/${lang}`} className="mr-6 flex items-center space-x-2">
           <Image
-            src="/logo-made.svg" 
+            src="https://placehold.co/150x50.png" 
             alt={dictionary.appName + " Logo"}
-            width={75} 
-            height={40} 
+            width={150} 
+            height={50} 
             priority
             data-ai-hint="company logo"
           />
