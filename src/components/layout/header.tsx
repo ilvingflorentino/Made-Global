@@ -57,10 +57,10 @@ export function Header({ lang, dictionary }: HeaderProps) {
       <div className="container px-4 flex h-16 max-w-screen-2xl items-center justify-between">
         <Link href={`/${lang}`} className="mr-6 flex items-center space-x-2">
           <Image
-            src="https://placehold.co/150x50.png" 
+            src="/logo-made.svg" 
             alt={dictionary.appName + " Logo"}
-            width={150} 
-            height={50} 
+            width={75} 
+            height={40} 
             priority
             data-ai-hint="company logo"
           />
@@ -119,3 +119,4 @@ export function Header({ lang, dictionary }: HeaderProps) {
     </header>
   )
 }
+    
