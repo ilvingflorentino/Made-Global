@@ -128,15 +128,15 @@ export default function CatalogPage(props: CatalogPageProps) {
     { name: "Roble Atados", dataAiHint: "bundled oak", price: "Desde RD$262.00", imageFile: "roble atado.png" }, // Using .jpg based on uploaded file
 
     // --- Existing/Other Products (mostly SVG, check your files) ---
-    { name: "Poplar (Álamo)", dataAiHint: "poplar wood", price: "RD$95.00", imageFile: "poplar-principal.svg" }, 
-    { name: "Formaleta Brasileña 4\"x8\" 3/4", dataAiHint: "plywood formwork", price: "RD$2,000.00", imageFile: "formaleta-brasilena-principal.svg" }, 
-    { name: "MDF Hidrofugo 3/8", dataAiHint: "waterproof mdf", price: "RD$1,350.00", imageFile: "mdf-hidrofugo-principal.svg" }, 
-    { name: "MDF Hidrofugo 5/8", dataAiHint: "waterproof mdf", price: "RD$1,650.00", imageFile: "mdf-hidrofugo-principal.svg" }, 
-    { name: "MDF Hidrofugo 3/4", dataAiHint: "waterproof mdf", price: "RD$2,400.00", imageFile: "mdf-hidrofugo-principal.svg" }, 
-    { name: "MDF Hidrofugo 1/4 (Natural)", dataAiHint: "waterproof mdf", price: "RD$725.00", imageFile: "mdf-hidrofugo-principal.svg" }, 
-    { name: "Melamina 4'x8' 3/4 Blanca", dataAiHint: "white melamine", price: "RD$2,420.00", imageFile: "melamina-principal.svg" }, 
-    { name: "Melamina 4'x8' 5/8 Blanca", dataAiHint: "white melamine", price: "RD$2,215.00", imageFile: "melamina-principal.svg" }, 
-    { name: "Canto Blanco MT 1mm", dataAiHint: "white edge banding", price: "RD$900.00", imageFile: "canto-blanco-principal.svg" }, 
+    { name: "Poplar (Álamo)", dataAiHint: "poplar wood", price: "RD$95.00", imageFile: "poplar.png" }, 
+    { name: "Formaleta Brasileña 4\"x8\" 3/4", dataAiHint: "plywood formwork", price: "RD$2,000.00", imageFile: "formaleta.png" }, 
+    { name: "MDF Hidrofugo 3/8", dataAiHint: "waterproof mdf", price: "RD$1,350.00", imageFile: "mdf-principal.svg" }, 
+    { name: "MDF Hidrofugo 5/8", dataAiHint: "waterproof mdf", price: "RD$1,650.00", imageFile: " MDF HIDROFUGO 5:8.png" }, 
+    { name: "MDF Hidrofugo 3/4", dataAiHint: "waterproof mdf", price: "RD$2,400.00", imageFile: "MDF hidrofudo 3:4.png" }, 
+    { name: "MDF Hidrofugo 1/4 (Natural)", dataAiHint: "waterproof mdf", price: "RD$725.00", imageFile: "mdf.png" }, 
+    { name: "Melamina 4'x8' 3/4 Blanca", dataAiHint: "white melamine", price: "RD$2,420.00", imageFile: "Melamina Blanca.png" }, 
+    { name: "Melamina 4'x8' 5/8 Blanca", dataAiHint: "white melamine", price: "RD$2,215.00", imageFile: "Melamina Blanca.png" }, 
+    { name: "Canto Blanco MT 1mm", dataAiHint: "white edge banding", price: "RD$900.00", imageFile: "Canto blanco.png" }, 
     
     // Original list products (some updated to use your provided images)
     { name: "Caoba", dataAiHint: "mahogany wood", price: "Desde RD$2,800", imageFile: "caoba andina 2.png" }, // Using 'caoba-andina-2.jpg' from your uploads for a generic Caoba

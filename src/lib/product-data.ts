@@ -260,7 +260,7 @@ export const allProductDetails: Record<string, ProductDetailData> = {
     description: "Atados de Roble, una opción conveniente para proyectos que requieren múltiples piezas de roble de alta calidad.",
     price: 262.00, // Precio base (precio "SIN DESCUENTO")
     images: [
-      { id: '1', src: '/images/roble atado.png', alt: 'Roble Atados Principal', dataAiHint: "bundled oak wood" },
+      { id: '1', src: '/images/roble-atados.png', alt: 'Roble Atados Principal', dataAiHint: "bundled oak wood" },
     ],
     options: {
       medidas: [
