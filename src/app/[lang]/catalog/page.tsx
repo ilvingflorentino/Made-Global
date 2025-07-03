@@ -183,6 +183,7 @@ export default function CatalogPage(props: CatalogPageProps) {
   });
 
 
+
   // Display loading skeleton while dictionary or product data is being fetched
   if (isLoading || !dictionary) {
     return (
@@ -204,7 +205,7 @@ export default function CatalogPage(props: CatalogPageProps) {
         </div>
       </div>
     );
-  }
+   }
 
   const t = dictionary.catalogPage;
   const tCommon = dictionary.common;

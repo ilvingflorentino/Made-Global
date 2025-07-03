@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({ // Use Geist_Mono directly
 export const metadata: Metadata = {
   title: 'MADE Global Timber',
   description: 'Premium wood solutions for your projects.',
+  
 };
 
 // Removed generateStaticParams from root layout as it's handled in [lang]/layout.tsx
