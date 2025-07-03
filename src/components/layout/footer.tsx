@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Facebook, Instagram, Linkedin, Phone, Mail, MapPin, Clock } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react' // Importa MessageCircle
 import type { Locale } from '@/config/i18n.config'
 import type { Dictionary } from '@/lib/dictionaries'
 
@@ -11,10 +11,21 @@ interface FooterProps {
 export function Footer({ lang, dictionary }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
+  // Función para limpiar el número de WhatsApp y prepararlo para la URL
+  // Definida aquí para que esté en el scope antes de ser usada en contactInfo
+  const cleanWhatsappNumber = (number: string) => {
+    // Elimina todos los caracteres que no sean dígitos
+    return number.replace(/\D/g, '');
+  };
+
+  // Mensaje predefinido para el bot de WhatsApp
+  // Definido aquí para que esté en el scope antes de ser usada en contactInfo
+  const whatsappMessage = encodeURIComponent("Hola, me gustaría obtener más información sobre sus productos.");
+
   const contactInfo = {
     address: "Km. 13 1/2 de la Autopista Duarte",
     phone: "809-683-5778",
-    whatsapp: "1-829-603-3058",
+    whatsapp: "1-829-603-3058", // Asegúrate de que este sea el número correcto de tu bot
     email: "maderies@gmail.com",
     hours: [
       { days: `${dictionary.monFri}:`, time: "8:00 AM - 5:00 PM" },
@@ -24,6 +35,8 @@ export function Footer({ lang, dictionary }: FooterProps) {
       { name: "Facebook", Icon: Facebook, href: "https://www.facebook.com/madespinalrd" },
       { name: "Instagram", Icon: Instagram, href: "https://www.instagram.com/madespinalrd" },
       // { name: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/company/maderas-y-derivados-espinal-made/about/?viewAsMember=true" }, // Placeholder LinkedIn
+      // Ahora, el enlace de WhatsApp se añade directamente aquí, usando las variables ya definidas
+      { name: "WhatsApp", Icon: MessageCircle, href: `https://wa.me/${cleanWhatsappNumber("1-829-603-3058")}?text=${whatsappMessage}` }, 
     ]
   }
 
@@ -48,7 +61,6 @@ export function Footer({ lang, dictionary }: FooterProps) {
       isContact: true,
     }
   ];
-
 
   return (
     <footer className="bg-secondary text-secondary-foreground border-t">
@@ -94,9 +106,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
               <p className="flex items-center">
                 <Mail className="h-5 w-5 mr-2 shrink-0" /> {contactInfo.email}
               </p>
-              <p className="flex items-center font-semibold mt-2">
-                 WhatsApp: {contactInfo.whatsapp}
-              </p>
+              {/* El enlace de WhatsApp se ha movido a la sección de redes sociales para consistencia */}
             </div>
             <h3 className="text-sm font-semibold tracking-wider uppercase mt-6">{dictionary.hours}</h3>
              <div className="mt-2 space-y-1 text-sm">

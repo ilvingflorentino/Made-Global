@@ -1,7 +1,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image' // Import next/image
-import { Facebook, Instagram, Linkedin, Languages, Menu } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Languages, Menu,MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -52,6 +52,12 @@ export function Header({ lang, dictionary }: HeaderProps) {
     { href: `/${lang}/our-story`, label: dictionary.ourStory }, // Placeholder
   ];
 
+    // Número de WhatsApp y mensaje predefinido para el bot
+    const whatsappNumber = "1-829-603-3058"; // ¡IMPORTANTE! Cambia este número por el de tu bot de WhatsApp
+    const cleanWhatsappNumber = (number: string) => number.replace(/\D/g, ''); // Función para limpiar el número
+    const whatsappMessage = encodeURIComponent("Hola, me gustaría obtener más información sobre sus productos."); // Mensaje pre-rellenado
+    const whatsappHref = `https://wa.me/${cleanWhatsappNumber(whatsappNumber)}?text=${whatsappMessage}`; // URL completa de WhatsApp
+  
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container px-4 flex h-16 max-w-screen-2xl items-center justify-between">
@@ -83,6 +89,9 @@ export function Header({ lang, dictionary }: HeaderProps) {
             <Button variant="ghost" size="icon" asChild aria-label="Instagram">
               <Link href="https://www.instagram.com/madespinalrd" target="_blank" rel="noopener noreferrer"><Instagram className="h-5 w-5" /></Link>
             </Button>
+            <Button variant="ghost" size="icon" asChild aria-label="WhatsApp">
+              <Link href={whatsappHref} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5 text-green-500" /></Link>
+            </Button>
             {/* <Button variant="ghost" size="icon" asChild aria-label="LinkedIn">
               <Link href="#" target="_blank" rel="noopener noreferrer"><Linkedin className="h-5 w-5" /></Link>
             </Button> */}
@@ -109,6 +118,9 @@ export function Header({ lang, dictionary }: HeaderProps) {
                     </Button>
                     <Button variant="ghost" size="icon" asChild aria-label="Instagram">
                       <Link href="https://www.instagram.com/madespinalrd" target="_blank" rel="noopener noreferrer"><Instagram className="h-5 w-5" /></Link>
+                    </Button>
+                    <Button variant="ghost" size="icon" asChild aria-label="WhatsApp">
+                      <Link href={whatsappHref} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5 text-green-500" /></Link>
                     </Button>
                   </div>
               </nav>

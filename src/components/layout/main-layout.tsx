@@ -1,4 +1,3 @@
-
 import type { ReactNode } from 'react'
 import { Header } from './header'
 import { Footer } from './footer'
@@ -7,7 +6,7 @@ import type { Locale } from '@/config/i18n.config'
 import { getDictionary, Dictionary } from '@/lib/dictionaries'
 import { Toaster } from "@/components/ui/toaster"
 import { ChatbotLauncher } from '@/components/chatbot/chatbot-launcher'
-import { QuoteProvider } from '@/context/QuoteContext' // Added import
+import { QuoteProvider } from '@/context/QuoteContext' 
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -18,7 +17,10 @@ export async function MainLayout({ children, lang }: MainLayoutProps) {
   const dictionary = await getDictionary(lang);
   
   return (
-    <QuoteProvider> {/* Added QuoteProvider */}
+    // QuoteProvider debe envolver un ÚNICO elemento hijo.
+    // En este caso, todo el contenido visual de la página (Header, main, Footer, etc.)
+    // está dentro de un solo <div>, y ese <div> es el único hijo de QuoteProvider.
+    <QuoteProvider>
       <div className="flex flex-col min-h-screen">
         <Header lang={lang} dictionary={dictionary.common} />
         <main className="flex-grow container mx-auto px-4 py-8">
